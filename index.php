@@ -20,6 +20,8 @@
 
     if(isset($_GET['action'])) {
       list($class,$action) = explode(':',$_GET['action']);
+    }else{
+      die('</body></html>')
     }
 
     $class = '\Laget\Controller\\'.$class.'Controller';
