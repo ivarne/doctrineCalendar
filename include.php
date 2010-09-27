@@ -12,17 +12,17 @@ Doctrine\ORM\EntityManager,
 Doctrine\Common\Cache\ApcCache,
 Entities\User, Entities\Address;
 
-require_once 'vendor/doctrine2-orm/lib/vendor/doctrine-common/lib/Doctrine/Common/ClassLoader.php';
+require_once 'vendor/doctrine2/lib/vendor/doctrine-common/lib/Doctrine/Common/ClassLoader.php';
 
 // Set up class loading. You could use different autoloaders, provided by your favorite framework,
 // if you want to.
-$classLoader = new ClassLoader('Doctrine\ORM', realpath(__DIR__ . '/vendor/doctrine2-orm/lib'));
+$classLoader = new ClassLoader('Doctrine\ORM', realpath(__DIR__ . '/vendor/doctrine2/lib'));
 $classLoader->register();
-$classLoader = new ClassLoader('Doctrine\DBAL', realpath(__DIR__ . '/vendor/doctrine2-orm/lib/vendor/doctrine-dbal/lib'));
+$classLoader = new ClassLoader('Doctrine\DBAL', realpath(__DIR__ . '/vendor/doctrine2/lib/vendor/doctrine-dbal/lib'));
 $classLoader->register();
-$classLoader = new ClassLoader('Doctrine\Common', realpath(__DIR__ . '/vendor/doctrine2-orm/lib/vendor/doctrine-common/lib'));
+$classLoader = new ClassLoader('Doctrine\Common', realpath(__DIR__ . '/vendor/doctrine2/lib/vendor/doctrine-common/lib'));
 $classLoader->register();
-$classLoader = new ClassLoader('Symfony', realpath(__DIR__ . '/vendor/doctrine2-orm/lib/vendor'));
+$classLoader = new ClassLoader('Symfony', realpath(__DIR__ . '/vendor/doctrine2/lib/vendor'));
 $classLoader->register();
 $classLoader = new ClassLoader('Entities', __DIR__);
 $classLoader->register();
