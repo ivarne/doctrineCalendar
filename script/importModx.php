@@ -342,15 +342,15 @@ function truncateTables() {
           'event_types',
           'responsibility',
           'speakers',
-          'modx_web_user_attributes',
-          'medlemskap'
+//          'modx_web_user_attributes',
+//          'medlemskap'
   );
   foreach($tables as $table) {
     $em->getConnection()->executeQuery('TRUNCATE TABLE '.$table);
 
   }
-  $em->getConnection()->executeQuery('INSERT INTO doctrineKalender.`modx_web_user_attributes` (SELECT * FROM laget_modx.`modx_web_user_attributes` WHERE 1)');
-  $em->getConnection()->executeQuery('INSERT INTO doctrineKalender.medlemskap (SELECT * FROM laget_modx.medlemskap)');
+  //$em->getConnection()->executeQuery('INSERT INTO doctrineKalender.`modx_web_user_attributes` (SELECT * FROM laget_modx.`modx_web_user_attributes` WHERE 1)');
+  //$em->getConnection()->executeQuery('INSERT INTO doctrineKalender.medlemskap (SELECT * FROM laget_modx.medlemskap)');
   
 }
 echo "\nAntall Spørringer: ".count($logger->queries);

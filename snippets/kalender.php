@@ -2,9 +2,7 @@
 /*
 * bruk [!liksomSymfony? &action=`Class:action`!]
 */
-if(isset($_GET['action'])){
-  $action = $_GET['action'];
-}
+
 require MODX_BASE_PATH.'assets/liksomSymfony/include.php';
 
 list($class,$action) = explode(':',$action);

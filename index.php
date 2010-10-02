@@ -47,15 +47,15 @@
     <a onclick="togle('POST')">$_POST(<?php echo count($_POST)?>)</a><br>
     <div id="queries" style="display: none" >
       <h2>Query log:</h2>
-      <pre><?php print_r($logger->queries);?></pre>
+      <pre><?php echo htmlentities(print_r($logger->queries, true),ENT_QUOTES,'UTF-8');?></pre>
     </div>
     <div id="server" style="display:none" >
       <h2>$_SERVER:</h2>
-      <pre><?php print_r($_SERVER);?></pre>
+      <pre><?php echo htmlentities(print_r($_SERVER, true),ENT_QUOTES,'UTF-8');?></pre>
     </div>
     <div id="POST" style="display:none" >
       <h2>$_POST:</h2>
-      <pre><?php print_r($_POST);?></pre>
+      <pre><?php echo htmlentities(print_r($_POST, true),ENT_QUOTES,'UTF-8');?></pre>
     </div>
     <pre><?php
       echo "\nMaksimlt minnebruk: ".floor(memory_get_peak_usage()/1000)/1000 .' MB';

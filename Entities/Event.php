@@ -396,7 +396,7 @@ class Event extends LagetEntity {
    * @PreUpdate
    */
   public function preUpdate(){
-    $this->edited_at = new \DateTime();
+    $this->edited_at->setTimestamp(time());
   }
   private function formatDateTime(\DateTime $datetime,$format){
     if($format == NULL) {
