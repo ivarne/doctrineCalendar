@@ -343,6 +343,7 @@ function truncateTables() {
           'responsibility',
           'speakers',
           'modx_web_user_attributes',
+          'medlemskap'
   );
   foreach($tables as $table) {
     $em->getConnection()->executeQuery('TRUNCATE TABLE '.$table);

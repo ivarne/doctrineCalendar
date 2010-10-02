@@ -2,6 +2,16 @@
   <head>
     <title>Kalender test|<?php echo $_GET['action'] ?></title>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <script>
+    function togle(id){
+      var elm = document.getElementById(id);
+      if(elm.style.display == 'none'){
+        elm.style.display = 'inherit';
+      }else{
+        elm.style.display = 'none';
+      }
+    }
+    </script>
   </head>
   <body>
     <?php //phpinfo();?>
@@ -31,14 +41,26 @@
     $kalender = new $class($em,$routing,$user);
 
     echo $kalender->execute($action);
-    if($debug):?>
-    <pre>
-<?php
-print_r($logger->queries);
-echo "\nMaksimlt minnebruk: ".floor(memory_get_peak_usage()/1000)/1000 .' MB';
-echo "\n\nTidsforbruk: ".(microtime(true)-$microtime);
-?>
-    </pre>
+    if($debug):?><br><br>
+    <a onclick="togle('queries')">Queries(<?php echo count($logger->queries) ?>)</a><br>
+    <a onclick="togle('server')">$_SERVER</a><br>
+    <a onclick="togle('POST')">$_POST(<?php echo count($_POST)?>)</a><br>
+    <div id="queries" style="display: none" >
+      <h2>Query log:</h2>
+      <pre><?php print_r($logger->queries);?></pre>
+    </div>
+    <div id="server" style="display:none" >
+      <h2>$_SERVER:</h2>
+      <pre><?php print_r($_SERVER);?></pre>
+    </div>
+    <div id="POST" style="display:none" >
+      <h2>$_POST:</h2>
+      <pre><?php print_r($_POST);?></pre>
+    </div>
+    <pre><?php
+      echo "\nMaksimlt minnebruk: ".floor(memory_get_peak_usage()/1000)/1000 .' MB';
+      echo "\n\nTidsforbruk: ".(microtime(true)-$microtime);
+    ?></pre>
     <?php endif;?>
   </body>
 </html>

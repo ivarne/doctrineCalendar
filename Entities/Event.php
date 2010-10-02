@@ -298,11 +298,19 @@ class Event extends LagetEntity {
     return $this->isPublic;
   }
   public function setStart(\DateTime $start) {
-    $this->start->setTimestamp($start->getTimestamp());
+    if(isset($this->start)){
+      $this->start->setTimestamp($start->getTimestamp());
+    }else{
+      $this->start = $start;
+    }
     return $this;
   }
   public function setEnd(\DateTime $end) {
-    $this->end->setTimestamp($end->getTimestamp());
+    if(isset($this->end)){
+      $this->end->setTimestamp($end->getTimestamp());
+    }else{
+      $this->end = $end;
+    }
     return $this;
   }
   public function getStart($format = NULL) {
