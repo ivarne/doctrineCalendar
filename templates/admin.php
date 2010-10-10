@@ -32,7 +32,10 @@ if(!empty($error)){
     <tr>
       <th><?php echo __('Type')?></th>
       <td colspan="2">
-        <select id="event_type" onchange="setHendelsetype()" name="event_type">
+        <select id="event_type" name="event_type">
+          <?php if($eventTypeId == NULL):?>
+          <option value="0"></option>
+          <?php endif;?>
           <?php foreach ($eventTypes as $eventType):?>
           <option <?php echo $eventType->getId() ==$eventTypeId ? 'selected="selected" ':'' ?>value="<?php echo $eventType->getId() ?>">
               <?php echo $eventType->getName()?>
@@ -61,7 +64,7 @@ if(!empty($error)){
         <script type="text/javascript" language="JavaScript" src="manager/media/script/datefunctions.js"></script>
         <script type="text/javascript">
           var elm_txt = {}; // dummy
-          var pub = document.forms["kalender_ny"].elements["dato"];
+          var pub = document.forms["kalender_ny"].elements["date"];
           var nwpub_cal1 = new calendar1(pub,elm_txt);
           nwpub_cal1.path="[(base_url)]manager/media/";
           nwpub_cal1.year_scroll = true;
@@ -176,6 +179,6 @@ if(!empty($error)){
   </table>
   <input type="submit" value="<?php echo __('Lagre hendelse')?>" />
   <a href="<?php echo $routing->newEvent() ?>">
-    <input type="reset" value="Ny form">
+    <input type="reset" value="<?php echo __('Ny form')?>">
   </a>
 </form>

@@ -5,7 +5,7 @@ use Entities\Event;
 
 class CalenderAdminController extends BaseController {
 
-  public function executeNewForm() {
+  public function executeMain() {
     $this->event = new Event();
     $this->prepareForForm();
     $this->numNewResponsibility = 6;
@@ -43,8 +43,8 @@ class CalenderAdminController extends BaseController {
 
     if(empty($this->error) && $event->isValid($this->error)) {
       $this->getEntityManager()->flush();
-      //header('Location: '.$this->routing->showEvent($event));
-      //die();
+      header('Location: '.$this->routing->showEvent($event));
+      die();
       return "hendelsen ble lagret";
     }
     else {

@@ -12,6 +12,11 @@ class ModxRouting implements RoutingInterface{
    * $modx instace, hovedsakelig for å kunne kalle makeURL();
    * @var DocumentParser
    */
+  private $docid = array(
+    'edit' => array('no'=>31,'en'=>124),
+    'show' => array('no'=>437,'en'=>438),
+    'eventListJSON'=>array('no'=>447,'en'=>446),
+  );
   private $modx;
   private $lang;
   public function  __construct($lang) {
@@ -20,45 +25,32 @@ class ModxRouting implements RoutingInterface{
     $this->lang = $lang;
   }
   public function showEvent(\Entities\Event $event){
-    $docid = array(
-      'no' => 245,
-      'en' => 234,
-    );
-    return $this->modx->makeUrl($docid[$this->lang], '', '');
-  }
-  public function editEvent(\Entities\Event $event){
-    $docid = array(
-      'no' => 245,
-      'en' => 234,
-    );
-    return $this->modx->makeUrl($docid[$this->lang], '', '');
-  }
-  public function deleteEvent(\Entities\Event $event){
-    $docid = array(
-      'no' => 245,
-      'en' => 234,
-    );
-    return $this->modx->makeUrl($docid[$this->lang], '', '');
+    return $this->modx->makeUrl($this->docid['show'][$this->lang], '', '?event='.$event->getId());
   }
   public function monthView(\DateTime $date){
-
+    return '';
   }
-  public function saveEvent(\Entities\Event $event){
-    if($event instanceof \Entities\Event){
-      return '?action=CalenderAdmin:save&amp;event='.$event->getId();
-    }
-    return '?action=CalenderAdmin:save';
+  public function editEvent(\Entities\Event $event){
+    return $this->modx->makeUrl($this->docid['edit'][$this->lang],'', '?action=edit&event='.$event->getId());
+  }
+  public function deleteEvent(\Entities\Event $event){
+    return $this->modx->makeUrl($this->docid['edit'][$this->lang],'', '?action=delete&event='.$event->getId());
+  }
+  public function saveEvent(){
+    return $this->modx->makeUrl($this->docid['edit'][$this->lang],'', '?action=save');
   }
   public function publishEvent(\Entities\Event $event){
-    return '';
+    return $this->modx->makeUrl($this->docid['edit'][$this->lang],'', '?action=publish&event='.$event->getId());
   }
   public function searchForEvent(){
     return '';
   }
   public function newEvent(){
-    return '?action=CalenderAdmin:new';
+    return $this->modx->makeUrl($this->docid['edit'][$this->lang],'', '');
   }
-
+  public function JSONevents(){
+    return $this->modx->makeUrl($this->docid['eventListJSON'][$this->lang],'','');
+  }
   /*
    * GAMLE FUNKSJONER SOM MÅ SKRIVES OM (men som kansje inneholder interessant innfo)
    *

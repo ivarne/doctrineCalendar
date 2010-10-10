@@ -56,7 +56,10 @@ abstract class BaseController{
   }
   public function execute($action){
     try{
-     return call_user_func_array(array($this,'execute'.$action),array());
+      if(!is_callable(array($this,'execute'.$action))){
+        throw new \Exception('Ingen gyldig action på '.get_class($this).' med navn execute'.$action);
+      }
+      return call_user_func_array(array($this,'execute'.$action),array());
     }catch (simpleException $e){
       echo '<div class="error">'.$e->getMessage().'</div>';
     }catch (\Exception $e){
@@ -125,6 +128,5 @@ abstract class BaseController{
   public function  __get($name) {
     return $this->viewVariables[$name];
   }
-
 }
 class simpleException extends \Exception{}

@@ -11,7 +11,7 @@ class DummyRouting implements RoutingInterface {
   public function editEvent(\Entities\Event $event){
     return '?action=CalenderAdmin:edit&amp;event='.$event->getId();
   }
-  public function saveEvent(\Entities\Event $event){
+  public function saveEvent(){
     if($event->getId()!=NULL){
       return '?action=CalenderAdmin:save&amp;event='.$event->getId();
     }
@@ -30,6 +30,9 @@ class DummyRouting implements RoutingInterface {
     return '';
   }
   public function searchForEvent(){
+    return '';
+  }
+  public function JSONevents(){
     return '';
   }
 }

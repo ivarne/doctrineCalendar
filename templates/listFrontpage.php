@@ -3,7 +3,6 @@ if(false){
   $event = new \Entities\Event();//autocompletion i NetBeans
 }
 ?>
-<h2><?php echo __('Program')?></h2>
 <ul>
   <?php foreach ($events as $event):?>
   <li>
@@ -15,9 +14,13 @@ if(false){
     <?php if($event->hasSpeaker()):?>
     <em><?php echo $event->getSpeaker() ?></em>
     <?php endif;?>
+    <?php if($event->hasShort() && $event->hasSpeaker()):?>
+    <br>
+    <?php endif?>
     <?php if($event->hasShort()):?>
-    <div><?php echo $event->getShort() ?></div>
+    <?php echo $event->getShort() ?>
     <?php endif;?>
   </li>
   <?php endforeach;?>
 </ul>
+

@@ -13,11 +13,12 @@ use Entities\Repositories\EventRepository;
 */
 
 class CalenderViewController extends BaseController {
-
+  public function executeMonthView(){
+    return $this->render('monthView');
+  }
   public function executeList() {
     $eventRepository = new EventRepository($this->em,$this->em->getClassMetadata('Entities\Event'));
     $this->events = $eventRepository->getNextEvents(10, $this->getUser()->hasPermission('se upubliserte'), new \DateTime());
-    echo count($this->events);
     return $this->render('kalenderListe');
   }
   public function executeIcal(){
@@ -31,12 +32,19 @@ class CalenderViewController extends BaseController {
     $this->events = $eventRepository->getNextEvents(6);
     return $this->render('listFrontpage');
   }
-  public function executeJsonMonth(){
+  public function executeListJson(){
     $eventRepository = $this->em->getRepository('\Entities\Event');
-    $this->events = $eventRepository->getEventsBetween(new \DateTime($_GET['from']),new \DateTime($_GET['to']));
+    $datetimestart = new \DateTime();
+    $datetimeend = new \Datetime();
+    if(isset($_GET['upub'])&& $_GET['upub'] == 'true' &&$this->getUser()->hasPermission('se upubliserte')){
+      $onlyPublic = false;
+    }else{
+      $onlyPublic = true;
+    }
+    $this->events = $eventRepository->getEventsBetween($datetimestart->setTimestamp($_GET['start']),$datetimeend->setTimestamp($_GET['end']),$onlyPublic);
     return $this->render('jsonEvents');
   }
-  public function executeVisHendelse(){
+  public function executeShowEvent(){
     $event = $this->getEntityManager()->getRepository('\Entities\Event')->find($_GET['event']);
     if(!isset($event)){
       throw new \Exception('Det finnes ingen hendelse med id = '.htmlspecialchars($_GET['event'], \ENT_QUOTES , 'UTF-8'));

@@ -6,7 +6,6 @@ namespace Entities;
  *  fx. funksjonalitet for å kunne ha flere språk.
  */
 class LagetEntity{
-  public static $lang = 'no';
    /**
    * Hjelpefunksjon for å hente info med riktig språk
    * @param <type> $feld
@@ -15,7 +14,7 @@ class LagetEntity{
    */
   protected  function getI18n($feld,$lang) {
     if($lang == null){
-      $re = $feld.'_'.self::$lang;
+      $re = $feld.'_'.\Laget\Controller\BaseController::$__lang;
       if(!isset($this->$re)) {
         $re = $feld.'_no';
       }

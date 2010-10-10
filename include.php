@@ -5,7 +5,6 @@
 */
 
 
-
 use Doctrine\Common\ClassLoader,
 Doctrine\ORM\Configuration,
 Doctrine\ORM\EntityManager,
@@ -67,7 +66,7 @@ $connectionOptions = array(
              'charset' => 'UTF8'
          )
 );
-
+if(!function_exists('__')){
 /**
  * oversettelse funksjon Hvis engelsk oversettelse ikke finnes logges stringen
  * slik at den kan vises som trenger oversettelse nederst på siden.
@@ -86,6 +85,8 @@ function __($string,$trans = array()){
     return $string;
   }
   return strtr($string,$trans);
+}
+
 }
 
 // Create EntityManager

@@ -7,7 +7,8 @@ interface RoutingInterface {
   public function editEvent(\Entities\Event $event);
   public function deleteEvent(\Entities\Event $event);
   public function monthView(\DateTime $date);
-  public function saveEvent(\Entities\Event $event);
+  public function saveEvent();
   public function publishEvent(\Entities\Event $event);
   public function searchForEvent();
+  public function JSONevents();
 }

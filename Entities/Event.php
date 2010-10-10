@@ -313,12 +313,22 @@ class Event extends LagetEntity {
     }
     return $this;
   }
+  /**
+   *
+   * @param <type> $format
+   * @return \DateTime
+   */
   public function getStart($format = NULL) {
     if($this->start === NULL){
       return NULL;
     }
     return $this->formatDateTime($this->start, $format);
   }
+  /**
+   *
+   * @param <type> $format
+   * @return \DateTime
+   */
   public function getEnd($format = NULL) {
     if($this->end === NULL){
       return NULL;

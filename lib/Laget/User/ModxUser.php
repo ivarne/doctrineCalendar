@@ -14,13 +14,13 @@ class ModxUser implements UserInterface{
   public function hasPermission($permission){
     switch ($permission) {
       case 'intern_info':
-        return $this->modx->isMemberOfWebGroup('programadmin');
+        return $this->modx->isMemberOfWebGroup('programbehandling');
         break;
       case 'se upubliserte':
-        return $this->modx->isMemberOfWebGroup('programadmin');
+        return $this->modx->isMemberOfWebGroup('programbehandling');
         break;
       case 'redigere hendelser':
-        return $this->modx->isMemberOfWebGroup('programadmin');
+        return $this->modx->isMemberOfWebGroup('programbehandling');
         break;
       default:
         throw new \Exception('hasPermission kalt med ugyldig permission ('.$permission.')');
@@ -56,6 +56,8 @@ class ModxUser implements UserInterface{
   public function getLanguage(){
     if(!isset($this->lang)){
       $this->lang = $this->modx->runSnippet('getLanguage');
+      if($this->lang == 'gb')
+              $this->lang = 'en';
     }
     return $this->lang;
   }

@@ -51,16 +51,21 @@ class EventRepository extends EntityRepository
             ->setParameter('notId', $event->getId());
     return $q->getResult();
   }
-  public function getEventsBetween(\DateTime $from, \DateTime $to){
+  public function getEventsBetween(\DateTime $from, \DateTime $to,$onlyPublic = true){
     $days = ($to->getTimestamp() - $from->getTimestamp())/(60*60*24);// difference in days
     if($days > 100 || $days < 0){
       throw new \Exception("Invalid range getEventsBetween(\$from = '$from->format('Y-m-d')', \$to = '$to->format('Y-m-d')')");
     }
-    $q = $this->getEntityManager()
-            ->createQuery('SELECT e FROM Entities\Event e WHERE e.start < :to AND e.end > :from')
-            ->setParameter('to', $to,'datetime')
+    $q = $this->createQueryBuilder('e')
+            ->where('e.start < :to')
+            ->andWhere('e.end > :from');
+    if($onlyPublic){
+      $q->andWhere('e.isPublic = :true')
+              ->setParameter('true', true,'boolean');
+    }
+    $q      ->setParameter('to', $to,'datetime')
             ->setParameter('from', $from, 'datetime');
-    return $q->getResult();
+    return $q->getQuery()->getResult();
   }
   public function find($id){
     $q = $this->getEntityManager()
