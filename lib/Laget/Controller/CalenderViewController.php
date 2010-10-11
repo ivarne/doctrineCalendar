@@ -45,7 +45,8 @@ class CalenderViewController extends BaseController {
     return $this->render('jsonEvents');
   }
   public function executeShowEvent(){
-    $event = $this->getEntityManager()->getRepository('\Entities\Event')->find($_GET['event']);
+    $onlyPublic = !$this->getUser()->hasPermission('se upubliserte');
+    $event = $this->getEntityManager()->getRepository('\Entities\Event')->find($_GET['event'],$onlyPublic);
     if(!isset($event)){
       throw new \Exception('Det finnes ingen hendelse med id = '.htmlspecialchars($_GET['event'], \ENT_QUOTES , 'UTF-8'));
     }
