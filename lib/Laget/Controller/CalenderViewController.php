@@ -36,7 +36,7 @@ class CalenderViewController extends BaseController {
     $eventRepository = $this->em->getRepository('\Entities\Event');
     $datetimestart = new \DateTime();
     $datetimeend = new \Datetime();
-    if(isset($_GET['upub'])&& $_GET['upub'] == 'true' &&$this->getUser()->hasPermission('se upubliserte')){
+    if(isset($_GET['upub'])&& $_GET['upub'] == 'true' &&$this->getUser()->isLoggedIn()){
       $onlyPublic = false;
     }else{
       $onlyPublic = true;
@@ -45,10 +45,11 @@ class CalenderViewController extends BaseController {
     return $this->render('jsonEvents');
   }
   public function executeShowEvent(){
-    $onlyPublic = !$this->getUser()->hasPermission('se upubliserte');
-    $event = $this->getEntityManager()->getRepository('\Entities\Event')->find($_GET['event'],$onlyPublic);
-    if(!isset($event)){
-      throw new \Exception('Det finnes ingen hendelse med id = '.htmlspecialchars($_GET['event'], \ENT_QUOTES , 'UTF-8'));
+    $onlyPublic = !$this->getUser()->isLoggedIn();
+    try{
+      $event = $this->getEntityManager()->getRepository('\Entities\Event')->find((int)$_GET['event'],$onlyPublic);
+    }catch(\Exception $e){
+      return __('Det finnes ingen hendelse med id: %id% eller du har ikke tilgang til å vise den.<br>Prøv å loge inn',array('%id%'=>(int)$_GET['event']));
     }
     $this->event = $event;
     return $this->render('visHendelse');

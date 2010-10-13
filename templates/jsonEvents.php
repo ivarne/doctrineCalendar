@@ -12,7 +12,7 @@ foreach ($events as $event){
     'end'   => $event->getEnd()->getTimestamp(),
     'url'   => $routing->showEvent($event),
     'allDay'=> false,
-    'className'=> 'kalender_klasse_'.$event->getType()->getId(),
+    'className'=> 'kalender_klasse_'.($event->isPublic()?'pub':'upub'),
   );
 }
 echo json_encode($JSON);

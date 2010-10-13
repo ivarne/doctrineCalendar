@@ -11,8 +11,8 @@
 #loading{
 	-moz-border-radius:50px;
         -webkit-border-radius: 50px;
-	background-color:Red;
-	color:white;
+	background-color:white;
+	color:blue;
 	display:block;
 	font-size:xx-large;
 	height:200px;
@@ -26,8 +26,9 @@
 /*
 * Gjør utleie gult i kalenderen
 */
-.kalender_klasse_6,
-.kalender_klasse_6 a{
+.kalender_klasse_upub,
+.kalender_klasse_upub a,
+.kalender_klasse_upub a span{
     background-color: yellow !important;
     border-color: yellow !important;
 }

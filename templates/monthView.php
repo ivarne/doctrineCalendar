@@ -4,20 +4,15 @@ if(false){
 }
 global $modx;
 if (isset($modx) && $modx instanceof \DocumentParser){
-//$modx->regClientScript('assets/liksomSymfony/jsCSS/jquery-1.4.2.min.js');
-//$modx->regClientScript('assets/liksomSymfony/jsCSS/ui.core.js');
-//$modx->regClientScript('assets/liksomSymfony/jsCSS/ui.draggable.js');
-//$modx->regClientScript('assets/liksomSymfony/jsCSSy/ui.resizable.js');
-//$modx->regClientStartupScript('assets/liksomSymfony/jsCSS/fullcalendar.min.js');
 $modx->regClientCSS('assets/liksomSymfony/jsCSS/fullcalendar.css');
 }
 ?>
-	<script type="text/javascript" src="assets/liksomSymfony/jsCSS/jquery-1.4.2.min.js"></script>
-	<script type="text/javascript" src="assets/liksomSymfony/jsCSS/ui.core.js"></script>
-	<script type="text/javascript" src="assets/liksomSymfony/jsCSS/ui.draggable.js"></script>
-	<script type="text/javascript" src="assets/liksomSymfony/jsCSSy/ui.resizable.js"></script>
+<script type="text/javascript" src="assets/liksomSymfony/jsCSS/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="assets/liksomSymfony/jsCSS/ui.core.js"></script>
+<script type="text/javascript" src="assets/liksomSymfony/jsCSS/ui.draggable.js"></script>
+<script type="text/javascript" src="assets/liksomSymfony/jsCSSy/ui.resizable.js"></script>
 
-	<script type="text/javascript" src="assets/liksomSymfony/jsCSS/fullcalendar.min.js"></script>
+<script type="text/javascript" src="assets/liksomSymfony/jsCSS/fullcalendar.min.js"></script>
 
 <script type='text/javascript'>
   $(document).ready(function() {
@@ -147,7 +142,7 @@ $('#options').children().change( function(){$('#calendar').fullCalendar('refetch
 </script>
 <div id="loading"><?php echo __('Laster kalender')?></div>
 <div id="calendar"></div>
-<?php if($user->hasPermission('se upubliserte')):?>
+<?php if($user->isLoggedIn()):?>
 <div id="options">
   <label for="upub">Vis Upubliserte</label><input type="checkbox" id="upubCheckbox" name="upubCheckbox" value="asdf"/>
 </div>

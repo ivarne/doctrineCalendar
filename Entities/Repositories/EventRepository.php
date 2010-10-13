@@ -67,10 +67,14 @@ class EventRepository extends EntityRepository
             ->setParameter('from', $from, 'datetime');
     return $q->getQuery()->getResult();
   }
-  public function find($id){
-    $q = $this->getEntityManager()
-            ->createQuery('SELECT e , s, r FROM \Entities\Event e LEFT JOIN e.speaker s LEFT JOIN e.responsibilities r WHERE e.id = ?1')
-            ->setParameter(1, $id,'integer');
-    return $q->getSingleResult();
+  public function find($id,$onlyPublic){
+    $q = $this->createQueryBuilder('e')
+            ->where('e.id = :id');
+    if($onlyPublic){
+      $q->andWhere('e.isPublic = :true')
+              ->setParameter('true', true,'boolean');
+    }
+    $q      ->setParameter('id', (int)$id,'integer');
+    return $q->getQuery()->getSingleResult();
   }
 }

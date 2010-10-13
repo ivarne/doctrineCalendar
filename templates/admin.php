@@ -14,7 +14,10 @@ if(false) {
   $responsibility = new \Entities\EventResponsibility($resp, $user, $comment);
   $speaker = new \Entities\Speaker();
 }
+?>
 
+
+<?php
 if(!empty($error)){
   echo "<pre>Feil:\n";
   print_r($error);
@@ -57,19 +60,8 @@ if(!empty($error)){
     <tr>
       <th><?php echo __('Dato')?></th>
       <td>
-        <input name="date" type="text" value="<?php echo $event->getStart('Y-m-d') ?>">
-        <a onClick="nwpub_cal1.popup();" onMouseover="window.status='Select date'; return true;" onMouseout="window.status=''; return true;" style="cursor:pointer;">
-          <img align="absmiddle" src="manager/media/style/MODx/images/icons/cal.gif" width="16" height="16" border="0" alt="Velg dato" />
-        </a>
-        <script type="text/javascript" language="JavaScript" src="manager/media/script/datefunctions.js"></script>
-        <script type="text/javascript">
-          var elm_txt = {}; // dummy
-          var pub = document.forms["kalender_ny"].elements["date"];
-          var nwpub_cal1 = new calendar1(pub,elm_txt);
-          nwpub_cal1.path="[(base_url)]manager/media/";
-          nwpub_cal1.year_scroll = true;
-          nwpub_cal1.time_comp = false;
-        </script>
+        <input name="date" id="date" type="text" size="30" value="<?php echo $event->getStart('Y-m-d') ?>">
+        <input id="textualDate" type="text" disabled size="30" style="display: none">
       </td>
     </tr>
     <tr>
@@ -182,3 +174,20 @@ if(!empty($error)){
     <input type="reset" value="<?php echo __('Ny form')?>">
   </a>
 </form>
+<script type="text/javascript" src="assets/liksomSymfony/jsCSS/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="assets/liksomSymfony/jsCSS/jquery-ui-1.8.5.custom.min.js"></script>
+<?php if(isset($GLOBALS['modx'])){
+  $GLOBALS['modx']->regClientCSS('assets/liksomSymfony/jsCSS/jquery-ui-1.8.5.custom.css');
+}
+?>
+<script type="text/javascript">
+$(function() {
+   $( "#date" ).datepicker( {
+     dateFormat:'yy-mm-dd',
+     firstDay:1,
+     numberOfMonths: 1,
+     altField: "#textualDate",
+     altFormat: "DD, d MM, yy"
+   });
+});
+</script>

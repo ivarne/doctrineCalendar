@@ -15,7 +15,8 @@ class ModxRouting implements RoutingInterface{
   private $docid = array(
     'edit' => array('no'=>31,'en'=>124),
     'show' => array('no'=>437,'en'=>438),
-    'eventListJSON'=>array('no'=>447,'en'=>446),
+    'eventListJSON'=> array('no'=>447,'en'=>446),
+    'monthView' => array('no'=> 45,'en'=>174),
   );
   private $modx;
   private $lang;
@@ -28,7 +29,7 @@ class ModxRouting implements RoutingInterface{
     return $this->modx->makeUrl($this->docid['show'][$this->lang], '', '?event='.$event->getId());
   }
   public function monthView(\DateTime $date){
-    return '';
+    return $this->modx->makeUrl($this->docid['monthView'][$this->lang], '', '#'.$date->format('Y-m-d').'?month');
   }
   public function editEvent(\Entities\Event $event){
     return $this->modx->makeUrl($this->docid['edit'][$this->lang],'', '?action=edit&event='.$event->getId());

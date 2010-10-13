@@ -15,7 +15,7 @@ class LagetEntity{
   protected  function getI18n($feld,$lang) {
     if($lang == null){
       $re = $feld.'_'.\Laget\Controller\BaseController::$__lang;
-      if(!isset($this->$re)) {
+      if(!strlen($this->$re)) {
         $re = $feld.'_no';
       }
     }else{
