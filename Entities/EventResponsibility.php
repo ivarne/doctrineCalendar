@@ -79,7 +79,7 @@ class EventResponsibility {
     }elseif(isset($this->user)){
       return (string)$this->user;
     }
-    return $this->comment;
+    return (string)$this->comment;
   }
   public function getComment(){
     return $this->comment;

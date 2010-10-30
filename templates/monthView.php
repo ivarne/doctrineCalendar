@@ -1,6 +1,7 @@
 <?php
 if(false){
   $user = new Laget\User\ModxUser();
+  $routing = new \Laget\Routing\DummyRouting();
 }
 global $modx;
 if (isset($modx) && $modx instanceof \DocumentParser){
@@ -8,9 +9,6 @@ $modx->regClientCSS('assets/liksomSymfony/jsCSS/fullcalendar.css');
 }
 ?>
 <script type="text/javascript" src="assets/liksomSymfony/jsCSS/jquery-1.4.2.min.js"></script>
-<script type="text/javascript" src="assets/liksomSymfony/jsCSS/ui.core.js"></script>
-<script type="text/javascript" src="assets/liksomSymfony/jsCSS/ui.draggable.js"></script>
-<script type="text/javascript" src="assets/liksomSymfony/jsCSSy/ui.resizable.js"></script>
 
 <script type="text/javascript" src="assets/liksomSymfony/jsCSS/fullcalendar.min.js"></script>
 
@@ -53,9 +51,19 @@ $modx->regClientCSS('assets/liksomSymfony/jsCSS/fullcalendar.css');
         if (bool) $('#loading').show();
         else $('#loading').hide();
       },
-//      events:
-//        "<?php echo $routing->JSONevents()?>"
-//      ,
+
+      dayClick: function(date, allDay, jsEvent, view) {
+      <?php if($user->isLoggedIn()): ?>
+          window.location = "<?php echo $routing->newEvent() ?>?date="+date.getFullYear() + "-"+(date.getMonth()+1) + "-" + date.getDate();
+      <?php endif;?>
+      },
+
+    eventRender: function(event, element) {
+        // Legg til et tooltip slik at man kan lese kort info om hendelsen uten å klikke på den
+        element.attr('title',event.info);
+    },
+
+
       events: function(start, end, callback) {
         // hent data fra siden hvis det er første måned som skal vises;
 //        if(!window.location.hash){
@@ -72,6 +80,9 @@ $modx->regClientCSS('assets/liksomSymfony/jsCSS/fullcalendar.css');
             },
 
             success: function(doc) {
+                if(doc.error){
+                  window.location = '<?php echo $routing->login()?>';
+                }
                 callback(doc);
             }
         });
@@ -102,7 +113,7 @@ $modx->regClientCSS('assets/liksomSymfony/jsCSS/fullcalendar.css');
 
     });
 
-$('#options').children().change( function(){$('#calendar').fullCalendar('refetchEvents')});
+    $('#options').children().change( function(){$('#calendar').fullCalendar('refetchEvents')});
   });
   //fiks tilbake knappen slik at man kommer til den hendelsen man ønsket
   var current_hash = false;
@@ -142,11 +153,12 @@ $('#options').children().change( function(){$('#calendar').fullCalendar('refetch
 </script>
 <div id="loading"><?php echo __('Laster kalender')?></div>
 <div id="calendar"></div>
-<?php if($user->isLoggedIn()):?>
+<?php //if($user->isLoggedIn()):?>
 <div id="options">
-  <label for="upub">Vis Upubliserte</label><input type="checkbox" id="upubCheckbox" name="upubCheckbox" value="asdf"/>
+  <label for="upubCheckbox">Vis Upubliserte</label><input type="checkbox" id="upubCheckbox" name="upubCheckbox" value="asdf"/>
 </div>
-<?php endif;?>
+<div><a href="<?php echo $routing->newEvent() ?>">Ny hendelse</a></div>
+<?php //endif;?>
 
 
 <noscript>

@@ -1,4 +1,9 @@
 <?php
+//netpeans code completion
+if(false){
+  $event = new \Entities\Event();
+  $routing = new \Laget\Routing\DummyRouting();
+}
 // ===========================================================================
 // ===  Script som henter inn kalenderdata for fremtiden og lagrer   =========
 // ===  det som en iCal fil som folk kan inkludere i kalenderen sin.  ========
@@ -12,8 +17,8 @@
 
 // Importerer biblioteket som brukes til generering av ICal filene
 require_once dirname(__FILE__).'/../vendor/iCalcreator.class.php';
-//include 'kalender/iCalcreator.class.php';
-Event::$escHtml = false;
+
+
 
 
 // ----------------------------------------------------------------
@@ -68,7 +73,11 @@ if ($type=="normal"){
     $vis_utleie         = $setup_row['vis_utleie'];
     $bareUpub           = $setup_row['bareUpub'];
 }
-
+if($engelsk){
+  \Laget\Controller\BaseController::$__lang = 'en';
+}else{
+  \Laget\Controller\BaseController::$__lang = 'no';
+}
 date_default_timezone_set('Europe/Oslo');
 // Array med alle versjonene av <br> som kan ligge i kalenderdatabasen, som må byttes ut med "\n\r"
 $enter = array( "<br>" , "<br/>" , "<BR>" , "<BR/>" , "<Br>" , "<Br/>" ,
@@ -103,9 +112,6 @@ $v->setProperty( 'method' , 'publish');
 // --------------------------------------------------------------------------
 // -- Gå gjennom alle radene i databasen og legg den inn som en ical event --
 // --------------------------------------------------------------------------
-if(false){// codecompletion i NetBeans code editor
-  $event = new Event();
-}
 foreach ($events as $event) {
     // ---------------------------------------------
     // ----Finn ut om hendelsen skal skrives ut ----
@@ -119,17 +125,17 @@ foreach ($events as $event) {
         if($bareUpub && $event->isPublic()){
             $publiser = false;
         }
-        if($ikke_bgjengen && ($event->getEventType() == Event::DUGNAD)){
+        if($ikke_bgjengen && ($event->getType()->getId() == 2)){
             $publiser = false;//Berggjengen skal ikke skrives ut
-        }elseif($ikke_fredag && ($event->getEventType() == Event::FREDAGSMOTE)){
+        }elseif($ikke_fredag && ($event->getType()->getId() == 1)){
             $publiser = false;
-        }elseif($ikke_tur && ($event->getEventType() == Event::TUR)){
+        }elseif($ikke_tur && ($event->getType()->getId() == 3)){
             $publiser = false;
-        }elseif($ikke_bibel && ($event->getEventType() == Event::BIBEL)){
+        }elseif($ikke_bibel && ($event->getType()->getId() == 4)){
             $publiser = false;
-        }elseif($ikke_sportsandakt && ($event->getEventType() == Event::VASSFJELLET)){
+        }elseif($ikke_sportsandakt && ($event->getType()->getId() == 5)){
             $publiser = false;
-        }elseif($vis_utleie && ($event->getEventType() == Event::UTLEIE || $event->getEventType() == Event::UTLEIEVASSFJELLET)){
+        }elseif($vis_utleie && ($event->getType()->getId() == 6 || $event->getType()->getId() == 0)){
             $publiser = true;
         }
 
@@ -141,39 +147,38 @@ foreach ($events as $event) {
         // Sett sammen datafeltene $tittel og $lang_tekst basert på database og definerte konstanter
         // Først settes det sammen et grunnlag, før det eventuellt endres av en unormal kalender
         if($event->isPublic()){
-            $titel = $event->getTittel();
+            $titel = $event->getTitle();
         }else{
-            $titel = "Upub " . $event->getTittel();
+            $titel = "Upub " . $event->getTitle();
         }
         // lang_tekst sendes som description til ical etter at den første <br> er fjernet og resten byttet med CRLF \r\n
         $lang_tekst = "";
-        if ($event->hasTaler()){
-        $lang_tekst .= "<br>Taler: " . $event->getTaler();
+        if ($event->hasSpeaker()){
+        $lang_tekst .= "\nTaler: " . $event->getSpeaker();
         }
-        if ($event->hasKort()){
-            $lang_tekst .="<br>" . $event->getKort() . '<br>';
+        if ($event->hasShort()){
+            $lang_tekst .="\n" . $event->getShort() . '\n';
         }
         if ($event->hasInfo()){
-        $lang_tekst .= "<br>" . $event->getInfo();
+        $lang_tekst .= "\n" . $event->getInfo(false);
         }
-
         // ------------------------------------------------------------------
         // --Hvis det er en spesiell kalender kjøres mer kode på variablene.-
         // ------------------------------------------------------------------
         if ($unormal){
             // vis hvem som har styreansvar i tittel
             if ($styreans_titel){
-                $titel .= " - " . $event->getResponsible();
+                $titel .= " - " . $event->getResponsibilities('Ansvarlig',true);
             }
             // vis hvem som har styreansvar i beskrivelse
             if ($styreans_beskrivelse){
-                $lang_teskt .= '<br>Styreansvarlig: ' . $event->getResponsible();
+                $lang_teskt .= '<br>Styreansvarlig: ' . $event->getResponsibilities('Ansvarlig',true);
             }
 
 
             // legg til intern info
-            if ($intern_info && $event->hasInternInfo()){
-                $lang_tekst .= '<br>Intern info:<br>' . $event->getInternInfo();
+            if ($intern_info && $event->hasInternalInfo()){
+                $lang_tekst .= '<br>Intern info:<br>' . $event->getInternalInfo();
             }
             // Endre æøå til ae oe aa hvis det er ønsket
             if ($oea){
@@ -186,11 +191,10 @@ foreach ($events as $event) {
 
 
         //Forsøk på å konstruere urlen som inneholder eventinnfo på laget.net
-            //(Har ikke set noen program som presenterer denne linken ennå, så det er ikke noe å bruke tid på)
-        $url = $event->getUrl();
+        $url = $routing->showEvent($event);
 
         // Fjern første linjeskift<br> i $lang_tekst
-        $lang_tekst = substr($lang_tekst,4);
+        $lang_tekst = substr($lang_tekst,1);
         // Formater linjeskift på riktig måte for iCal formatet
         $lang_tekst = str_replace($enter, "\n" , $lang_tekst);
 
@@ -198,21 +202,21 @@ foreach ($events as $event) {
     // ---- Skriver ut eventen -----
     // -----------------------------
         $e = new vevent();
-        $e->setProperty( 'DTSTART',  date('Ymd\THis' ,$event->startTS));
-        $e->setProperty( 'DTEND' , date('Ymd\THis' , $event->sluttTS));
+        $e->setProperty( 'DTSTART',  $event->getStart('Ymd\THis'));
+        $e->setProperty( 'DTEND' , $event->getEnd('Ymd\THis'));
         // tidsstempel for når feeden ble generert (Standarden krever det av en eller annen grunn for hvert element)
         $e->setProperty( 'DTSTAMP' , date('Ymd\THis'));
         // Unik ID som gir en global unik referanse til akkuratt denne eventen (forutsetter at vi aldri nulstiller id i kalenderbasen)
         $e->setProperty( 'UID' , $event->getId() . "@laget.net/ical?type=" . $navn);
         $e->setProperty( 'CLASS' , 'PUBLIC');
         // Dato eventen ble opprettet
-        $e->setProperty( 'CREATED' , date("Ymd\THis",$event->created_at));
+        $e->setProperty( 'CREATED' , $event->getCreated('Ymd\THis'));
         $e->setProperty( 'DESCRIPTION' , strip_tags($lang_tekst));
         // Dato eventen sist ble endret
-        $e->setProperty( 'LAST-MODIFIED:' , date("Ymd\THis",$event->edited_at));
+        $e->setProperty( 'LAST-MODIFIED:' , $event->getEdited("Ymd\THis"));
         $e->setProperty( 'LOCATION:' , strip_tags($sted));
         // tall som forteller versjonen av eventen som blir sendt
-        $e->setProperty( 'SEQUENCE' , $event->getSequence());
+        $e->setProperty( 'SEQUENCE' , $event->getVersion());
         $e->setProperty( 'STATUS' , 'CONFIRMED');
         $e->setProperty( 'SUMMARY' , strip_tags($titel));
         $e->setProperty( 'TRANSP' , 'OPAQUE');

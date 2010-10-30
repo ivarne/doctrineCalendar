@@ -13,6 +13,7 @@ if(false) {
   $routing = new \Laget\Routing\DummyRouting();
   $responsibility = new \Entities\EventResponsibility($resp, $user, $comment);
   $speaker = new \Entities\Speaker();
+  $user = new \Laget\User\DummyUser();
 }
 ?>
 
@@ -50,17 +51,9 @@ if(!empty($error)){
       </td>
     </tr>
     <tr>
-      <th><?php echo __('Hendelse')?></th><td><em><?php echo __('Norsk')?></em></td><td><em><?php echo __('Engelsk')?></em></td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td><input id="hendelse" type="text" name="title_no" value="<?php echo $event->getTitle('no')?>"></td>
-      <td><input id="hendelse_en" type="text" name="title_en" value="<?php echo $event->getTitle('en')?>"></td>
-    </tr>
-    <tr>
       <th><?php echo __('Dato')?></th>
       <td>
-        <input name="date" id="date" type="text" size="30" value="<?php echo $event->getStart('Y-m-d') ?>">
+        <input name="date" id="date" type="text" size="11" value="<?php echo $event->getStart('Y-m-d') ?>">
         <input id="textualDate" type="text" disabled size="30" style="display: none">
       </td>
     </tr>
@@ -78,9 +71,27 @@ if(!empty($error)){
       </td>
     </tr>
     <tr>
+      <th>&nbsp;</th><td><em><?php echo __('Norsk')?></em></td><td><em><?php echo __('Engelsk')?></em></td>
+    </tr>
+    <tr>
+      <td><?php echo __('Tittel')?></td>
+      <td><input id="hendelse" type="text" name="title_no" value="<?php echo $event->getTitle('no')?>"></td>
+      <td><input id="hendelse_en" type="text" name="title_en" value="<?php echo $event->getTitle('en')?>"></td>
+    </tr>
+    <tr>
+      <td><?php echo __('Kort info')?></td>
+      <td><textarea cols="30" rows="2" name="short_no"><?php echo $event->getShort('no') ?></textarea></td>
+      <td><textarea cols="30" rows="2" name="short_en"><?php echo $event->getShort('en') ?></textarea></td>
+    </tr>
+    <tr>
+      <td><?php echo __('Info')?></td>
+      <td><textarea cols="30" rows="8" name="info_no"><?php echo $event->getInfo('edit','no') ?></textarea></td>
+      <td><textarea cols="30" rows="8" name="info_en"><?php echo $event->getInfo('edit','en') ?></textarea></td>
+    </tr>
+    <tr>
       <th><label for="taler"><?php echo __('Taler')?></label></th>
       <td>
-        <select name="speakerId">
+        <select id="speakers" name="speakerId">
           <option value=""></option>
           <?php foreach ($speakers as $speaker):?>
           <option <?php echo $speaker->getId() ==$speakerId ? 'selected="selected" ':'' ?> value="<?php echo $speaker->getId()?>">
@@ -93,23 +104,8 @@ if(!empty($error)){
         <?php echo __('Eller legg til ny taler:')?><input id="taler" name="newSpeaker" type="text">
       </td>
     </tr>
-    <tr>
-      <th><?php echo __('Kort info')?></th><td><em><?php echo __('Norsk')?></em></td><td><em><?php echo __('Engelsk')?></em></td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td><textarea cols="30" rows="2" name="short_no"><?php echo $event->getShort('no') ?></textarea></td>
-      <td><textarea cols="30" rows="2" name="short_en"><?php echo $event->getShort('en') ?></textarea></td>
-    </tr>
-    <tr>
-      <th><?php echo __('Info')?></th><td><em><?php echo __('Norsk')?></em></td><td><em><?php echo __('Engelsk')?></em></td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td><textarea cols="30" rows="8" name="info_no"><?php echo $event->getInfo('edit','no') ?></textarea></td>
-      <td><textarea cols="30" rows="8" name="info_en"><?php echo $event->getInfo('edit','en') ?></textarea></td>
-    </tr>
   </table>
+
   <h3><?php echo __('Intern informasjon')?></h3>
   <table>
     <tr>
@@ -123,19 +119,35 @@ if(!empty($error)){
       <td><input id="publisert" name="isPublic" type="checkbox"<?php echo ($event->isPublic()?'checked="checed"':'') ?> ></td>
     </tr>
   </table>
-  <?php if($event->getResponsibilities()->count()>0):?>
-  <h4><?php echo __('Ansvar:') ?></h4>
-  <table>
-    <?php foreach ($event->getResponsibilities() as $responsibility):?>
-    <tr id="responsibility<?php echo $responsibility->getId() ?>">
-      <th><?php echo $responsibility->getResponsibility()->getName() ?></th>
-      <td><?php echo $responsibility?></td>
-      <td>
-        Slett:<input name="Responsibility[<?php echo $responsibility->getId() ?>]" type="checkbox" onchange="var row = document.getElementById('responsibility'+<?php echo $responsibility->getId()?>); ((row.childNodes[5].childNodes[1].checked!=false) ? row.style.textDecoration ='line-through': row.style.textDecoration ='none')">
-      </td>
-    </tr>
-    <?php endforeach;?>
-  </table>
+  <?php if($event->getResponsibilities()->count()==0):?>
+    <h4><?php echo __('Ansvarlig')?></h4>
+    <input type="hidden" name="newResponsibility[<?php echo $numNewResponsibility +1?>][respId]" value="1">
+    <select name="newResponsibility[<?php echo $numNewResponsibility +1?>][userId]">
+      <option value=""></option>
+      <?php if(!$user->isMember()):?>
+      <option value="<?php echo $user->getId()?>" selected><?php echo $user->getName()?></option>
+      <?php endif?>
+      <?php foreach ($members as $member):?>
+      <option value="<?php echo $member->getId() ?>" <?php echo ($member->getId() == $user->getId())?'selected':'' ?>>
+              <?php echo $member->getName() ?>
+      </option>
+      <?php endforeach;?>
+    </select><br>
+    <?php echo __(' Eller navn/kommentar:')?>
+    <input  name="newResponsibility[<?php echo $numNewResponsibility +1?>][comment]" type="text">
+  <?php else:?>
+    <h4><?php echo __('Ansvar:') ?></h4>
+    <table>
+      <?php foreach ($event->getResponsibilities() as $responsibility):?>
+      <tr id="responsibility<?php echo $responsibility->getId() ?>">
+        <th><?php echo $responsibility->getResponsibility()->getName() ?></th>
+        <td><?php echo $responsibility?></td>
+        <td>
+          Slett:<input name="Responsibility[<?php echo $responsibility->getId() ?>]" type="checkbox" onchange="deleteResponsibility(<?php echo $responsibility->getId()?>)">
+        </td>
+      </tr>
+      <?php endforeach;?>
+    </table>
   <?php endif;?>
   <h4><?php echo __('Nye Ansvarsområder')?></h4>
   <table>
@@ -171,7 +183,7 @@ if(!empty($error)){
   </table>
   <input type="submit" value="<?php echo __('Lagre hendelse')?>" />
   <a href="<?php echo $routing->newEvent() ?>">
-    <input type="reset" value="<?php echo __('Ny form')?>">
+    <input type="reset" value="<?php echo __('Ny hendelse')?>">
   </a>
 </form>
 <script type="text/javascript" src="assets/liksomSymfony/jsCSS/jquery-1.4.2.min.js"></script>
@@ -181,13 +193,22 @@ if(!empty($error)){
 }
 ?>
 <script type="text/javascript">
+
 $(function() {
    $( "#date" ).datepicker( {
      dateFormat:'yy-mm-dd',
      firstDay:1,
-     numberOfMonths: 1,
-     altField: "#textualDate",
-     altFormat: "DD, d MM, yy"
+     numberOfMonths: 1
    });
+
 });
+function deleteResponsibility(id){
+ var row = document.getElementById('responsibility'+id);
+ var box = row.lastElementChild.lastElementChild;
+ if(box.checked == true){
+    row.style.color ='gray';
+ }else{
+   row.style.color ='black';
+ }
+}
 </script>

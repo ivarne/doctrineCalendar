@@ -11,25 +11,24 @@ require_once __DIR__.'/../include.php';
 $spakers = array();
 $types = array();
 try {
-  echo "\nTruncate all tables: ";
-  truncateTables();
-//echo "OK\nImporter Ordliste: "; importOrdliste();
-  echo "OK\nImporter Talere: ";
-  importTalere();
-  echo "OK\nImporter Hendelse typer: ";
-  importEventPre();
-//echo "OK\nImporter Grupper: "; importGroups();
-  echo "OK\nImporter Hendelser: ";
-  importEvents();
-//echo "OK\nImporterer Nyheter: "; importNews();
-  echo "OK\n";
-  echo "Alt som foreløpig er implementert ble importert vellykket\n";
+//  echo "\nTruncate all tables: ";
+//  truncateTables();
+////echo "OK\nImporter Ordliste: "; importOrdliste();
+//  echo "OK\nImporter Talere: ";
+//  importTalere();
+//  echo "OK\nImporter Hendelse typer: ";
+//  importEventPre();
+////echo "OK\nImporter Grupper: "; importGroups();
+//  echo "OK\nImporter Hendelser: ";
+//  importEvents();
+////echo "OK\nImporterer Nyheter: "; importNews();
+//  echo "OK\n";
+//  echo "Alt som foreløpig er implementert ble importert vellykket\n";
 }catch (Exception $e) {
   echo $e->getTraceAsString()."\n\n";
   echo $e->getMessage()."\n";
 //throw $e;
 }
-
 
 /*
    * importer alle talere fra modx databasen og initialiser
@@ -216,7 +215,7 @@ function importEvents() {
             ->setShort($hendelse['kort_info'], 'no')
             ->setShort($hendelse['kort_info_en'], 'en')
             ->setInfo($hendelse['info'],'no')
-            ->setInfo($hendelse['hendelse_en'], 'en')
+            ->setInfo($hendelse['info_en'], 'en')
             ->setStart(new DateTime($hendelse['start']))
             ->setEnd(new DateTime($hendelse['slutt']))
             ->setIsPublic($hendelse['publisert']=='1')

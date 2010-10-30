@@ -62,6 +62,9 @@ $translations = array(
   'Beklager, noen har redigert denne hendelsen i mellomtiden så du må gjøre dine endringer på nytt'
     => 'Sory, but somone have edited the event since you started, pleace do your edits again',
   'Nei' => 'No',
+  'Tittel' => 'Title',
+  ' Eller navn/kommentar:' => 'Or name/comment',
+  'Ny hendelse' => 'New Event',
 
 )
 ?>

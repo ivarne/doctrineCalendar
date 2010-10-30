@@ -6,10 +6,21 @@ class ModxUser implements UserInterface{
    * @var DocumentParser
    */
   private $modx;
+  /**
+   *
+   * @var \Doctrine\ORM\EntityManager
+   */
+  private $em;
+  /**
+   *
+   * @var \Entities\User
+   */
+  private $doctrineUser;
   private $cache;
-  public function __construct(){
+  public function __construct(\Doctrine\ORM\EntityManager $em){
     global $modx;
     $this->modx = $modx;
+    $this->em = $em;
   }
   public function hasPermission($permission){
     switch ($permission) {
@@ -51,7 +62,11 @@ class ModxUser implements UserInterface{
     return $this->cache['mobilephone'];
   }
   public function isMember(){
-    throw new Exception('Not Implemented');
+    $this->loadDoctrineUser();
+    if($this->doctrineUser == null){
+      return false;
+    }
+    return $this->doctrineUser->isMember();
   }
   public function getLanguage(){
     if(!isset($this->lang)){
@@ -60,5 +75,8 @@ class ModxUser implements UserInterface{
               $this->lang = 'en';
     }
     return $this->lang;
+  }
+  private function loadDoctrineUser(){
+    $this->doctrineUser = $this->em->getRepository('\Entities\User')->find($this->getId());
   }
 }

@@ -12,18 +12,19 @@ if(!true){
 
 
 <h2><?php echo $event->getTitle() ?>: <?php echo $event->getStart('%R')?></h2>
-
+<?php if($event->hasSpeaker()):?>
+<div style="float:right;background-color: #EFFECC;padding: 10px; margin: 10px; border: thin solid black" class="taler">
+  Taler: <em><a href="<?php echo $routing->showSpeaker($event->getSpeaker())?>"><?php echo $event->getSpeaker()->getName()?></a></em>
+  <div><?php echo $event->getSpeaker()->getAbout() ?></div>
+</div>
+<?php endif;?>
 <div style="padding: 10px; background-color: rgb(239, 254, 238);">
   <div class="dato">
     <?php echo $event->getFullDate() ?>
   </div>
-  <?php if($event->hasSpeaker()):?>
-  <div class="taler" title="<?php echo $event->getSpeaker()->getAbout()?>">
-    Taler: <em><?php echo $event->getSpeaker()->getName()?></em>
-  </div>
-  <?php endif;?>
   <div class="short"><?php echo $event->getShort()?></div>
 </div>
+<div style="width:100%;clear: both"></div>
 
 <a href="<?php echo $event->getAddEventToGoogleCalendarLink($routing)?>" target="_blank" style="float: right;">
   <img alt="<?php echo __('Legg til i google calendar')?>" src="http://www.google.com/calendar/images/ext/gc_button2.gif" border=0>
@@ -54,12 +55,12 @@ if(!true){
   <?php if($event->getCreated() != $event->getEdited()):?>
   <tr>
     <th><?php echo __('Endret') ?>:</th>
-    <td><?php echo $event->getEdited('%e. %h. %Y %R') ?> (<?php echo $event->getVersion() .' '.__('ganger') ?>)</td>
+    <td><?php echo $event->getEdited('%e. %h %Y %R') ?> (<?php echo $event->getVersion() .' '.__('ganger') ?>)</td>
   </tr>
   <?php endif;?>
   <tr>
     <th><?php echo __('Opprettet') ?>:</th>
-    <td><?php echo $event->getCreated('%e. %h. %Y %R')?></td>
+    <td><?php echo $event->getCreated('%e. %h %Y %R')?></td>
   </tr>
   <tr>
     <td></td>
@@ -67,41 +68,23 @@ if(!true){
   </tr>
 </table>
 <?php endif;?>
-<?php
-
-/*if(mysql_num_rows($krasj)):
-?>
+<?php if($concurentEvents):?>
 <table>
   <tr>
-    <th colspan="2"><?php echo _trans('Andre hendelser i samme tidsrom') ?></th>
+    <th colspan="2"><?php echo __('Andre hendelser i samme tidsrom') ?></th>
   </tr>
-<?php
-  while($event = mysql_fetch_assoc($krasj)){
-	  $event['start'] = strtotime($event['start']);
-    $event['slutt'] = strtotime($event['slutt']);
-    if($lang == 'gb'){
-    	foreach($transFelt as $felt){
-    		if(!empty($event[$felt.'_en'])){
-    			$event[$felt] = $event[$felt.'_en'];
-    		}
-    	}
-    }
-    ?>
-    <tr>
-      <th><a href="<?php echo $url.'?id='.$event['id'] ?>"><?php echo $event['hendelse']?></a></th>
-      <td>
-        <?php echo $event['kort_info']?>
-        <br>
-        <?php if($event['days']):?>
-          <?php echo strftime($cfg['fulldato'],$event['start']).' - '.strftime($cfg['fulldato'],$event['slutt'])?>
-        <?php else:?>
-          <?php echo strftime($cfg['fulldato'],$event['start']).' - '.strftime('%R',$event['slutt']) ?>
-        <?php endif;?>
-      </td>
-    </tr>
-    <?php
-	}
-?>
+  <?php foreach($concurentEvents as $event):?>
+  <tr>
+    <th><a href="<?php echo $routing->showEvent($event) ?>"><?php echo $event->getTitle()?></a></th>
+    <td>
+      <?php if($event->hasShort()):?>
+      <?php echo $event->getShort()?>
+      <br>
+      <?php endif?>
+      <?php echo $event->getFullDate()?>
+    </td>
+  </tr>
+  <?php endforeach?>
 </table>
 <?php
 endif;//samtidighe hendelser*/

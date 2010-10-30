@@ -12,13 +12,11 @@ class DummyRouting implements RoutingInterface {
     return '?action=CalenderAdmin:edit&amp;event='.$event->getId();
   }
   public function saveEvent(){
-    if($event->getId()!=NULL){
-      return '?action=CalenderAdmin:save&amp;event='.$event->getId();
-    }
+    return 'test.php';
     return '?action=CalenderAdmin:save';
   }
   public function newEvent(){
-    return '?action=CalenderAdmin:newForm';
+    return '?action=CalenderAdmin:main';
   }
   public function deleteEvent(\Entities\Event $event){
    return 'http://laget.net';
@@ -34,5 +32,23 @@ class DummyRouting implements RoutingInterface {
   }
   public function JSONevents(){
     return '';
+  }
+  public function showSpeaker(\Entities\Speaker $speaker){
+    return '?action=SpeakerView:Show&amp;speakerId='.$speaker->getId();
+  }
+  public function listSpeakers(){
+    return '?action=SpeakerView:list';
+  }
+  public function editSpeaker(\Entities\Speaker $speaker){
+    
+  }
+  public function saveSpeaker(\Entities\Speaker $speaker){
+    
+  }
+  public function login(){
+
+  }
+  public function logout(){
+
   }
 }

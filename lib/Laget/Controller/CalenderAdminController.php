@@ -7,12 +7,15 @@ class CalenderAdminController extends BaseController {
 
   public function executeMain() {
     $this->event = new Event();
+    if(isset($_GET['date'])){
+      $this->event->setStart(new \DateTime($_GET['date']));
+    }
     $this->prepareForForm();
     $this->numNewResponsibility = 6;
     return $this->render('admin');
   }
   public function executeEdit() {
-    $this->event = $this->getEventRepository()->find((int)$_GET['event']);
+    $this->event = $this->getEventRepository()->find((int)$_GET['event'],false);
     $this->prepareForForm();
     $this->eventTypeId = $this->event->getType()->getId();
     if($this->event->hasSpeaker())
@@ -25,7 +28,7 @@ class CalenderAdminController extends BaseController {
       $event = new Event();
       $this->getEntityManager()->persist($event);
     }elseif(!empty($_POST)) {
-      $event = $this->getEventRepository()->find((int)$_POST['id']);
+      $event = $this->getEventRepository()->find((int)$_POST['id'],false);
       if($event->getVersion() != $_POST['version']) {
         echo '<span class="error">';
         echo __('Beklager, noen har redigert denne hendelsen i mellomtiden så du må gjøre dine endringer på nytt');
@@ -36,7 +39,6 @@ class CalenderAdminController extends BaseController {
     }else {
       throw new Exception('Beklager, men du kan ikke lagre hendelse uten å poste noe');
     }
-    $event->setEdited(new \DateTime());
 
     $this->error = array();
     $event = $this->populateEventFromPost($event);
@@ -68,21 +70,32 @@ class CalenderAdminController extends BaseController {
             ->setIsPublic($_POST['isPublic']=='on');
 
     //Referanser
-    $event->setType($this->getEntityManager()->getReference('\Entities\EventType', (int)$_POST['event_type']));
+    try{
+      $event->setType($this->getEntityManager()->getRepository('\Entities\EventType')->find((int)$_POST['event_type']));
+    }catch(\Exception $e){
+      $this->error[] = 'The type is invalid. There is no eventType('.(int)$_POST['event_type'].')';
+    }
     if(is_numeric($_POST['speakerId'])) {
-      $event->setSpeaker($this->getEntityManager()->getReference('\Entities\Speaker', $_POST['speakerId']));
+      $event->setSpeaker($this->getEntityManager()->getRepository('\Entities\Speaker')->find( (int)$_POST['speakerId']));
+      if($event->getSpeaker() == NULL){
+        $this->error[] = 'Det finnes ingen taler med id = '.(int)$_POST['speakerId'];
+      }
     }elseif($_POST['newSpeaker']) {
-      $speaker = new \Entities\Speaker($_POST['newSpeaker']);
-      $this->getEntityManager()->persist($speaker);
-      $event->setSpeaker($speaker);
+        $speaker = new \Entities\Speaker($_POST['newSpeaker']);
+        $this->getEntityManager()->persist($speaker);
+        $event->setSpeaker($speaker);
     }
 
     // Slett ansvarsområder
     if(isset($_POST['Responsibility'])) {
       foreach ($_POST['Responsibility'] as $erId => $onOff) {
         if($onOff == 'on') {
-          $er =$this->getEntityManager()->getReference('\Entities\EventResponsibility',(int)$erId);
-          $this->getEntityManager()->remove($er);
+          $er =$this->getEntityManager()->getRepository('\Entities\EventResponsibility')->find((int)$erId);
+          if($er->getEvent()->getId() == $event->getId()){
+            $this->getEntityManager()->remove($er);
+          }else{
+            throw new \Exception('Programeringsfeil: Kunne ikke slette EventResponsibility('.$er->getId().')');
+          }
         }
       }
     }
@@ -93,11 +106,17 @@ class CalenderAdminController extends BaseController {
         continue;
       }
       $resp = $this->em->getRepository('\Entities\Responsibility')->find((int)$newResp['respId']);
+      if($resp == NULL){
+        throw new \Exception('Noe gikk galt!!');
+      }
       $comment = $newResp['comment'];
       if((int)$newResp['userId']) {
         $user = $this->em->getRepository('\Entities\User')->find((int)$newResp['userId']);
-      }elseif($user = $this->em->getRepository('\Entities\User')->search($newResp['comment'])) {
-        $comment = null;
+      }else{
+        $user = $this->em->getRepository('\Entities\User')->search($newResp['comment']);
+        if($user) {
+          $comment = null;
+        }
       }
       $eventResp = new \Entities\EventResponsibility($resp, $user, $comment);
       $this->em->persist($eventResp);
@@ -138,7 +157,7 @@ class CalenderAdminController extends BaseController {
     $this->members = $this->getEntityManager()->getRepository('\Entities\User')->getMembers();
     $this->responsibilities = $this->getEntityManager()->getRepository('\Entities\Responsibility')->findAll();
     $this->eventTypes = $this->getEntityManager()->getRepository('\Entities\EventType')->findAll();
-    $this->numNewResponsibility = 5;
+    $this->numNewResponsibility = 4;
     $this->speakers = $this->getEntityManager()->getRepository('\Entities\Speaker')->findAll();
   }
   /**

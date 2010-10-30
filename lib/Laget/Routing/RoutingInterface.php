@@ -11,4 +11,10 @@ interface RoutingInterface {
   public function publishEvent(\Entities\Event $event);
   public function searchForEvent();
   public function JSONevents();
+  public function showSpeaker(\Entities\Speaker $speaker);
+  public function listSpeakers();
+  public function editSpeaker(\Entities\Speaker $speaker);
+  public function saveSpeaker(\Entities\Speaker $speaker);
+  public function login();
+  public function logout();
 }

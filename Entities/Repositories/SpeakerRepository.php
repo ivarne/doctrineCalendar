@@ -25,16 +25,12 @@ class SpeakerRepository extends EntityRepository
     }
     return $result;
   }
-  public function getNextActiveSpeakers($limit = 10, $offset = 0){
-    $q = $this->getEntityManager()
-            ->createQuery('SELECT s, ');
-    return $q->getResult();
-  }
+
   public function findJoinEvents($id){
     return $this->createQueryBuilder('s')
             ->leftJoin('s.events', 'e')
             ->where('s.id = :id')
-            ->setParameter('id', $id)
+            ->setParameter('id', $id,'integer')
             ->getQuery()
             ->getSingleResult();
   }

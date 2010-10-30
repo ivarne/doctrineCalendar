@@ -50,6 +50,14 @@ class Speaker extends LagetEntity{
    */
   protected $about_en;
   /**
+   * @Column(
+   *  type="integer",
+   *  nullable="true"
+   * )
+   * @Version
+   */
+  private $version;
+  /**
    * @OneToMany(
    *  targetEntity="Event",
    *  mappedBy="speaker"
@@ -70,12 +78,29 @@ class Speaker extends LagetEntity{
   }
   public function setName($name){
     $this->name = $name;
+    return $this;
+  }
+  public function getTelephone(){
+    return $this->telephone;
+  }
+  public function setTelephone($telephone){
+    $this->telephone = $telephone;
+    return $this;
+  }
+  public function getEmail(){
+    return $this->email;
+  }
+  public function setEmail($email){
+    $this->validateEmail($email,'email');
+    $this->email = $email;
+    return $this;
   }
   public function getAbout($lang = NULL){
     $this->getI18n('about', $lang);
   }
   public function setAbout($about,$lang){
     $this->setI18n($about, 'about', $lang);
+    return $this;
   }
   /**
    *

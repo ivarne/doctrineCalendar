@@ -11,6 +11,7 @@ foreach ($events as $event){
     'start' => $event->getStart()->getTimestamp(),
     'end'   => $event->getEnd()->getTimestamp(),
     'url'   => $routing->showEvent($event),
+    'info'  => $event->getShort(),
     'allDay'=> false,
     'className'=> 'kalender_klasse_'.($event->isPublic()?'pub':'upub'),
   );

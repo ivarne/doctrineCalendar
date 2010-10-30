@@ -31,15 +31,22 @@ class UserRepository extends EntityRepository
     }
     return $user;
   }
-  public function getMembers(\DateTime $time = null) {
+  public function getMembers(\DateTime $time = null,$showHidden = false) {
     if (!isset($time)){
       $time = new \DateTime('now');
     }
-    $q = $this->getEntityManager()
-            ->createQuery('SELECT u FROM \Entities\User u WHERE u.internalkey IN (SELECT m.medlem FROM \Entities\Medlemskap m WHERE m.start < :time AND m.slutt > :time) ORDER BY u.fullname')
-            ->setParameter('time', $time->format('Y-m-d'));
+    $q = $this->createQueryBuilder('u')
+            ->where('u.internalkey IN (SELECT m.medlem FROM \Entities\Medlemskap m WHERE m.start < :time AND m.slutt > :time)')
+            ->setParameter('time', $time->format('Y-m-d'))
+            ->orderBy('u.fullname');
+    if(!$showHidden){
+      $q->andWhere('u.hemmelig = 0');
+    }
+//    $q = $this->getEntityManager()
+//            ->createQuery('SELECT u FROM \Entities\User u WHERE u.internalkey IN (SELECT m.medlem FROM \Entities\Medlemskap m WHERE m.start < :time AND m.slutt > :time) ORDER BY u.fullname')
+//            ->setParameter('time', $time->format('Y-m-d'));
     try {
-      return $q->getResult();
+      return $q->getQuery()->getResult();
     } catch (Exception $exc) {
       return NULL;
     }

@@ -188,7 +188,7 @@ class Event extends LagetEntity {
     return $this->getI18n('short', $lang);
   }
   public function hasShort(){
-    return isset($this->short_en) || isset($this->short_no);
+    return strlen($this->short_en) || strlen($this->short_no);
   }
   /**
    *
@@ -226,7 +226,7 @@ class Event extends LagetEntity {
     return $this;
   }
   public function hasInfo(){
-    return isset($this->info_en) || isset($this->info_no);
+    return strlen($this->info_en) || strlen($this->info_no);
   }
   public function getFullInfo($html = true, $lang = NULL) {
     if($html) {
@@ -234,6 +234,9 @@ class Event extends LagetEntity {
     }else {
       return $this->getShort($lang)."\n".$this->getInfo($html, $lang);
     }
+  }
+  public function hasInternalInfo(){
+    return strlen($this->internal_info) != 0;
   }
   public function setInternalInfo($internalInfo){
     $this->internal_info = $internalInfo;
@@ -253,11 +256,23 @@ class Event extends LagetEntity {
     return $this->link;
   }
   /**
-   * Hent brukeren som er ansvarlig for hendelsen
+   * Hent et array med alle som har ansvar for hendelsen (ansvarlig, lyd, bar, kake osv,)
    * @return \Entities\EventResponsibility
    */
-  public function getResponsibilities(){
-    return $this->responsibilities;
+  public function getResponsibilities($type = NULL,$implode = false){
+    if($type == NULL){
+      return $this->responsibilities;
+    }
+    $responsibilities = array();
+    foreach($this->responsibilities as $responsibility){
+      if($responsibility->getResponsibility()->getName('no')== $type){
+        $responsibilities[] = $responsibility;
+      }
+    }
+    if($implode){
+      return implode(' - ',array_map(function($var){return (string)$var;},$responsibilities));
+    }
+    return $responsibilities;
   }
   public function setResponsibility(\Entities\EventResponsibility $responsible) {
     $responsible->setEvent($this);
@@ -299,6 +314,7 @@ class Event extends LagetEntity {
   }
   public function setStart(\DateTime $start) {
     if(isset($this->start)){
+      // Hack to make doctrine not assume that the end time has changed when it has not
       $this->start->setTimestamp($start->getTimestamp());
     }else{
       $this->start = $start;
@@ -307,6 +323,7 @@ class Event extends LagetEntity {
   }
   public function setEnd(\DateTime $end) {
     if(isset($this->end)){
+      // Hack to make doctrine not assume that the end time has changed when it has not
       $this->end->setTimestamp($end->getTimestamp());
     }else{
       $this->end = $end;
@@ -347,9 +364,9 @@ class Event extends LagetEntity {
     }
     if($this->getStart('Ymd')==$this->getEnd('Ymd')) {
       // ikke vis slutt dato da den er lik som start dato
-      return $this->getStart('%e. %h. %Y %R').' - '.$this->getEnd('%R');
+      return $this->getStart('%e. %B %Y %R').' - '.$this->getEnd('%R');
     }
-    return $this->getStart('%e. %h. %Y %R').' - '.$this->getEnd('%e. %h. %Y %R');
+    return $this->getStart('%e. %B %Y %R').' - '.$this->getEnd('%e. %B %Y %R');
   }
   /**
    * Få varigheten på en hendelse i dager
@@ -393,6 +410,7 @@ class Event extends LagetEntity {
     return $url;
   }
   public function isValid(){
+
     return true;
   }
   /**

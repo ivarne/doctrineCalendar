@@ -2,7 +2,7 @@
   <head>
     <title>Kalender test|<?php echo $_GET['action'] ?></title>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-    <script>
+    <script type="javascript">
     function togle(id){
       var elm = document.getElementById(id);
       if(elm.style.display == 'none'){
@@ -33,11 +33,12 @@
     }else{
       die('</body></html>');
     }
-
     $class = '\Laget\Controller\\'.$class.'Controller';
     $routing = new \Laget\Routing\DummyRouting();
     $user = new \Laget\User\DummyUser();
 
+    //\Laget\Controller\SpeakerAdminController::$__lang;
+    //echo $class::$tic;
     $kalender = new $class($em,$routing,$user);
 
     echo $kalender->execute($action);

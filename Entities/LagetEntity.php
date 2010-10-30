@@ -6,6 +6,11 @@ namespace Entities;
  *  fx. funksjonalitet for å kunne ha flere språk.
  */
 class LagetEntity{
+  /**
+   * et array med valideringsfeil på formen
+   * @var array
+   */
+  protected $error = array();
    /**
    * Hjelpefunksjon for å hente info med riktig språk
    * @param <type> $feld
@@ -33,5 +38,12 @@ class LagetEntity{
     }
     $this->$re = $string;
     return $this;
+  }
+  public function validateEmail($email,$feld) {
+    if(!preg_match('', $email)){
+      $this->error[$feld] = 'Eposten validerte ikke';
+      return false;
+    }
+    return true;
   }
 }
