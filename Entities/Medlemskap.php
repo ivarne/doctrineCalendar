@@ -7,6 +7,7 @@ namespace Entities;
  *
  * @Table(name="medlemskap")
  * @Entity
+ * @method \Entities\Medlemskap getRawValue()
  */
 class Medlemskap
 {

@@ -4,6 +4,7 @@ namespace Entities;
 /**
  * @Entity
  * @Table(name="event_responsibility")
+ * @method \Entities\EventResponsibility getRawValue()
  */
 class EventResponsibility {
   /**

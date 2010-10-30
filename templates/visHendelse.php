@@ -14,7 +14,7 @@ if(!true){
 <h2><?php echo $event->getTitle() ?>: <?php echo $event->getStart('%R')?></h2>
 <?php if($event->hasSpeaker()):?>
 <div style="float:right;background-color: #EFFECC;padding: 10px; margin: 10px; border: thin solid black" class="taler">
-  Taler: <em><a href="<?php echo $routing->showSpeaker($event->getSpeaker())?>"><?php echo $event->getSpeaker()->getName()?></a></em>
+  Taler: <em><a href="<?php echo $routing->showSpeaker($event->getSpeaker()->getRawValue())?>"><?php echo $event->getSpeaker()->getName()?></a></em>
   <div><?php echo $event->getSpeaker()->getAbout() ?></div>
 </div>
 <?php endif;?>
@@ -30,7 +30,7 @@ if(!true){
   <img alt="<?php echo __('Legg til i google calendar')?>" src="http://www.google.com/calendar/images/ext/gc_button2.gif" border=0>
 </a>
 <?php if ($event->hasInfo()):?>
-<div style="padding:10px" class="long"><?php echo $event->getInfo()?></div>
+<div style="padding:10px" class="long"><?php echo $event->getInfo('esc_raw')?></div>
 <?php endif;?>
 
 <?php if($user->isLoggedIn()):?>
@@ -64,24 +64,24 @@ if(!true){
   </tr>
   <tr>
     <td></td>
-    <td><a href="<?php echo $routing->editEvent($event)?>"><?php echo __('Rediger')?></a></td>
+    <td><a href="<?php echo $routing->editEvent($event->getRawValue())?>"><?php echo __('Rediger')?></a></td>
   </tr>
 </table>
 <?php endif;?>
-<?php if($concurentEvents):?>
+<?php if(count($concurentEvents)):?>
 <table>
   <tr>
     <th colspan="2"><?php echo __('Andre hendelser i samme tidsrom') ?></th>
   </tr>
-  <?php foreach($concurentEvents as $event):?>
+  <?php foreach($concurentEvents as $Cevent):?>
   <tr>
-    <th><a href="<?php echo $routing->showEvent($event) ?>"><?php echo $event->getTitle()?></a></th>
+    <th><a href="<?php echo $routing->showEvent($Cevent->getRawValue()) ?>"><?php echo $Cevent->getTitle()?></a></th>
     <td>
-      <?php if($event->hasShort()):?>
-      <?php echo $event->getShort()?>
+      <?php if($Cevent->hasShort()):?>
+      <?php echo $Cevent->getShort()?>
       <br>
       <?php endif?>
-      <?php echo $event->getFullDate()?>
+      <?php echo $Cevent->getFullDate()?>
     </td>
   </tr>
   <?php endforeach?>
@@ -90,4 +90,4 @@ if(!true){
 endif;//samtidighe hendelser*/
 ?>
 
-<a href="<?php echo $routing->monthView($event->getStart())?>"><?php echo __('Tilbake til kalenderen') ?></a>
+<a href="<?php echo $routing->monthView($event->getRawValue()->getStart())?>"><?php echo __('Tilbake til kalenderen') ?></a>

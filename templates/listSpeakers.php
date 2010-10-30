@@ -17,7 +17,7 @@ if(false){
   <tbody>
     <?php foreach ($speakers as $speaker):?>
     <tr>
-      <td><a href="<?php echo $routing->showSpeaker($speaker) ?>" title="<?php echo htmlentities($speaker->getAbout(),\ENT_QUOTES,'UTF-8') ?>"><?php echo $speaker->getName()?></a></td>
+      <td><a href="<?php echo $routing->showSpeaker($speaker->getRawValue()) ?>" title="<?php echo $speaker->getAbout() ?>"><?php echo $speaker->getName()?></a></td>
       <td><?php echo $speaker->getNumEvents()?></td>
     </tr>
     <?php endforeach?>

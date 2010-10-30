@@ -26,7 +26,7 @@ if(!empty($error)){
 }
 ?>
 
-<form id="kalender_ny" action="<?php echo 1?$routing->saveEvent($event):'test.php' ?>" method="post">
+<form id="kalender_ny" action="<?php echo 1?$routing->saveEvent($event->getRawValue()):'test.php' ?>" method="post">
   <?php if($event->getId() != null):?>
   <input type="hidden" name="id" value="<?php echo $event->getId()?>">
   <input type="hidden" name="version" value="<?php echo $event->getVersion()?>">

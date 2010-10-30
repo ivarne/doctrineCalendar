@@ -5,7 +5,7 @@ if(false){
   $routing = new \Laget\Routing\DummyRouting();
 }
 ?>
-<form action="<?php $routing->saveSpeaker($speaker)?>" >
+<form action="<?php $routing->saveSpeaker($speaker->getRawValue())?>" >
 <table>
   <tr>
     <th><?php __('Navn');?></th>

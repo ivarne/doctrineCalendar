@@ -4,6 +4,7 @@ namespace Entities;
 /**
  * @Entity
  * @Table(name="event_types")
+ * @method \Entities\EventType getRawValue()
  */
 class EventType extends LagetEntity{
   /**

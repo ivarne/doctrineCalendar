@@ -29,6 +29,10 @@ class CalenderViewController extends BaseController {
     $this->events = $this->getEventRepository()->getNextEvents(6);
     return $this->render('listFrontpage');
   }
+  public function executeListFacebook(){
+    $this->events = $this->getEventRepository()->getNextEvents(10);
+    return $this->render('facebookEvents');
+  }
   public function executeListJson(){
     $datetimestart = new \DateTime();
     $datetimeend = new \Datetime();

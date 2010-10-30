@@ -21,7 +21,7 @@ if(false){
     <td><?php echo $speaker->getTelephone()?></td>
   </tr>
 </table>
-<a href="<?php echo $routing->editSpeaker($speaker)?>"><?php echo __('Rediger talerinfo')?></a>
+<a href="<?php echo $routing->editSpeaker($speaker->getRawValue())?>"><?php echo __('Rediger talerinfo')?></a>
 <?php endif?>
 
 
@@ -37,7 +37,7 @@ if(false){
     <ol>
   <?php endif?>
   <li value="<?php echo $i++ ?>" title="<?php echo $event->getInfo(false) ?>">
-    <a href="<?php echo $routing->showEvent($event)?>"><?php echo $event->getTitle()?></a> (<?php echo utf8_encode($event->getStart('%A %e %B %Y')) ?>)<br>
+    <a href="<?php echo $routing->showEvent($event->getRawValue())?>"><?php echo $event->getTitle()?></a> (<?php echo utf8_encode($event->getStart('%A %e %B %Y')) ?>)<br>
     <?php echo $event->getShort()?>
   </li>
  <?php endforeach;?>

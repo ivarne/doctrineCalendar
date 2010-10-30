@@ -7,6 +7,7 @@ namespace Entities;
  *
  * @Table(name="modx_web_user_attributes")
  * @Entity(repositoryClass="Entities\Repositories\UserRepository")
+ * @method \Entities\User getRawValue()
  */
 class User {
   /**

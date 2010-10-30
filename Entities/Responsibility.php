@@ -4,6 +4,7 @@ namespace Entities;
 /**
  * @Entity(repositoryClass="Entities\Repositories\ResponsibilityRepository")
  * @Table(name="responsibility")
+ * @method \Entities\Responsibility getRawValue()
  */
 class Responsibility extends LagetEntity{
   /**

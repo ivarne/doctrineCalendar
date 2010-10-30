@@ -84,7 +84,10 @@ abstract class BaseController{
       if (!file_exists($templateFile)){
         return '<big><strong>Det skjedde en feil!</strong></big><br> Send en mail til web@laget.net og forklar hva du gjorde og at "'.$templateFile.'" ikke eksisterer.';
       }
-      extract($this->viewVariables);
+      foreach ($this->viewVariables as $key => $value) {
+        $$key = \Symfony\Component\OutputEscaper\Escaper::escape('htmlspecialchars', $value);
+      }
+      //extract($this->viewVariables);
       $routing = $this->routing;
       $user = $this->user;
       require $templateFile;

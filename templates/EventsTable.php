@@ -1,4 +1,7 @@
 <?php
+if(false){
+  $event = new \Entities\Event();
+}
 // vis hvilket år tabellen omfatter(datoen er i kortformat uten årstall)
 $start = $eventsTable[0]->getStart('Y');
 $slutt = $eventsTable[count($eventsTable)-1]->getEnd('Y');
@@ -43,7 +46,7 @@ if($start == $slutt){
       <td><?php echo trim(substr($event->getShort(),0,47)) ?>...</td>
       <?php endif;?>
       <td>
-        <a href="<?php echo $routing->publishEvent($event) ?>">
+        <a href="<?php echo $routing->publishEvent($event->getRawValue()) ?>">
           <?php if($event->isPublic()): ?>
           <img src="" alt="<?php echo __('Upubliser') ?>">
           <?php else:?>

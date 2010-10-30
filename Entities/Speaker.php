@@ -4,6 +4,7 @@ namespace Entities;
 /**
  * @Entity(repositoryClass="Entities\Repositories\SpeakerRepository")
  * @Table(name="speakers")
+ * @method \Entities\Speaker getRawValue()
  */
 class Speaker extends LagetEntity{
     /**

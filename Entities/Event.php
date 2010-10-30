@@ -4,6 +4,7 @@ namespace Entities;
  * @Entity(repositoryClass="Entities\Repositories\EventRepository")
  * @Table(name="eventkalender")
  * @HasLifecycleCallbacks
+ * @method \Entities\Event getRawValue()
  */
 class Event extends LagetEntity {
   /**

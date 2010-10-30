@@ -7,8 +7,8 @@ if(false){
   <?php foreach ($events as $event):?>
   <li>
     <b>
-      <?php echo $event->getStart('%e. %b')?>
-      <a href="<?php echo $routing->showEvent($event) ?>"><?php echo $event->getTitle() ?></a>
+      <?php echo $event->getStart('Ymd') == date('Ymd')?$event->getStart('%R'):$event->getStart('%e. %b')?>
+      <a href="<?php echo $routing->showEvent($event->getRawValue()) ?>"><?php echo $event->getTitle() ?></a>
     </b>
     <br>
     <?php if($event->hasSpeaker()):?>

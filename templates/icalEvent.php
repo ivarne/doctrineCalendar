@@ -191,7 +191,7 @@ foreach ($events as $event) {
 
 
         //Forsøk på å konstruere urlen som inneholder eventinnfo på laget.net
-        $url = $routing->showEvent($event);
+        $url = $routing->showEvent($event->getRawValue());
 
         // Fjern første linjeskift<br> i $lang_tekst
         $lang_tekst = substr($lang_tekst,1);

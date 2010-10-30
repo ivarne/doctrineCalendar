@@ -8,7 +8,7 @@ if(false){
 foreach ($events as $event):?>
 
 <h3>
-  <a href="<?php echo $routing->showEvent($event) ?>"><?php echo $event->getTitle() ?></a>
+  <a href="<?php echo $routing->showEvent($event->getRawValue()) ?>"><?php echo $event->getTitle() ?></a>
 </h3>
 <span>
   <?php echo $event->getFullDate() ?><br>
@@ -25,7 +25,7 @@ foreach ($events as $event):?>
 <div>
   <?php echo $event->getFullInfo()?>
   <?php if($user->hasPermission('redigere hendelser')):?>
-  <a href="<?php echo $routing->editEvent($event)?>">Rediger</a>
+  <a href="<?php echo $routing->editEvent($event->getRawValue())?>">Rediger</a>
   <?php endif;?>
 </div>
 <?php endforeach;?>
