@@ -65,6 +65,7 @@ $translations = array(
   'Tittel' => 'Title',
   ' Eller navn/kommentar:' => 'Or name/comment',
   'Ny hendelse' => 'New Event',
-
+  'Har holdt %num% taler' => 'Has hold %num% speaches',
+  'Gjør upublisert' => 'Unpublish',
 )
 ?>

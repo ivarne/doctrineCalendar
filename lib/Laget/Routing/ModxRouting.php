@@ -17,9 +17,9 @@ class ModxRouting implements RoutingInterface{
     'show' => array('no'=>437,'en'=>438),
     'eventListJSON'=> array('no'=>447,'en'=>446),
     'monthView' => array('no'=> 45,'en'=>174),
-    'showSpeaker' => array('no'=>449,'en'=>0),
-    'editSpeaker' => array('no'=>454,'en'=>0),
-    'listSpakers' => array('no'=>448,'en'=>0),
+    'showSpeaker' => array('no'=>449,'en'=>457),
+    'editSpeaker' => array('no'=>454,'en'=>454),
+    'listSpakers' => array('no'=>448,'en'=>456),
     'login'=>array('no'=> 42, 'en'=> 125),
     'logout'=>array('no'=> 255, 'en'=> 226),
   );
@@ -64,7 +64,7 @@ class ModxRouting implements RoutingInterface{
     return $this->modx->makeUrl($this->docid['showSpeaker'][$this->lang],'','?speakerId='.$speaker->getId());
   }
   public function editSpeaker(\Entities\Speaker $speaker){
-     return $this->modx->makeUrl($this->docid['editSpeaker'][$this->lang],'','?speakerId='.$speaker->getId());
+     return $this->modx->makeUrl($this->docid['editSpeaker'][$this->lang],'','?action=edit&amp;speakerId='.$speaker->getId());
   }
   public function saveSpeaker(\Entities\Speaker $speaker){
     return $this->modx->makeUrl($this->docid['editSpeaker'][$this->lang],'','?action=save&amp;speakerId='.$speaker->getId());

@@ -52,6 +52,20 @@ class Speaker extends LagetEntity{
   protected $about_en;
   /**
    * @Column(
+   *  type="datetime"
+   * )
+   * @var \DateTime
+   */
+  private $created_at;
+  /**
+   * @Column(
+   *  type="datetime"
+   * )
+   * @var \DateTime
+   */
+  private $edited_at;
+  /**
+   * @Column(
    *  type="integer",
    *  nullable="true"
    * )
@@ -70,6 +84,8 @@ class Speaker extends LagetEntity{
 
   public function  __construct() {
     $this->events = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->created_at = new \DateTime();
+    $this->edited_at = new \DateTime();
   }
   public function getId(){
     return $this->id;
@@ -101,7 +117,14 @@ class Speaker extends LagetEntity{
   }
   public function setAbout($about,$lang){
     $this->setI18n($about, 'about', $lang);
+    echo 'About: ('.$about.')';
     return $this;
+  }
+  public function setEdited(\DateTime $d){
+    $this->edited_at = $d;
+  }
+  public function getVersion(){
+    return $this->version;
   }
   /**
    *
@@ -118,6 +141,13 @@ class Speaker extends LagetEntity{
       return $this->numEvents;
     }
     return $this->events->count();
+  }
+  /**
+   *
+   * @todo Implement
+   */
+  public function isValid(){
+    return true;
   }
   public function __tostring(){
     return $this->getName();

@@ -67,6 +67,12 @@ class EventRepository extends EntityRepository
             ->setParameter('from', $from, 'datetime');
     return $q->getQuery()->getResult();
   }
+  /**
+   *
+   * @param <type> $id
+   * @param <type> $onlyPublic
+   * @return \Entities\Event
+   */
   public function find($id,$onlyPublic){
     $q = $this->createQueryBuilder('e')
             ->where('e.id = :id');
@@ -75,6 +81,10 @@ class EventRepository extends EntityRepository
               ->setParameter('true', true,'boolean');
     }
     $q      ->setParameter('id', (int)$id,'integer');
-    return $q->getQuery()->getSingleResult();
+    try{
+      return $q->getQuery()->getSingleResult();
+    }catch(\Doctrine\ORM\NoResultException $e){
+      return null;
+    }
   }
 }

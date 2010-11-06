@@ -6,33 +6,29 @@ use Entities\Speaker;
  *
  * @author ivarne
  */
-class TalerController extends BaseController {
+class SpeakerAdminController extends BaseController {
 
   static $tic = 'tic';
 
   public function executeMain() {
-    return 'hei';
     $this->speaker = new Speaker();
     return $this->render('speakerAdmin');
   }
   public function executeEdit() {
-    $this->speaker = $this->getSpeakerRepository()->find((int)$_GET['event'],false);
-    $this->prepareForForm();
-    $this->eventTypeId = $this->event->getType()->getId();
-    $this->concurentEvents = $this->getEventRepository()->getConcurrentEvents($this->event);
+    $this->speaker = $this->getSpeakerRepository()->find((int)$_GET['speakerId'],false);
     return $this->render('speakerAdmin');
   }
   public function executeSave() {
-    if(!isset($_POST['speakerID'])) {
+    if(!isset($_POST['speakerId'])) {
       $speaker = new Speaker();
       $this->getEntityManager()->persist($event);
-    }elseif(!empty($_POST)) {
-      $speaker = $this->getSpeakerRepository()->find((int)$_POST['speakerID']);
+    }elseif(!empty($_POST['speakerId'])) {
+      $speaker = $this->getSpeakerRepository()->find((int)$_POST['speakerId']);
       if($speaker->getVersion() != $_POST['version']) {
         echo '<span class="error">';
         echo __('Beklager, noen har redigert denne taleren i mellomtiden så du må gjøre dine endringer på nytt');
         echo '</span>';
-        $_GET['speakerID'] = (int)$_POST['speakerID'];
+        $_GET['speakerId'] = (int)$_POST['speakerId'];
         return $this->executeEdit();
       }
     }else {
@@ -45,8 +41,10 @@ class TalerController extends BaseController {
 
     if(empty($this->error) && $speaker->isValid($this->error)) {
       $this->getEntityManager()->flush();
-      header('Location: '.$this->routing->showSpeaker($speaker));
-      die();
+      if($this->routing instanceof \Laget\Routing\ModxRouting){
+        header('Location: '.$this->routing->showSpeaker($speaker));
+        die();
+      }
       return "Talerinfo ble lagret ble lagret";
     }
     else {
@@ -59,7 +57,9 @@ class TalerController extends BaseController {
     $speaker
             ->setName($_POST['name'])
             ->setAbout($_POST['about_no'], 'no')
-            ->setAbout($_POST['about_en'], 'en');
+            ->setAbout($_POST['about_en'], 'en')
+            ->setTelephone($_POST['tlf'])
+            ->setEmail($_POST['email']);
     return $speaker;
   }
 

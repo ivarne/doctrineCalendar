@@ -35,6 +35,7 @@ $classLoader->register();
     require_once 'lib/Laget/Controller/CalenderViewController.php';
     require_once 'lib/Laget/Controller/CalenderAdminController.php';
     require_once 'lib/Laget/Controller/SpeakerViewController.php';
+    require_once 'lib/Laget/Controller/SpeakerAdminController.php';
 
 // Set up caches
 $config = new Configuration;

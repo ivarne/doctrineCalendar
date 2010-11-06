@@ -49,9 +49,8 @@ class CalenderViewController extends BaseController {
   }
   public function executeShowEvent(){
     $onlyPublic = !$this->getUser()->isLoggedIn();
-    try{
-      $event = $this->getEventRepository()->find((int)$_GET['event'],$onlyPublic);
-    }catch(\Exception $e){
+    $event = $this->getEventRepository()->find((int)$_GET['event'],$onlyPublic);
+    if($event == NULL){
       return __('Det finnes ingen hendelse med id: %id% eller du har ikke tilgang til å vise den.<br>Prøv å loge inn',array('%id%'=>(int)$_GET['event']));
     }
     $this->concurentEvents = $this->getEventRepository()->getConcurrentEvents($event);

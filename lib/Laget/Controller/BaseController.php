@@ -111,7 +111,7 @@ abstract class BaseController{
 
   }
   private function setLocale(){
-    setlocale(LC_ALL , strtolower($this->lang)=='no' ? 'no_NO.UTF-8':'en_GB.UTF-8');
+    setlocale(LC_ALL , strtolower($this->lang)=='no' ? 'nb_NO.utf8':'en_US.utf8');
   }
   /**
    * Funksjon som gjør det mulig å gjøre variabler tilgjengelige i et view

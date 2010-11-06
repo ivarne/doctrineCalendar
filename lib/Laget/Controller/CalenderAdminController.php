@@ -16,12 +16,39 @@ class CalenderAdminController extends BaseController {
   }
   public function executeEdit() {
     $this->event = $this->getEventRepository()->find((int)$_GET['event'],false);
+    if($this->event == NULL){
+      return __('Det finnes ingen hendelse med id (%id%',array('%id%'=>htmlspecialchars($_GET['event'])));
+    }
     $this->prepareForForm();
     $this->eventTypeId = $this->event->getType()->getId();
     if($this->event->hasSpeaker())
       $this->speakerId = $this->event->getSpeaker()->getId();
     $this->concurentEvents = $this->getEventRepository()->getConcurrentEvents($this->event);
     return $this->render('admin');
+  }
+  public function executePublish(){
+    $event = $this->getEventRepository()->find((int)$_GET['event'],false);
+    if($event == NULL){
+      return __('Det finnes ingen hendelse med id (%id%',array('%id%'=>htmlspecialchars($_GET['event'])));
+    }
+    $event->setIsPublic(!$event->isPublic());
+    $event->setEdited(new \Datetime());
+    $this->getEntityManager()->flush();
+    header('Location:'.$this->routing->showEvent($event));
+    return 'Hendelsen '.$event->getTitle().' ble '.$event->isPublic()?'publiser':'Upublisert';
+  }
+  public function executeDelete(){
+    $event = $this->getEventRepository()->find((int)$_GET['event'],false);
+    if($event == NULL){
+      return __('Det finnes ingen hendelse med id (%id%)',array('%id%'=>htmlspecialchars($_GET['event'])));
+    }
+    if(!isset($_POST['bekreft_sletting']) || $_GET['event']!=$_POST['event']){
+      $this->event = $event;
+      return $this->render('deleteEvent');
+    }
+    $this->getEntityManager()->remove($event);
+    $this->getEntityManager()->flush();
+    return 'Hendelsen '.$event->getTitle().' ble slettet (dette kan ikke angres)';
   }
   public function executeSave() {
     if(!isset($_POST['id'])) {

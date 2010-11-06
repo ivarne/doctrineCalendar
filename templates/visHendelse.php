@@ -64,9 +64,21 @@ if(!true){
   </tr>
   <tr>
     <td></td>
-    <td><a href="<?php echo $routing->editEvent($event->getRawValue())?>"><?php echo __('Rediger')?></a></td>
+    <td>
+      <a href="<?php echo $routing->editEvent($event->getRawValue())?>"><?php echo __('Rediger')?></a>
+      <a href="<?php echo $routing->deleteEvent($event->getRawValue())?>"><?php echo __('Slett')?></a>
+      <?php if($event->isPublic()):?>
+      <a href="<?php echo $routing->publishEvent($event->getRawValue())?>"><?php echo __('Gjør upublisert')?></a>
+      <?php else:?>
+      <a href="<?php echo $routing->publishEvent($event->getRawValue())?>"><?php echo __('Publiser')?></a>
+      <?php endif?>
+    </td>
   </tr>
 </table>
+<div style="width: 300px">
+  Intern info:<br>
+  <?php echo $event->getInternalInfo();?>
+</div>
 <?php endif;?>
 <?php if(count($concurentEvents)):?>
 <table>

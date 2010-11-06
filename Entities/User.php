@@ -5,7 +5,7 @@ namespace Entities;
 /**
  * ModxWebUserAttributes
  *
- * @Table(name="modx_web_user_attributes")
+ * @Table(name="modx_web_users")
  * @Entity(repositoryClass="Entities\Repositories\UserRepository")
  * @method \Entities\User getRawValue()
  */
@@ -20,229 +20,17 @@ class User {
   private $id;
 
   /**
-   * @var integer $internalkey
-   *
-   * @Column(name="internalKey", type="integer", nullable=false)
+   * @Column(type="string", length="100", nullable=false, unique=true)
    */
-  private $internalkey;
-
+  private $username;
   /**
-   * @var string $fullname
-   *
-   * @Column(name="fullname", type="string", length=100, nullable=false)
+   * @Column(type="string", length="100", nullable=false)
    */
-  private $fullname;
-
+  private $password;
   /**
-   * @var integer $role
-   *
-   * @Column(name="role", type="integer", nullable=false)
+   * @Column(type="string", length="100", nullable=false)
    */
-  private $role;
-
-  /**
-   * @var string $email
-   *
-   * @Column(name="email", type="string", length=100, nullable=false)
-   */
-  private $email;
-
-  /**
-   * @var string $phone
-   *
-   * @Column(name="phone", type="string", length=100, nullable=true)
-   */
-  private $phone;
-
-  /**
-   * @var string $mobilephone
-   *
-   * @Column(name="mobilephone", type="string", length=100, nullable=true)
-   */
-  private $mobilephone;
-
-  /**
-   * @var integer $blocked
-   *
-   * @Column(name="blocked", type="integer", nullable=false)
-   */
-  private $blocked;
-
-  /**
-   * @var integer $blockeduntil
-   *
-   * @Column(name="blockeduntil", type="integer", nullable=false)
-   */
-  private $blockeduntil;
-
-  /**
-   * @var integer $blockedafter
-   *
-   * @Column(name="blockedafter", type="integer", nullable=false)
-   */
-  private $blockedafter;
-
-  /**
-   * @var integer $logincount
-   *
-   * @Column(name="logincount", type="integer", nullable=false)
-   */
-  private $logincount;
-
-  /**
-   * @var integer $lastlogin
-   *
-   * @Column(name="lastlogin", type="integer", nullable=false)
-   */
-  private $lastlogin;
-
-  /**
-   * @var integer $thislogin
-   *
-   * @Column(name="thislogin", type="integer", nullable=false)
-   */
-  private $thislogin;
-
-  /**
-   * @var integer $failedlogincount
-   *
-   * @Column(name="failedlogincount", type="integer", nullable=false)
-   */
-  private $failedlogincount;
-
-  /**
-   * @var string $sessionid
-   *
-   * @Column(name="sessionid", type="string", length=100, nullable=false)
-   */
-  private $sessionid;
-
-  /**
-   * @var integer $dob
-   *
-   * @Column(name="dob", type="integer", nullable=false)
-   */
-  private $dob;
-
-  /**
-   * @var integer $gender
-   *
-   * @Column(name="gender", type="integer", nullable=false)
-   */
-  private $gender;
-
-  /**
-   * @var string $country
-   *
-   * @Column(name="country", type="string", length=5, nullable=false)
-   */
-  private $country;
-
-  /**
-   * @var string $state
-   *
-   * @Column(name="state", type="string", length=25, nullable=false)
-   */
-  private $state;
-
-  /**
-   * @var string $zip
-   *
-   * @Column(name="zip", type="string", length=25, nullable=false)
-   */
-  private $zip;
-
-  /**
-   * @var string $fax
-   *
-   * @Column(name="fax", type="string", length=100, nullable=false)
-   */
-  private $fax;
-
-  /**
-   * @var string $photo
-   *
-   * @Column(name="photo", type="string", length=255, nullable=false)
-   */
-  private $photo;
-
-  /**
-   * @var string $comment
-   *
-   * @Column(name="comment", type="string", length=255, nullable=false)
-   */
-  private $comment;
-
-  /**
-   * @var string $adrTrheim
-   *
-   * @Column(name="adr_trheim", type="string", length=100, nullable=true)
-   */
-  private $adrTrheim;
-
-  /**
-   * @var string $pnrTrheim
-   *
-   * @Column(name="pnr_trheim", type="string", length=8, nullable=true)
-   */
-  private $pnrTrheim;
-
-  /**
-   * @var string $adrHeim
-   *
-   * @Column(name="adr_heim", type="string", length=100, nullable=true)
-   */
-  private $adrHeim;
-
-  /**
-   * @var string $pnrHeim
-   *
-   * @Column(name="pnr_heim", type="string", length=8, nullable=true)
-   */
-  private $pnrHeim;
-
-  /**
-   * @var string $tlfHeim
-   *
-   * @Column(name="tlf_heim", type="string", length=15, nullable=true)
-   */
-  private $tlfHeim;
-
-  /**
-   * @var string $studiested
-   *
-   * @Column(name="studiested", type="string", length=100, nullable=true)
-   */
-  private $studiested;
-
-  /**
-   * @var date $startaar
-   *
-   * @Column(name="startaar", type="date", nullable=true)
-   */
-  private $startaar;
-
-  /**
-   * @var date $fodselsdato
-   *
-   * @Column(name="fodselsdato", type="date", nullable=true)
-   */
-  private $fodselsdato;
-
-  /**
-   * @var integer $hemmelig
-   *
-   * @Column(name="hemmelig", type="integer", nullable=true)
-   */
-  private $hemmelig;
-
-  /**
-   * @var integer $godkjent
-   *
-   * @Column(name="godkjent", type="integer", nullable=false)
-   */
-  private $godkjent;
-
+  private $cachepwd;
   /**
    * @OneToMany(
    *  targetEntity="EventResponsibility",
@@ -252,33 +40,37 @@ class User {
    */
   private $eventResponsibilites;
 
+  /**
+   * @OneToOne(targetEntity="User_atteributes", mappedBy="internalkey")
+   * @var \Entities\User_atteributes
+   */
+  private $atteributes;
+
   public function getId() {
-    return $this->internalkey;
+    return $this->id;
   }
   public function getName() {
-    return $this->fullname;
+    return $this->atteributes->getName();
   }
-  public function getFirstName(){
-    $names = explode(' ', $this->fullname, 2);
-    return $names[0];
+  public function getFirstName() {
+    return $this->atteributes->getFirstName();
   }
-  public function getLastName(){
-    $names = explode(' ', $this->fullname, 2);
-    return @$names[1];
+  public function getLastName() {
+    return $this->atteributes->getLastName();
   }
   public function getEmail() {
-    return $this->email;
+    return $this->atteributes->getLastName();
   }
   public function getTlf() {
-    return $this->mobilephone;
+    return $this->atteributes->getTlf();
   }
   public function isSecret() {
-    return $this->hemmelig;
+    return $this->atteributes->isSecret();
   }
   public function isMember() {
-    return $this->godkjent;
+    return $this->atteributes->isMember();
   }
-  public function __toString(){
+  public function __toString() {
     return htmlspecialchars( $this->getName(),\ENT_QUOTES , 'UTF-8');
   }
 }

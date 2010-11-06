@@ -1,4 +1,18 @@
-<html>
+<?php
+if (!isset($_SERVER['PHP_AUTH_USER'])) {
+    header('WWW-Authenticate: Basic realm="My Realm"');
+    header('HTTP/1.0 401 Unauthorized');
+    echo 'Text to send if user hits Cancel button';
+    exit;
+} elseif ($_SERVER['PHP_AUTH_USER'] == 'kammar' &&$_SERVER['PHP_AUTH_PW'] == 'kammar' ) {
+  //do nothing
+}else{
+  die();
+}
+error_reporting(E_ALL);
+
+ ini_set("display_errors", 1); 
+?><html>
   <head>
     <title>Kalender test|<?php echo $_GET['action'] ?></title>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
@@ -21,8 +35,6 @@
       <a href="?action=CalenderView:visHendelse&amp;event=300">Vis Hendelse</a>
     </div>
     <?php
-
-    error_reporting(E_ALL);
     $microtime = microtime(true);
     
     $debug = true;
@@ -39,6 +51,7 @@
 
     //\Laget\Controller\SpeakerAdminController::$__lang;
     //echo $class::$tic;
+
     $kalender = new $class($em,$routing,$user);
 
     echo $kalender->execute($action);

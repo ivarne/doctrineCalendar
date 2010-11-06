@@ -13,7 +13,10 @@ class EventResponsibility {
    */
   private $id;
   /**
-   * @ManyToOne(targetEntity="Event",inversedBy="responsibilities")
+   * @ManyToOne(
+   *   targetEntity="Event",
+   *   inversedBy="responsibilities"
+   * )
    * @var Event
    */
   private $event;

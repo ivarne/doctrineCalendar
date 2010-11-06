@@ -6,7 +6,7 @@ class DummyRouting implements RoutingInterface {
     
   }
   public function showEvent(\Entities\Event $event){
-    return '?action=CalenderView:visHendelse&amp;event='.$event->getId();
+    return '?action=CalenderView:showEvent&amp;event='.$event->getId();
   }
   public function editEvent(\Entities\Event $event){
     return '?action=CalenderAdmin:edit&amp;event='.$event->getId();
@@ -40,10 +40,10 @@ class DummyRouting implements RoutingInterface {
     return '?action=SpeakerView:list';
   }
   public function editSpeaker(\Entities\Speaker $speaker){
-    
+    return '?action=SpeakerAdmin:edit&amp;speakerId='.$speaker->getId();
   }
   public function saveSpeaker(\Entities\Speaker $speaker){
-    
+    return '?action=SpeakerAdmin:save&amp;speakerId='.$speaker->getId();
   }
   public function login(){
 

@@ -40,7 +40,7 @@ class LagetEntity{
     return $this;
   }
   public function validateEmail($email,$feld) {
-    if(!preg_match('', $email)){
+    if(strpos( $email,'@') === false){
       $this->error[$feld] = 'Eposten validerte ikke';
       return false;
     }

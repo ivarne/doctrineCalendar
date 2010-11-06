@@ -22,7 +22,7 @@ class UserRepository extends EntityRepository
       return NULL; // Greit å ikke være redd for å sende bortkastede query'er
     }
     $q = $this->getEntityManager()
-              ->createQuery('SELECT u FROM \Entities\User u WHERE u.fullname = :any OR u.email = :any OR u.mobilephone = :any')
+              ->createQuery('SELECT u FROM \Entities\User u JOIN u.atteributes a WHERE a.fullname = :any OR a.email = :any OR a.mobilephone = :any')
               ->setParameter('any', $anything);
     try{
       $user =  $q->getSingleResult();
@@ -35,21 +35,35 @@ class UserRepository extends EntityRepository
     if (!isset($time)){
       $time = new \DateTime('now');
     }
-    $q = $this->createQueryBuilder('u')
-            ->where('u.internalkey IN (SELECT m.medlem FROM \Entities\Medlemskap m WHERE m.start < :time AND m.slutt > :time)')
+    $q = $this->getEntityManager()->createQueryBuilder()
+            ->select('u,a')
+            ->from('\Entities\User', 'u')
+            ->leftJoin('u.atteributes', 'a')
+            ->where('u.id IN (SELECT m.medlem FROM \Entities\Medlemskap m WHERE m.start < :time AND m.slutt > :time)')
             ->setParameter('time', $time->format('Y-m-d'))
-            ->orderBy('u.fullname');
+            ->orderBy('a.fullname');
     if(!$showHidden){
-      $q->andWhere('u.hemmelig = 0');
+      $q->andWhere('a.hemmelig = 0');
     }
-//    $q = $this->getEntityManager()
-//            ->createQuery('SELECT u FROM \Entities\User u WHERE u.internalkey IN (SELECT m.medlem FROM \Entities\Medlemskap m WHERE m.start < :time AND m.slutt > :time) ORDER BY u.fullname')
-//            ->setParameter('time', $time->format('Y-m-d'));
     try {
       return $q->getQuery()->getResult();
     } catch (Exception $exc) {
       return NULL;
     }
+    $this->createQueryBuilder($alias);
 
+  }
+  public function find($id){
+    $q = $this->getEntityManager()->createQueryBuilder()
+            ->select('u,a')
+            ->from('\Entities\User', 'u')
+            ->leftJoin('u.atteributes', 'a')
+            ->where('u.id = ?1')
+            ->setParameter(1, $id,'integer');
+    try {
+      return $q->getQuery()->getSingleResult();
+    } catch (Exception $exc) {
+      return NULL;
+    }
   }
 }

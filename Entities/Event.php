@@ -126,7 +126,7 @@ class Event extends LagetEntity {
    */
   private $speaker;
   /**
-   * @OneToMany(targetEntity="EventResponsibility", mappedBy="event")
+   * @OneToMany(targetEntity="EventResponsibility", mappedBy="event", cascade={"persist", "remove"})
    * @var \Entities\EventResponsibility
    */
   private $responsibilities;
@@ -431,7 +431,19 @@ class Event extends LagetEntity {
     if($format == NULL) {
       return $datetime;
     }
+
     if(strpos($format,'%')!==false) {
+      // fiks ø i lørdag og søndag
+      if(\Laget\Controller\BaseController::$__lang == 'no'
+            && (strpos($format,'%a')!==false || strpos($format,'%A')!==false)) {
+        switch ($datetime->format('w')) {
+          case 0:
+            $format = strtr($format,array('%a'=>'s&oslash;n','%A'=>'s&oslash;ndag'));
+            break;
+          case 6:
+            $format = strtr($format,array('%a'=>'l&oslash;r','%A'=>'l&oslash;rdag'));
+        }
+      }
       return strftime($format, $datetime->getTimestamp());
     }
     return $datetime->format($format);
