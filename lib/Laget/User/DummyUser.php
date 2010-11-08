@@ -2,6 +2,10 @@
 namespace Laget\User;
 
 class DummyUser implements UserInterface{
+  private $em;
+  public function __construct(\Doctrine\ORM\EntityManager $em){
+    $this->em = $em;
+  }
   public function hasPermission($permission){
     return true;
   }
@@ -29,5 +33,15 @@ class DummyUser implements UserInterface{
       return $_GET['lang'];
     }
     return 'no';
+  }
+  public function getDoctrineUser(){
+    return $this->getUserRepository()->find($this->getId());
+  }
+  /**
+   *
+   * @return \Entities\Repositories\UserRepository
+   */
+  private function getUserRepository(){
+    return $this->em->getRepository('\Entities\User');
   }
 }

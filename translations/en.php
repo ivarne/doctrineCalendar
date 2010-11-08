@@ -67,5 +67,25 @@ $translations = array(
   'Ny hendelse' => 'New Event',
   'Har holdt %num% taler' => 'Has hold %num% speaches',
   'Gjør upublisert' => 'Unpublish',
+  "Det finnes ingen hendelse med id: %id% eller du har ikke tilgang til å vise den.<br>Prøv å loge inn" => 'There is no event with id: %id%',
+  'Påmelding' => 'Registration',
+  'Du er logget inn. Hvis dataene nede er feil kan du endre dem under endre medlemsdata i menyen til høyre' => 'You are logged inn, if your data is wrong you should change it in the left column "Edit my data"',
+  'Navn' => 'Name',
+  'Epost' => 'Email',
+  'Mobiltelefonnummer' => 'Moblie phone',
+  'Publisering' => 'Publisation',
+  'Bare administratorer' => 'Only Administrators',
+  'Innloggede brukere' => 'Logged inn users',
+  'Vis til alle at jeg er påmeldt' => 'Show everybody',
+  'Kommentar' => 'Comment',
+  'Velg en oppgave' => 'Choose a task',
+  'Totalt %num_task% oppgaver og %num_free% ledige' => '%num_task% tasks in total and %num_free% free',
+  'Meld meg på!' => 'Registrer me!',
+  'Totalt er det %num% påmeldt og du kan se disse' => 'There is %num% registrerd and you\'re authorized to see those listed',
+  'Gruppe' => 'Group',
+  'Telefon' => 'Telephone',
+  'Du er ikke logget inn, hvis du er medlem setter vi pris på om du <a href="%a%">logger inn</a> før du melder deg på. Det er også en fin annleding til å skjekke at medlemsdataene stemmer.'=>
+  'You are not logged inn, but if you are a member we\'ll apreciate if you <a href="%a%">logg inn</a> before you registrer. It\'s also nice if you\'ll check if your member data is correct.',
+
 )
 ?>

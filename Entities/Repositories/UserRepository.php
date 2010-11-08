@@ -26,7 +26,7 @@ class UserRepository extends EntityRepository
               ->setParameter('any', $anything);
     try{
       $user =  $q->getSingleResult();
-    }catch (\Exception $e){
+    }catch (\NoResultException $e){
       return NULL;
     }
     return $user;
@@ -45,13 +45,7 @@ class UserRepository extends EntityRepository
     if(!$showHidden){
       $q->andWhere('a.hemmelig = 0');
     }
-    try {
-      return $q->getQuery()->getResult();
-    } catch (Exception $exc) {
-      return NULL;
-    }
-    $this->createQueryBuilder($alias);
-
+    return $q->getQuery()->getResult();
   }
   public function find($id){
     $q = $this->getEntityManager()->createQueryBuilder()
@@ -62,7 +56,7 @@ class UserRepository extends EntityRepository
             ->setParameter(1, $id,'integer');
     try {
       return $q->getQuery()->getSingleResult();
-    } catch (Exception $exc) {
+    } catch (\Doctrine\ORM\NoResultException $exc) {
       return NULL;
     }
   }

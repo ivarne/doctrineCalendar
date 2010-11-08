@@ -131,10 +131,66 @@ class Event extends LagetEntity {
    */
   private $responsibilities;
   /**
+   * @OneToMany(
+   *  targetEntity="Registration",
+   *  mappedBy="event"
+   * )
+   * @OrderBy({"name"="ASC"})
+   * @var Entities\Registration
+   */
+  private $registrations;
+  /**
+   * @OneToMany(
+   *  targetEntity="RegistrationTask",
+   *  mappedBy="event"
+   * )
+   */
+  private $registrationTasks;
+  /**
+   * @Column(type="boolean")
+   * @var boolean
+   */
+  private $hasRegistration = false;
+  /**
+   * @Column(
+   *  type="text",
+   *  nullable=true
+   * )
+   */
+  protected $registration_mail_no;
+  /**
+   * @Column(
+   *  type="text",
+   *  nullable=true
+   * )
+   */
+  protected $registration_mail_en;
+
+  /**
+   * @Column(
+   *  type="decimal",
+   *  nullable=true
+   * )
+   */
+  private $price_member;
+
+  /**
+   * @Column(
+   *  type="decimal",
+   *  nullable=true
+   * )
+   */
+  private $price_non_member;
+
+
+
+  /**
    *
    */
   public function __construct() {
     $this->responsibilities = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->registrations = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->registrationTasks = new \Doctrine\Common\Collections\ArrayCollection();
   }
   /**
    * Get id
@@ -275,10 +331,26 @@ class Event extends LagetEntity {
     }
     return $responsibilities;
   }
+  public function getRegistrationTasks(){
+    return $this->registrationTasks;
+  }
+  public function getRegistrations(){
+    return $this->registrations;
+  }
+  public function hasRegistration(){
+    return $this->hasRegistration;
+  }
   public function setResponsibility(\Entities\EventResponsibility $responsible) {
     $responsible->setEvent($this);
     $this->responsibilities[] = $responsible;
     return $this;
+  }
+  public function isRegistred(User $user){
+    foreach($this->registrations as $reg){
+      if($reg->getUser() && $reg->getUser()->getId()==$user->getId())
+              return true;
+    }
+    return false;
   }
   public function getSpeaker() {
     return $this->speaker;
@@ -399,6 +471,27 @@ class Event extends LagetEntity {
     $this->edited_at = $edited;
     return $this;
   }
+    public function getMail($lang = null){
+    return $this->getI18n('registration_mail', $lang);
+  }
+  public function setMail($mail,$lang){
+    $this->setI18n($mail, 'registration_mail', $lang);
+    return $this;
+  }
+  public function getPriceMember(){
+    return $this->price_member;
+  }
+  public function setPriceMember($price){
+    $this->price_member = $price;
+    return $this;
+  }
+  public function getPriceNonMember(){
+    return $this->price_non_member;
+  }
+  public function setPriceNonMember($price){
+    $this->price_non_member = $price;
+    return $this;
+  }
   public function getAddEventToGoogleCalendarLink(\Laget\Routing\RoutingInterface $routing = NULL) {
     $url =  'http://www.google.com/calendar/event?action=TEMPLATE'.
             '&amp;text='. urlencode($this->getTitle()).
@@ -426,26 +519,5 @@ class Event extends LagetEntity {
    */
   public function preUpdate(){
     $this->edited_at->setTimestamp(time());
-  }
-  private function formatDateTime(\DateTime $datetime,$format){
-    if($format == NULL) {
-      return $datetime;
-    }
-
-    if(strpos($format,'%')!==false) {
-      // fiks ø i lørdag og søndag
-      if(\Laget\Controller\BaseController::$__lang == 'no'
-            && (strpos($format,'%a')!==false || strpos($format,'%A')!==false)) {
-        switch ($datetime->format('w')) {
-          case 0:
-            $format = strtr($format,array('%a'=>'s&oslash;n','%A'=>'s&oslash;ndag'));
-            break;
-          case 6:
-            $format = strtr($format,array('%a'=>'l&oslash;r','%A'=>'l&oslash;rdag'));
-        }
-      }
-      return strftime($format, $datetime->getTimestamp());
-    }
-    return $datetime->format($format);
   }
 }

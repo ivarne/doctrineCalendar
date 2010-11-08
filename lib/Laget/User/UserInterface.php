@@ -1,6 +1,7 @@
 <?php
 namespace Laget\User;
 interface UserInterface{
+  public function __construct(\Doctrine\ORM\EntityManager $em);
   public function hasPermission($permission);
   public function getId();
   public function isLoggedIn();
@@ -9,4 +10,5 @@ interface UserInterface{
   public function getTelephone();
   public function isMember();
   public function getLanguage();
+  public function getDoctrineUser();
 }

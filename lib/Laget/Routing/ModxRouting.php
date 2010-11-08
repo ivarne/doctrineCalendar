@@ -22,6 +22,7 @@ class ModxRouting implements RoutingInterface{
     'listSpakers' => array('no'=>448,'en'=>456),
     'login'=>array('no'=> 42, 'en'=> 125),
     'logout'=>array('no'=> 255, 'en'=> 226),
+    'saveRegistration' => array('no'=>458,'en'=>459),
   );
   private $modx;
   private $lang;
@@ -31,55 +32,63 @@ class ModxRouting implements RoutingInterface{
     $this->lang = $lang;
   }
   public function showEvent(\Entities\Event $event){
-    return $this->modx->makeUrl($this->docid['show'][$this->lang], '', '?event='.$event->getId());
+    return $this->makeUrl('show', '?event='.$event->getId());
   }
   public function monthView(\DateTime $date){
-    return $this->modx->makeUrl($this->docid['monthView'][$this->lang], '', '#'.$date->format('Y-m-d').'?month');
+    return $this->makeUrl('monthView', '#'.$date->format('Y-m-d').'?month');
   }
   public function editEvent(\Entities\Event $event){
-    return $this->modx->makeUrl($this->docid['edit'][$this->lang],'', '?action=edit&event='.$event->getId());
+    return $this->makeUrl('edit', '?action=edit&event='.$event->getId());
   }
   public function deleteEvent(\Entities\Event $event){
-    return $this->modx->makeUrl($this->docid['edit'][$this->lang],'', '?action=delete&event='.$event->getId());
+    return $this->makeUrl('edit', '?action=delete&event='.$event->getId());
   }
   public function saveEvent(){
-    return $this->modx->makeUrl($this->docid['edit'][$this->lang],'', '?action=save');
+    return $this->makeUrl('edit', '?action=save');
   }
   public function publishEvent(\Entities\Event $event){
-    return $this->modx->makeUrl($this->docid['edit'][$this->lang],'', '?action=publish&event='.$event->getId());
+    return $this->makeUrl('edit', '?action=publish&event='.$event->getId());
   }
   public function searchForEvent(){
     return '';
   }
   public function newEvent(){
-    return $this->modx->makeUrl($this->docid['edit'][$this->lang],'', '');
+    return $this->makeUrl('edit');
   }
   public function JSONevents(){
-    return $this->modx->makeUrl($this->docid['eventListJSON'][$this->lang],'','');
+    return $this->makeUrl('eventListJSON');
   }
   public function listSpeakers(){
-    return $this->modx->makeUrl($this->docid['listSpeakers'][$this->lang],'','');
+    return $this->makeUrl('listSpeakers');
   }
   public function showSpeaker(\Entities\Speaker $speaker){
-    return $this->modx->makeUrl($this->docid['showSpeaker'][$this->lang],'','?speakerId='.$speaker->getId());
+    return $this->makeUrl('showSpeaker','?speakerId='.$speaker->getId());
   }
   public function editSpeaker(\Entities\Speaker $speaker){
-     return $this->modx->makeUrl($this->docid['editSpeaker'][$this->lang],'','?action=edit&amp;speakerId='.$speaker->getId());
+     return $this->makeUrl('editSpeaker','?action=edit&amp;speakerId='.$speaker->getId());
   }
   public function saveSpeaker(\Entities\Speaker $speaker){
-    return $this->modx->makeUrl($this->docid['editSpeaker'][$this->lang],'','?action=save&amp;speakerId='.$speaker->getId());
+    return $this->makeUrl('editSpeaker','?action=save&amp;speakerId='.$speaker->getId());
   }
   public function login(){
-    return $this->modx->makeUrl($this->docid['login'][$this->lang],'','');
+    return $this->makeUrl('login');
   }
   public function logout(){
-    return $this->modx->makeUrl($this->docid['logout'][$this->lang],'','');
+    return $this->makeUrl('logout');
   }
+  public function saveRegistration(\Entities\Event $event){
+    return $this->makeUrl('saveRegistration', '?action=registrer&amp;event_id='.$event->getId());
+  }
+
+  private function makeUrl($page,$param = ''){
+    return $this->modx->makeUrl($this->docid[$page][$this->lang],'',$param);
+  }
+
   /*
    * GAMLE FUNKSJONER SOM MÅ SKRIVES OM (men som kansje inneholder interessant innfo)
    *
    */
-    public function makeUrlForThis(){
+  public function makeUrlForThis(){
     return $this->makeUrlDocID($this->modx->documentIdentifier);
   }
   public function makeUrlForEvent(Event $event) {

@@ -39,7 +39,14 @@ class User {
    * @var Entities\Event
    */
   private $eventResponsibilites;
-
+  /**
+   * @OneToMany(
+   *  targetEntity="Registration",
+   *  mappedBy="user"
+   * )
+   * @var Entities\Registration
+   */
+  private $registrations;
   /**
    * @OneToOne(targetEntity="User_atteributes", mappedBy="internalkey")
    * @var \Entities\User_atteributes

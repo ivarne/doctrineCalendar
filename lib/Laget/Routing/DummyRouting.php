@@ -51,4 +51,7 @@ class DummyRouting implements RoutingInterface {
   public function logout(){
 
   }
+  public function saveRegistration(\Entities\Event $event){
+
+  }
 }

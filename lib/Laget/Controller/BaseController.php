@@ -48,6 +48,16 @@ abstract class BaseController{
     }
     $this->setLocale();
   }
+  /**
+   *
+   * @return \Swift_Mailer
+   */
+  public function createMailer(){
+    require_once __DIR__.'/../../../vendor/Swift-4.0.6/lib/swift_required.php';
+    $transport = \Swift_MailTransport::newInstance();
+    //Create the Mailer using your created Transport
+    return \Swift_Mailer::newInstance($transport);
+  }
   protected function getEntityManager(){
     return $this->em;
   }

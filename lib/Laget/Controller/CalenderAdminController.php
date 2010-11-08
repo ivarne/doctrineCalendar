@@ -53,7 +53,6 @@ class CalenderAdminController extends BaseController {
   public function executeSave() {
     if(!isset($_POST['id'])) {
       $event = new Event();
-      $this->getEntityManager()->persist($event);
     }elseif(!empty($_POST)) {
       $event = $this->getEventRepository()->find((int)$_POST['id'],false);
       if($event->getVersion() != $_POST['version']) {
@@ -71,6 +70,9 @@ class CalenderAdminController extends BaseController {
     $event = $this->populateEventFromPost($event);
 
     if(empty($this->error) && $event->isValid($this->error)) {
+      if(!isset($_POST['id'])){
+        $this->getEntityManager()->persist($event);
+      }
       $this->getEntityManager()->flush();
       header('Location: '.$this->routing->showEvent($event));
       die();

@@ -23,16 +23,25 @@ class ModxUser implements UserInterface{
     $this->em = $em;
   }
   public function hasPermission($permission){
+     if($permission == 'alle')
+        return true;
+    $groups = $this->modx->getUserDocGroups(true);
+    if($groups == null){
+      return false;
+    }
     switch ($permission) {
       case 'intern_info':
-        return $this->modx->isMemberOfWebGroup('programbehandling');
-        break;
+        return in_array('programbehandling',$groups);
       case 'se upubliserte':
-        return $this->modx->isMemberOfWebGroup('programbehandling');
-        break;
+        return in_array('programbehandling',$groups);
       case 'redigere hendelser':
-        return $this->modx->isMemberOfWebGroup('programbehandling');
-        break;
+        return in_array('programbehandling',$groups);
+      case 'se alle påmeldte':
+        return in_array('programbehandling',$groups);
+      case 'logged inn':
+        return $this->isLoggedIn();
+      case 'member':
+        return $this->isMember();
       default:
         throw new \Exception('hasPermission kalt med ugyldig permission ('.$permission.')');
     }
@@ -77,6 +86,16 @@ class ModxUser implements UserInterface{
     return $this->lang;
   }
   private function loadDoctrineUser(){
-    $this->doctrineUser = $this->em->getRepository('\Entities\User')->find($this->getId());
+    $this->doctrineUser = $this->getUserRepository()->find($this->getId());
+  }
+  public function getDoctrineUser(){
+    return $this->getUserRepository()->find($this->getId());
+  }
+  /**
+   *
+   * @return \Entities\Repositories\UserRepository
+   */
+  private function getUserRepository(){
+    return $this->em->getRepository('\Entities\User');
   }
 }

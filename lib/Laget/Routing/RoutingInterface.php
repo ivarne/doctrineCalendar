@@ -17,4 +17,5 @@ interface RoutingInterface {
   public function saveSpeaker(\Entities\Speaker $speaker);
   public function login();
   public function logout();
+  public function saveRegistration(\Entities\Event $event);
 }

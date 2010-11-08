@@ -62,6 +62,7 @@ if(!true){
     <th><?php echo __('Opprettet') ?>:</th>
     <td><?php echo $event->getCreated('%e. %h %Y %R')?></td>
   </tr>
+  <?php if($user->hasPermission('redigere hendelser')):?>
   <tr>
     <td></td>
     <td>
@@ -74,6 +75,7 @@ if(!true){
       <?php endif?>
     </td>
   </tr>
+  <?php endif?>
 </table>
 <div style="width: 300px">
   Intern info:<br>
@@ -101,5 +103,9 @@ if(!true){
 <?php
 endif;//samtidighe hendelser*/
 ?>
+<?php if($event->hasRegistration()){
+  include 'paamelding.php';
+}?>
+
 
 <a href="<?php echo $routing->monthView($event->getRawValue()->getStart())?>"><?php echo __('Tilbake til kalenderen') ?></a>
