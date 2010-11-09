@@ -31,8 +31,8 @@ class ModxRouting implements RoutingInterface{
     $this->modx = $modx;
     $this->lang = $lang;
   }
-  public function showEvent(\Entities\Event $event){
-    return $this->makeUrl('show', '?event='.$event->getId());
+  public function showEvent(\Entities\Event $event,$full = null){
+    return $this->makeUrl('show', '?event='.$event->getId() , $full);
   }
   public function monthView(\DateTime $date){
     return $this->makeUrl('monthView', '#'.$date->format('Y-m-d').'?month');
@@ -80,8 +80,8 @@ class ModxRouting implements RoutingInterface{
     return $this->makeUrl('saveRegistration', '?action=registrer&amp;event_id='.$event->getId());
   }
 
-  private function makeUrl($page,$param = ''){
-    return $this->modx->makeUrl($this->docid[$page][$this->lang],'',$param);
+  private function makeUrl($page,$param = '',$full =false){
+    return $this->modx->makeUrl($this->docid[$page][$this->lang],'',$param,$full?'full':'');
   }
 
   /*

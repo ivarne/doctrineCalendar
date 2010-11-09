@@ -25,10 +25,14 @@ if(!true){
   <div class="short"><?php echo $event->getShort()?></div>
 </div>
 <div style="width:100%;clear: both"></div>
-
-<a href="<?php echo $event->getAddEventToGoogleCalendarLink($routing)?>" target="_blank" style="float: right;">
-  <img alt="<?php echo __('Legg til i google calendar')?>" src="http://www.google.com/calendar/images/ext/gc_button2.gif" border=0>
-</a>
+<div style="float: right;">
+  <a href="<?php echo $event->getAddEventToGoogleCalendarLink($routing)?>" target="_blank" >
+    <img alt="<?php echo __('Legg til i google calendar')?>" src="http://www.google.com/calendar/images/ext/gc_button2.gif" border=0>
+  </a><br>
+  <a href="http://www.facebook.com/share.php?u=<?php echo urlencode($routing->showEvent($event->getRawValue(),true)) ?>">
+    <?php echo __('Del på facebook!')?>
+  </a>
+</div>
 <?php if ($event->hasInfo()):?>
 <div style="padding:10px" class="long"><?php echo $event->getInfo('esc_raw')?></div>
 <?php endif;?>

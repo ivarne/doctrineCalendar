@@ -55,6 +55,13 @@ class CalenderViewController extends BaseController {
     }
     $this->concurentEvents = $this->getEventRepository()->getConcurrentEvents($event);
     $this->event = $event;
+    $this->registrerFacebookOpenGrapTags(array(
+      'og:title'=>$event->getTitle(),
+//      'og:type' =>'article',
+//      'og:image'=>'http://www.laget.net/assets/images/lagetlogo_s.png'
+      'og:url'=>$this->routing->showEvent($event),
+      'og:description'=>$event->getShort().($event->hasSpeaker()?' '.__('Taler').': '.$event->getSpeaker()->getName():''),
+    ));
     return $this->render('visHendelse');
   }
   /**

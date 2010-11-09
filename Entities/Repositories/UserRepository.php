@@ -13,7 +13,12 @@ use Doctrine\ORM\EntityRepository;
 class UserRepository extends EntityRepository
 {
   /**
-   *
+   * funksjon for å søke etter brukere, enten brukes en string, ellers sendes et array på formen
+   *  array(
+   *     'name'=>$name,
+   *     'email'=>$email,
+   *     'tlf'=>$tlf
+   *  )
    * @param stirng $anything Søk etter en bruker basert på navn, epost eller telefonnummer
    * @return \Entities\User
    */
@@ -22,14 +27,23 @@ class UserRepository extends EntityRepository
       return NULL; // Greit å ikke være redd for å sende bortkastede query'er
     }
     $q = $this->getEntityManager()
-              ->createQuery('SELECT u FROM \Entities\User u JOIN u.atteributes a WHERE a.fullname = :any OR a.email = :any OR a.mobilephone = :any')
-              ->setParameter('any', $anything);
+              ->createQuery('SELECT u FROM \Entities\User u JOIN u.atteributes a WHERE a.fullname = :name OR a.email = :email OR a.mobilephone = :tlf');
+    if(is_array($anything)){
+      $q->setParameter('email', $anything['email'])
+              ->setParameter('name', $anything['name'])
+              ->setParameter('tlf', $anything['tlf']);
+    }else{
+      $q->setParameter('email', $anything)
+              ->setParameter('name', $anything)
+              ->setParameter('tlf', $anything);
+    }
     try{
-      $user =  $q->getSingleResult();
-    }catch (\NoResultException $e){
+      return $q->getSingleResult();
+    }catch (\Doctrine\ORM\NonUniqueResultException $e){
+      return NULL;
+    }catch(\Doctrine\ORM\NoResultException $e){
       return NULL;
     }
-    return $user;
   }
   public function getMembers(\DateTime $time = null,$showHidden = false) {
     if (!isset($time)){

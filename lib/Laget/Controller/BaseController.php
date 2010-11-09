@@ -58,6 +58,23 @@ abstract class BaseController{
     //Create the Mailer using your created Transport
     return \Swift_Mailer::newInstance($transport);
   }
+  public function registrerFacebookOpenGrapTags($tags){
+    global $modx;
+    $stdTags = array(
+      'og:sitename'=>'Trondheim kristne studentlag',
+      'fb:app_id'=>'145092265527385',
+      'og:type' =>'article',
+      'og:image'=>'http://www.laget.net/assets/images/lagetlogo_s.png'
+     );
+    $tags = array_merge($stdTags,$tags);
+
+    $meta = "\t<meta property=\"%s\" content=\"%s\">\n";
+    $out = '';
+    foreach ($tags as $property => $content) {
+      $out .= sprintf($meta,$property,$content);
+    }
+    $modx->regClientStartupHTMLBlock($out);
+  }
   protected function getEntityManager(){
     return $this->em;
   }

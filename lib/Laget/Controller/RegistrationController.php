@@ -31,7 +31,9 @@ class RegistrationController extends BaseController {
       if($user = $this->getUserRepository()->search($registration->getName()));
       elseif($user = $this->getUserRepository()->search($registration->getEmail()));
       elseif($user = $this->getUserRepository()->search($registration->getTlf()));
-      $registration->setUser($user);
+      if(!is_null($user)){
+        $registration->setUser($user);
+      }
     }
     if(count($event->getRegistrationTasks())){
       $task = $this->getRegistrationTaskRepository()->find((int)$_POST['task']);
