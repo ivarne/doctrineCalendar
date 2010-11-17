@@ -37,6 +37,27 @@ class EventRepository extends EntityRepository
     return $q->getQuery()->getResult();
   }
   /**
+   *
+   * @param User $user
+   * @param DateTime $from 
+   * @return \Entites\Event
+   */
+  public function getUserResponsibleEvents( \Entities\User $user, \DateTime $from = null){
+    if(is_null($from)){
+      $from = new \DateTime();
+    }
+    // pre fetch all responsibilities from database
+    $this->getEntityManager()->getRepository('\Entities\Responsibility')->findAll();
+    $q = $this->createQueryBuilder('e')
+            ->leftJoin('e.responsibilities', 'r')
+            ->where('r.user = :user')
+            ->andWhere('e.end > :from')
+            ->orderBy('e.start', 'ASC')
+            ->setParameter('user', $user)
+            ->setParameter('from', $from, 'datetime');
+    return $q->getQuery()->execute();
+  }
+  /**
    * Funksjon som returnerer hendelser som foregår samtidig som andre hendeler
    * Nyttig for å unngå dobbeltbooking ol.
    *
@@ -86,5 +107,12 @@ class EventRepository extends EntityRepository
     }catch(\Doctrine\ORM\NoResultException $e){
       return null;
     }
+  }
+  /**
+   *
+   * @return \Entites\Event
+   */
+  public function findAll(){
+    return parent::findAll();
   }
 }

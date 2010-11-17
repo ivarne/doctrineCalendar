@@ -13,6 +13,20 @@ use Entities\Repositories\EventRepository;
 */
 
 class CalenderViewController extends BaseController {
+  public function executeJsonDataDump(){
+    $events = $this->getEventRepository()->findAll();
+    $json = array();
+    foreach($events as $event){
+      $json[$event->getId()]=array(
+        'name_no'=>$event->getName('no'),
+        'name_en'=>$event->getName('en'),
+        'short_no'=>$event->getShort('no'),
+        'short_en'=>$event->getShort('en'),
+        'info_no'=>$event->getInfo('no'),
+        'info_en'=>$event->getInfo('en'),
+      );
+    }
+  }
   public function executeMonthView(){
     return $this->render('monthView');
   }
@@ -63,6 +77,13 @@ class CalenderViewController extends BaseController {
       'og:description'=>$event->getShort().($event->hasSpeaker()?' '.__('Taler').': '.$event->getSpeaker()->getName():''),
     ));
     return $this->render('visHendelse');
+  }
+  public function executeListResponsibilitiesUser(){
+    if(!$this->getUser()->isLoggedIn()){
+      return '';
+    }
+    $this->events = $this->getEventRepository()->getUserResponsibleEvents($this->getUser()->getDoctrineUser());
+    return $this->render('listFrontpage');
   }
   /**
    *

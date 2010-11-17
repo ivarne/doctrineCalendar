@@ -87,6 +87,9 @@ $translations = array(
   'Du er ikke logget inn, hvis du er medlem setter vi pris på om du <a href="%a%">logger inn</a> før du melder deg på. Det er også en fin annleding til å skjekke at medlemsdataene stemmer.'=>
   'You are not logged inn, but if you are a member we\'ll apreciate if you <a href="%a%">logg inn</a> before you registrer. It\'s also nice if you\'ll check if your member data is correct.',
   'Del på facebook!' => 'Share on facebok!',
-
+  'Du er påmeldt, og kan ikke melde deg på igjen' => 'You are alredy registrerd',
+  'Ukjent' => 'Unknown',
+  'Epostadresser som kan puttes direkte i blindkopi feltetet om du trenger å sende mail til alle påmeldte' => 'Email addresses to all registrants that is ready to paste into the BCC feld',
+  'Påmeldte sortert på gruppe' => 'Registrerd sorted on group',
 )
 ?>

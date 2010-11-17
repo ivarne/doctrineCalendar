@@ -92,10 +92,18 @@ abstract class BaseController{
     }catch (\Exception $e){
       echo 'Det skjedde en feil, vær vennlig å sende en kort beskrivelse av hva du gjorde sammen med denne feilmeldingen til web@laget.net';
       echo '<div><br><pre>';
-      echo 'Melding: '.$e->getMessage()."\n";
-      echo 'Fil: '. $e->getFile().' at line: '.$e->getLine()."\n";
+      echo 'Type:    '.get_class($e)."\n\n";
+      echo 'Melding: '.$e->getMessage()."\n\n";
+      echo 'Fil:     '. $e->getFile().' at line: '.$e->getLine()."\n\n";
       echo $e->getTraceAsString();
       echo '</pre></div>';
+      $mailer = $this->createMailer();
+      $message = new \Swift_Message();
+      $message->setTo('ivarne@gmail.com', 'Ivar Nesje')
+              ->setFrom('exeption@laget.net', 'Feilmelding')
+              ->setSubject(get_class($e). ': ' .$e->getMessage())
+              ->setBody($e->getTraceAsString()."\n".print_r($_GET, true)."\n".print_r($_POST,true)."\n\nVennlig hilsen: ".$this->getUser()->getName());
+      $mailer->send($message);
     }
   }
   /**

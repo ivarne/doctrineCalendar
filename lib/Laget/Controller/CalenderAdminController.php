@@ -140,7 +140,7 @@ class CalenderAdminController extends BaseController {
       }
       $comment = $newResp['comment'];
       if((int)$newResp['userId']) {
-        $user = $this->em->getRepository('\Entities\User')->find((int)$newResp['userId']);
+        $user = $this->em->getReference('\Entities\User',(int)$newResp['userId']);
       }else{
         $user = $this->em->getRepository('\Entities\User')->search($newResp['comment']);
         if($user) {

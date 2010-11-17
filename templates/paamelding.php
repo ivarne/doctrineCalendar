@@ -31,7 +31,7 @@ if(false){
       <td><input name="tlf" type="text" maxlength="20" size="20" value="<?php echo $user->getTelephone() ?>"></td>
     </tr>
     <tr>
-      <th><?php echo __('Publisering')?></th>
+      <th><?php echo __('Publisering')?>:</th>
       <td>
         <select name="pub" >
           <option value="0"><?php echo __('Bare administratorer')?></option>
@@ -83,7 +83,7 @@ if(false){
       <?php if(count($event->getRegistrationTasks())):?>
       <th><?php echo __('Gruppe')?></th>
       <?php endif?>
-      <?php if($user->isLoggedIn()):?>
+      <?php if($user->hasPermission('se alle påmeldte')):?>
       <th><?php echo __('Medlem')?></th>
       <th><?php echo __('Epost')?></th>
       <th><?php echo __('Telefon')?></th>
@@ -98,8 +98,14 @@ if(false){
       <?php if($registration->getTask()):?>
       <td><?php echo $registration->getTask()->getName() ?></td>
       <?php endif?>
-      <?php if($user->isLoggedIn()):?>
-      <td><?php echo $registration->getUser()->isMember()?__('Ja'):__('Nei') ?></td>
+      <?php if($user->hasPermission('se alle påmeldte')):?>
+      <td>
+        <?php if($registration->hasUser()):?>
+        <?php echo $registration->getUser()->isMember()?__('Ja'):__('Nei') ?>
+        <?php else:?>
+        <?php echo __('Ukjent')?>
+        <?php endif?>
+      </td>
       <td><?php echo $registration->getEmail() ?></td>
       <td><?php echo $registration->getTlf() ?></td>
       <?php endif?>
@@ -112,5 +118,20 @@ if(false){
 <?php foreach($event->getRegistrations() as $reg):?>
 &quot;<?php echo $reg->getName() ?>&quot;&lt;<?php echo $reg->getEmail() ?>&gt;,
 <?php endforeach?>
+
+<h3><?php echo __('Påmeldte sortert på gruppe')?>:</h3>
+<ul>
+<?php $ledig = 0;?>
+<?php foreach($event->getRegistrationTasks() as $task):?>
+  <?php $ledig += $task->getNumAvailable() - count($task->getRegistrations());?>
+  <li><strong><?php echo $task->getName() ?></strong>(<?php echo count($task->getRegistrations()).'/'.$task->getNumAvailable() ?>)<br>
+
+  <?php foreach($task->getRegistrations() as $registration):?>
+    &quot;<?php echo $registration->getName() ?>&quot;&lt;<?php echo $registration->getEmail() ?>&gt;,<br>
+  <?php endforeach?>
+  </li>
+<?php endforeach?>
+</ul>
+<p><?php echo __('Det er %paa% påmeldte og %num% ledige oppgaver',array('%paa%'=>count($event->getRegistrations()),'%num%'=>$ledig))?></p>
 <?php endif?>
 <br>

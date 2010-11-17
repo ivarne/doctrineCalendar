@@ -25,11 +25,11 @@ if(!true){
   <div class="short"><?php echo $event->getShort()?></div>
 </div>
 <div style="width:100%;clear: both"></div>
-<div style="float: right;">
-  <a href="<?php echo $event->getAddEventToGoogleCalendarLink($routing)?>" target="_blank" >
-    <img alt="<?php echo __('Legg til i google calendar')?>" src="http://www.google.com/calendar/images/ext/gc_button2.gif" border=0>
+<div style="float: right;background-color: #EFFCCC">
+  <a href="<?php echo $event->getAddEventToGoogleCalendarLink($routing)?>" rel="nofollow" target="_blank" style="float:right" >
+    <img style="margin:10px" alt="<?php echo __('Legg til i google calendar')?>" src="https://www.laget.net/assets/images/google_calendar_button.gif" border=0>
   </a><br>
-  <a href="http://www.facebook.com/share.php?u=<?php echo urlencode($routing->showEvent($event->getRawValue(),true)) ?>">
+  <a style="float:right;padding: 3px;margin: 10px;margin-top: 0px;background-color: #3B5998;color: white" rel="nofollow" href="http://www.facebook.com/share.php?u=<?php echo urlencode($routing->showEvent($event->getRawValue(),true)) ?>">
     <?php echo __('Del på facebook!')?>
   </a>
 </div>
