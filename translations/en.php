@@ -91,5 +91,15 @@ $translations = array(
   'Ukjent' => 'Unknown',
   'Epostadresser som kan puttes direkte i blindkopi feltetet om du trenger å sende mail til alle påmeldte' => 'Email addresses to all registrants that is ready to paste into the BCC feld',
   'Påmeldte sortert på gruppe' => 'Registrerd sorted on group',
+  'Det er %paa% påmeldte og %num% ledige oppgaver' => '%paa% people is registrerd and there is %num% availivble tasks',
+  'Intern info' => 'Internal info',
+  'Påmeldingen er desverre avsluttet, ta kontakt med %ansvarlig%, og se om det er mulig å ordne noe!'
+  => 'The registration is now closed. Contact %ansvarlig%, if you have any questions',
+  'Betalt' => 'Payed',
+  'Oppdter betalingsstatus' => 'Update payment status',
+  'Totalt skal det betales %total% kr. Foreløpig er det betalt %forelopig% kroner og det mangler %mangler%'
+  => 'The total income will be %total% kr. The registerd payments amounts to %forelopig% and  %mangler% is remaining',
+  ' Klokka ' => ' At',
+
 )
 ?>

@@ -6,13 +6,67 @@ if (!isset($_SERVER['PHP_AUTH_USER']) && ($_SERVER['PHP_AUTH_USER'] != 'kammar' 
     exit;
 }
 error_reporting(E_ALL);
+date_default_timezone_set('Europe/Oslo');
 
- ini_set("display_errors", 1); 
+$_POST = array (
+  'id' => '100',
+  'version' => '1',
+  'event_type' => '10',
+  'date' => '2008-12-01',
+  'clock_start' => '18:00',
+  'days' => '0',
+  'clock_end' => '20:00',
+  'title_no' => 'Berg-gjengen',
+  'title_en' => 'Maintenance Team',
+  'short_no' => 'Oppussing og vedlikehold av Berg PrestegÃ¥rd.',
+  'short_en' => 'Renovation and maintenance of Berg PrestegÃ¥rd.',
+  'info_no' => 'Passer for alle som har lyst Ã¥ gjÃ¸re noe mer praktisk. Berg PrestegÃ¥rd er et gammelt hus og krever dermed mye vedlikehold. Kom innom og se hva vi gjÃ¸r! Ã… arbeide med hendene er ogsÃ¥ en tjeneste i Guds rike.',
+  'info_en' => '',
+  'speakerId' => '',
+  'newSpeaker' => '',
+  'internal_info' => '',
+  'isPublic' => 'on',
+  'newResponsibility' =>
+  array (
+    5 =>
+    array (
+      'respId' => '1',
+      'userId' => '151',
+      'comment' => '',
+    ),
+    4 =>
+    array (
+      'respId' => '2',
+      'userId' => '',
+      'comment' => 'Ivar Nesje',
+    ),
+    3 =>
+    array (
+      'respId' => '3',
+      'userId' => '',
+      'comment' => 'Ivar Nesje',
+    ),
+    2 =>
+    array (
+      'respId' => '',
+      'userId' => '',
+      'comment' => '',
+    ),
+    1 =>
+    array (
+      'respId' => '',
+      'userId' => '',
+      'comment' => '',
+    ),
+  ),
+);
+
+// ini_set("display_errors", 1);
 ?><html>
   <head>
     <title>Kalender test|<?php echo $_GET['action'] ?></title>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-    <script type="javascript">
+    <script type="text/javascript">
     function togle(id){
       var elm = document.getElementById(id);
       if(elm.style.display == 'none'){

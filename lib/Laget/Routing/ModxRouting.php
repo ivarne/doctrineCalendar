@@ -22,7 +22,7 @@ class ModxRouting implements RoutingInterface{
     'listSpakers' => array('no'=>448,'en'=>456),
     'login'=>array('no'=> 42, 'en'=> 125),
     'logout'=>array('no'=> 255, 'en'=> 226),
-    'saveRegistration' => array('no'=>458,'en'=>459),
+    'registration' => array('no'=>458,'en'=>459),
   );
   private $modx;
   private $lang;
@@ -77,7 +77,10 @@ class ModxRouting implements RoutingInterface{
     return $this->makeUrl('logout');
   }
   public function saveRegistration(\Entities\Event $event){
-    return $this->makeUrl('saveRegistration', '?action=registrer&amp;event_id='.$event->getId());
+    return $this->makeUrl('registration', '?action=registrer&amp;event_id='.$event->getId());
+  }
+  public function updateRegistrationPaymentInfo(\Entities\Event $event){
+    return $this->makeUrl('registration','?action=updatePayments&amp;event_id='.$event->getId());
   }
 
   private function makeUrl($page,$param = '',$full =false){

@@ -10,11 +10,56 @@ class RegistrationController extends BaseController {
   public function executeMain(){
 
   }
+  public function executeNotifyForm(){
+    $event = $this->getEventRepository()->find((int)$_GET['event_id']);
+    
+  }
+  public function executeSendMail(){
+    if(false){
+      $reg = new \Entities\Registration();
+    }
+    $event = $this->getEventRepository()->find((int)$_GET['event_id']);
+    $adresses = array();
+    foreach($event->getRegistrations() as $reg){
+      $adresses[] = array($reg->getEmail() => $reg->getName());
+    }
+    $subject = $_POST['subject'];
+    $body = $_POST['body'];
+    
+    $mailer = $this->createMailer();
+    $message = new \Swift_Message($subject,$body,null,'UTF8');
+    $message->setTo($addresses);
+    $mailer->batchSend($message, $failedRecipients);
+    
+  }
+  public function executeUpdatePayments(){
+    if(false){
+      $registration = new \Entities\Registration();
+    }
+    if(!$this->getUser()->hasPermission('update_registration_paymens')){
+      return __('Du har ikke rettighet til å endre betalingsstatus for de påmeldte');
+    }
+    $event = $this->getEventRepository()->find((int)$_GET['event_id'], false);
+    if($event == NULL || !$event->hasPayment()){
+      throw new \Exception('Det finnes ingen hendelse med id='.(int)$_GET['event_id']);
+    }
+    foreach ($event->getRegistrations() as $registration) {
+      if($registration->getPayedAmount() != $_POST['payment'][$registration->getId()]
+              && isset($_POST['payment'][$registration->getId()])){
+        $registration->setPayedAmount($_POST['payment'][$registration->getId()]);
+      }
+    }
+    $this->getEntityManager()->flush();
+    return '<a href="'.$this->routing->showEvent($event).'">Tilbake til hendelsen</a>';
+  }
   public function executeRegistrer(){
     $registration = new \Entities\Registration();
     $event = $this->getEventRepository()->find((int)$_GET['event_id'], false);
     if($event == NULL){
       return __('Det skjedde en feil! Meld deg på manuellt til web[ætt]laget.net');
+    }
+    if(!$event->hasOpenRegistration()){
+      return __('Det er desverre ingen open registrering for %event%',array('%event%'=>$event->getTitle()));
     }
     $registration
             ->setEvent($event)
@@ -23,6 +68,7 @@ class RegistrationController extends BaseController {
             ->setTlf($_POST['tlf'])
             ->setPublic($_POST['pub'])
             ->setComment($_POST['comment'])
+            ->setLang($this->getUser()->getLanguage())
             ->setCreatedAt(new \DateTime())
             ->setUpdatedAt(new \DateTime());
     if($this->getUser()->isLoggedIn()){
@@ -54,8 +100,12 @@ class RegistrationController extends BaseController {
     $message->setTo($registration->getEmail(), $registration->getName());
     $message->setFrom('ikke-svar@laget.net', 'Laget');
     $message->setReplyTo('ivarne@gmail.com', 'Ivar Nesje');
-
-
+    
+    $message->setBody(strtr($event->getMail(),$this->getTransformations($registration)));
+    $mailer->send($message);
+    return nl2br($message->getBody());
+  }
+  private function getTransformations(\Entities\Registration $registration){
     $trans = array(
       '%navn%'=>$registration->getName(),
     );
@@ -66,14 +116,11 @@ class RegistrationController extends BaseController {
     }
     if($registration->getUser() && $registration->getUser()->isMember()){
       $trans['%medlem%'] = 'medlem';
-      $trans['%pris%'] = $event->getPriceMember();
+      $trans['%pris%'] = $registration->getEvent()->getPriceMember();
     }else{
       $trans['%medlem%'] = 'ikke medlem';
-      $trans['%pris%'] = $event->getPriceNonMember();
+      $trans['%pris%'] = $registration->getEvent()->getPriceNonMember();
     }
-    $message->setBody(strtr($event->getMail(),$trans));
-    $mailer->send($message);
-    return nl2br($message->getBody());
   }
 
   /**

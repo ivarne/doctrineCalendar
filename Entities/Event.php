@@ -26,7 +26,8 @@ class Event extends LagetEntity {
   /**
    * @Column(
    *  type="string",
-   *  length="70"
+   *  length="70",
+   *  nullable="true"
    * )
    */
   protected $title_en;
@@ -83,7 +84,7 @@ class Event extends LagetEntity {
    * )
    * @var DateTime
    */
-  private $start;
+  protected $start;
   /**
    * @Column(
    *  name="endTS",
@@ -91,7 +92,7 @@ class Event extends LagetEntity {
    * )
    * @var DateTime
    */
-  private $end;
+  protected $end;
   /**
    * @Column(
    *  type="boolean"
@@ -153,6 +154,14 @@ class Event extends LagetEntity {
   private $hasRegistration = false;
   /**
    * @Column(
+   *  type="datetime",
+   *  nullable=true
+   * )
+   * @var \DateTime
+   */
+  private $registrationUntill;
+  /**
+   * @Column(
    *  type="text",
    *  nullable=true
    * )
@@ -168,7 +177,7 @@ class Event extends LagetEntity {
 
   /**
    * @Column(
-   *  type="decimal",
+   *  type="integer",
    *  nullable=true
    * )
    */
@@ -176,7 +185,7 @@ class Event extends LagetEntity {
 
   /**
    * @Column(
-   *  type="decimal",
+   *  type="integer",
    *  nullable=true
    * )
    */
@@ -322,12 +331,12 @@ class Event extends LagetEntity {
     }
     $responsibilities = array();
     foreach($this->responsibilities as $responsibility){
-      if($responsibility->getResponsibility()->getName('no')== $type){
+      if($responsibility->getResponsibility()->getId()== $type){
         $responsibilities[] = $responsibility;
       }
     }
     if($implode){
-      return implode(' - ',array_map(function($var){return (string)$var;},$responsibilities));
+      return implode(' - ',$responsibilities);
     }
     return $responsibilities;
   }
@@ -340,10 +349,25 @@ class Event extends LagetEntity {
   public function hasRegistration(){
     return $this->hasRegistration;
   }
+  public function hasOpenRegistration(){
+    if($this->start->getTimestamp() < time()){
+      return false;
+    }
+    if(is_null($this->registrationUntill)){
+      return $this->hasRegistration;
+    }
+    return $this->registrationUntill->getTimestamp() > time();
+  }
   public function setResponsibility(\Entities\EventResponsibility $responsible) {
     $responsible->setEvent($this);
     $this->responsibilities[] = $responsible;
     return $this;
+  }
+  public function hasTranslator(){
+    return count($this->getResponsibilities(Responsibility::Overseting)) > 0;
+  }
+  public function hasResponsible(){
+    return conut($this->getResponsibilities(Responsibility::Ansvarlig)) > 0;
   }
   public function isRegistred(User $user){
     foreach($this->registrations as $reg){
@@ -386,21 +410,11 @@ class Event extends LagetEntity {
     return $this->isPublic;
   }
   public function setStart(\DateTime $start) {
-    if(isset($this->start)){
-      // Hack to make doctrine not assume that the end time has changed when it has not
-      $this->start->setTimestamp($start->getTimestamp());
-    }else{
-      $this->start = $start;
-    }
+    $this->setDateTime('start', $start);
     return $this;
   }
   public function setEnd(\DateTime $end) {
-    if(isset($this->end)){
-      // Hack to make doctrine not assume that the end time has changed when it has not
-      $this->end->setTimestamp($end->getTimestamp());
-    }else{
-      $this->end = $end;
-    }
+    $this->setDateTime('end', $end);
     return $this;
   }
   /**
@@ -477,6 +491,29 @@ class Event extends LagetEntity {
   public function setMail($mail,$lang){
     $this->setI18n($mail, 'registration_mail', $lang);
     return $this;
+  }
+  public function getTotalIncome(){
+    if(false){
+      $reg = new Registration();
+    }
+    $total = 0;
+    foreach($this->getRegistrations() as $reg){
+      $total += $reg->isMember()?$this->price_member : $this->price_non_member;
+    }
+    return $total;
+  }
+  public function getTotalPayment(){
+    if(false){
+      $reg = new Registration();
+    }
+    $total = 0;
+    foreach($this->getRegistrations() as $reg){
+      $total += $reg->getPayedAmount();
+    }
+    return $total;
+  }
+  public function hasPayment(){
+    return isset($this->price_member) && isset($this->price_non_member);
   }
   public function getPriceMember(){
     return $this->price_member;

@@ -4,6 +4,11 @@ if(false){
   $user = new Laget\User\DummyUser();
   $routing = new Laget\Routing\DummyRouting();
 }
+/*
+ * Template som skriver ut hendelsene
+ * slik de vises på facebook siden vis programmet
+ */
+
 ?>
 <ul>
   <?php foreach ($events as $event):?>

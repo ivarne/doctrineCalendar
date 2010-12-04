@@ -7,6 +7,13 @@ namespace Entities;
  * @method \Entities\Responsibility getRawValue()
  */
 class Responsibility extends LagetEntity{
+
+  const Ansvarlig = 1;
+  const Lovsang = 2;
+  const Leder = 3;
+  const Kjokken = 4;
+  const Teknikkker = 5;
+  const Overseting = 6;
   /**
    * @Id @Column(type="integer")
    * @GeneratedValue

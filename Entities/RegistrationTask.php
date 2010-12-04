@@ -110,4 +110,7 @@ class RegistrationTask extends LagetEntity {
   public function getRegistrations() {
     return $this->registrations;
   }
+  public function isFull(){
+    return count($this->registrations) >= $this->num_available;
+  }
 }

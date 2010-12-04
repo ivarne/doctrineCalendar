@@ -19,6 +19,8 @@ class EventRepository extends EntityRepository
    * @return \Entities\Event
    */
   public function getNextEvents($limit = 5,$onlyPublic = true,$from = null) {
+    //Preload Responsibilities
+    //$this->getEntityManager()->getRepository('\Entities\Responsibility')->findAll();
     $q = $this->createQueryBuilder('e')
               ->select('e','s')
               ->leftJoin('e.speaker','s')

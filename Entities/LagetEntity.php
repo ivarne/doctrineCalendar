@@ -92,4 +92,15 @@ class LagetEntity{
     }
     return $datetime->format($format);
   }
+  protected function setDateTime($felt, \DateTime $dateTime){
+    if(!property_exists($this, $felt)){
+      throw new \Exception('Det finnes intet felt "'.$felt.'" på klasse "'.get_class($this).'"');
+    }
+    if($this->$felt == NULL){
+      $this->$felt = $dateTime;
+    }elseif($this->$felt->getTimestamp() != $dateTime->getTimestamp()){
+      $this->$felt = $dateTime;
+    }
+    return $this;
+  }
 }

@@ -42,6 +42,8 @@ class ModxUser implements UserInterface{
         return $this->isLoggedIn();
       case 'member':
         return $this->isMember();
+      case 'update_registration_paymens':
+        return in_array('testsider',$groups);
       default:
         throw new \Exception('hasPermission kalt med ugyldig permission ('.$permission.')');
     }

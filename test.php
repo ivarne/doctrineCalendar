@@ -1,3 +1,3 @@
 <pre><?php
-print_r($_POST);
+var_export($_POST);
 ?></pre>

@@ -58,8 +58,21 @@ class CalenderViewController extends BaseController {
         return json_encode(array('error'=>'User Not Logged Inn'));
       }
     }
-    $this->events = $this->getEventRepository()->getEventsBetween($datetimestart->setTimestamp($_GET['start']),$datetimeend->setTimestamp($_GET['end']),$onlyPublic);
-    return $this->render('jsonEvents');
+    $events = $this->getEventRepository()->getEventsBetween($datetimestart->setTimestamp($_GET['start']),$datetimeend->setTimestamp($_GET['end']),$onlyPublic);
+    $JSON = array();
+    foreach ($events as $event){
+      $JSON[] = array(
+        'id'    => $event->getId(),
+        'title' => $event->getTitle(),
+        'start' => $event->getStart()->getTimestamp(),
+        'end'   => $event->getEnd()->getTimestamp(),
+        'url'   => $this->routing->showEvent($event),
+        'info'  => $event->getShort(),
+        'allDay'=> false,
+        'className'=> 'kalender_klasse_'.($event->isPublic()?'pub':'upub'),
+      );
+    }
+    return json_encode($JSON);
   }
   public function executeShowEvent(){
     $onlyPublic = !$this->getUser()->isLoggedIn();
@@ -72,9 +85,9 @@ class CalenderViewController extends BaseController {
     $this->registrerFacebookOpenGrapTags(array(
       'og:title'=>$event->getTitle(),
 //      'og:type' =>'article',
-//      'og:image'=>'http://www.laget.net/assets/images/lagetlogo_s.png'
-      'og:url'=>$this->routing->showEvent($event),
-      'og:description'=>$event->getShort().($event->hasSpeaker()?' '.__('Taler').': '.$event->getSpeaker()->getName():''),
+      'og:image'=>'http://www.laget.net/picturegenerator.php?text='.urlencode($event->getTitle()),
+      'og:url'=>'http://www.laget.net'.$this->routing->showEvent($event),
+      'og:description'=>$event->getShort().($event->hasSpeaker()?' '.__('Taler').': '.$event->getSpeaker()->getName():'').__(' Klokka ').$event->getStart('%R %A %e. %b'),
     ));
     return $this->render('visHendelse');
   }

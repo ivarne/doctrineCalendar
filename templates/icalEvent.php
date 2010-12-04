@@ -172,7 +172,7 @@ foreach ($events as $event) {
             }
             // vis hvem som har styreansvar i beskrivelse
             if ($styreans_beskrivelse){
-                $lang_teskt .= '<br>Styreansvarlig: ' . $event->getResponsibilities('Ansvarlig',true);
+                $lang_teskt .= '<br>Styreansvarlig: ' . $event->getResponsibilities(Entities\Responsibility::Ansvarlig,true);
             }
 
 

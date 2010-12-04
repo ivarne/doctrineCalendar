@@ -35,6 +35,15 @@ class Registration extends LagetEntity {
    */
   private $comment;
   /**
+   * @column(
+   *  type="string",
+   *  length=5,
+   *  nullable=true
+   * )
+   * @var string 
+   */
+  private $lang;
+  /**
    * @Column(
    *  type="integer"
    * )
@@ -54,6 +63,13 @@ class Registration extends LagetEntity {
    * )
    */
   protected $updated_at;
+  /**
+   * @Column(
+   *  type="integer",
+   *  nullable=true
+   * )
+   */
+  protected $payed_amount;
   /**
    * @ManyToOne(targetEntity="User",inversedBy="registrations")
    * @var Entities\User
@@ -105,6 +121,26 @@ class Registration extends LagetEntity {
     $this->comment = $comment;
     return $this;
   }
+  public function isPaymentOk(){
+    if($this->hasUser() && $this->getUser()->isMember()){
+      return $this->getEvent()->getPriceMember() == $this->payed_amount;
+    }
+    //ikke medlem
+    return $this->getEvent()->getPriceNonMember() == $this->payed_amount;
+  }
+  public function isMember(){
+    if(!$this->hasUser()){
+      return false;
+    }
+    return $this->getUser()->isMember();
+  }
+  public function getPayedAmount(){
+    return $this->payed_amount;
+  }
+  public function setPayedAmount($payed_amount){
+    $this->payed_amount = $payed_amount;
+    return $this;
+  }
   public function hasUser(){
     return isset($this->user);
   }
@@ -143,6 +179,13 @@ class Registration extends LagetEntity {
   public function getPublic(){
     $arr = array(0=>'se alle påmeldte',1=>'logged inn',2=>'alle');
     return $arr[$this->public];
+  }
+  public function setLang($lang){
+    $this->lang = $lang;
+    return $this;
+  }
+  public function getLang(){
+    return $this->lang;
   }
 }
 ?>

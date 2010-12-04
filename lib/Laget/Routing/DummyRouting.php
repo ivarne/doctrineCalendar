@@ -54,4 +54,6 @@ class DummyRouting implements RoutingInterface {
   public function saveRegistration(\Entities\Event $event){
 
   }
+  public function updateRegistrationPaymentInfo(\Entities\Event $event){
+  }
 }

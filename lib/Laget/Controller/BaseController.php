@@ -60,6 +60,9 @@ abstract class BaseController{
   }
   public function registrerFacebookOpenGrapTags($tags){
     global $modx;
+    if(!isset($modx)){
+      return;
+    }
     $stdTags = array(
       'og:sitename'=>'Trondheim kristne studentlag',
       'fb:app_id'=>'145092265527385',
@@ -71,7 +74,7 @@ abstract class BaseController{
     $meta = "\t<meta property=\"%s\" content=\"%s\">\n";
     $out = '';
     foreach ($tags as $property => $content) {
-      $out .= sprintf($meta,$property,$content);
+      $out .= sprintf($meta,trim($property),$content);
     }
     $modx->regClientStartupHTMLBlock($out);
   }

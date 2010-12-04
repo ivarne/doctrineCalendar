@@ -18,4 +18,5 @@ interface RoutingInterface {
   public function login();
   public function logout();
   public function saveRegistration(\Entities\Event $event);
+  public function updateRegistrationPaymentInfo(\Entities\Event $event);
 }
