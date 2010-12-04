@@ -13,9 +13,9 @@ if(!true){
 
 <h2><?php echo $event->getTitle() ?>: <?php echo $event->getStart('%R')?></h2>
 <?php if($event->hasSpeaker()):?>
-<div style="float:right;background-color: #EFFECC;padding: 8px; margin: 8px; border: thin solid black" class="taler">
+<div style="float:right;background-color: #EFFECC;padding: 8px; margin: 8px; border: thin solid black; max-width: 300px" class="taler">
   Taler: <em><a href="<?php echo $routing->showSpeaker($event->getSpeaker()->getRawValue())?>"><?php echo $event->getSpeaker()->getName()?></a></em>
-  <div><?php echo $event->getSpeaker()->getAbout() ?></div>
+  <div><?php echo $event->getSpeaker()->getRawValue()->getAbout() ?></div>
 </div>
 <?php endif;?>
 <div style="padding: 10px; background-color: rgb(239, 254, 238);">

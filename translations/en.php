@@ -65,7 +65,7 @@ $translations = array(
   'Tittel' => 'Title',
   ' Eller navn/kommentar:' => 'Or name/comment',
   'Ny hendelse' => 'New Event',
-  'Har holdt %num% taler' => 'Has hold %num% speaches',
+  'Er registrert på %num% taler' => 'Registrerd on %num% speaches',
   'Gjør upublisert' => 'Unpublish',
   "Det finnes ingen hendelse med id: %id% eller du har ikke tilgang til å vise den.<br>Prøv å loge inn" => 'There is no event with id: %id%',
   'Påmelding' => 'Registration',
@@ -100,6 +100,8 @@ $translations = array(
   'Totalt skal det betales %total% kr. Foreløpig er det betalt %forelopig% kroner og det mangler %mangler%'
   => 'The total income will be %total% kr. The registerd payments amounts to %forelopig% and  %mangler% is remaining',
   ' Klokka ' => ' At',
+  'Telefonnummer' => 'Telephone',
+  'Rediger talerinfo' => 'Edit speaker info',
 
 )
 ?>

@@ -82,7 +82,8 @@ class Speaker extends LagetEntity{
    */
   private $events;
 
-  public function  __construct() {
+  public function  __construct($name) {
+    $this->name = $name;
     $this->events = new \Doctrine\Common\Collections\ArrayCollection();
     $this->created_at = new \DateTime();
     $this->edited_at = new \DateTime();
@@ -113,11 +114,10 @@ class Speaker extends LagetEntity{
     return $this;
   }
   public function getAbout($lang = NULL){
-    $this->getI18n('about', $lang);
+    return $this->getI18n('about', $lang);
   }
   public function setAbout($about,$lang){
     $this->setI18n($about, 'about', $lang);
-    echo 'About: ('.$about.')';
     return $this;
   }
   public function setEdited(\DateTime $d){
@@ -141,6 +141,24 @@ class Speaker extends LagetEntity{
       return $this->numEvents;
     }
     return $this->events->count();
+  }
+  public function getNumFutureSpeaches(){
+    $num = 0;
+    $now = new \DateTime();
+    foreach($this->events as $event){
+      if($event->getStart()>$now)
+              $num++;
+    }
+    return $num;
+  }
+  public function getNumPastSpeaches() {
+    $num = 0;
+    $now = new \DateTime();
+    foreach($this->events as $event){
+      if($event->getStart()<$now)
+              $num++;
+    }
+    return $num;
   }
   /**
    *

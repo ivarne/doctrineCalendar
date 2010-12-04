@@ -99,9 +99,10 @@ class CalenderAdminController extends BaseController {
             ->setIsPublic($_POST['isPublic']=='on');
 
     //Referanser
-    try{
-      $event->setType($this->getEntityManager()->getRepository('\Entities\EventType')->find((int)$_POST['event_type']));
-    }catch(\Exception $e){
+    $type = $this->getEntityManager()->getRepository('\Entities\EventType')->find((int)$_POST['event_type']);
+    if(!is_null($type)){
+      $event->setType($type);
+    }else{
       $this->error[] = 'The type is invalid. There is no eventType('.(int)$_POST['event_type'].')';
     }
     if(is_numeric($_POST['speakerId'])) {

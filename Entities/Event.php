@@ -540,9 +540,13 @@ class Event extends LagetEntity {
     $url .= '$amp;sprop=name:laget.net';
     return $url;
   }
-  public function isValid(){
-
-    return true;
+  public function isValid(array $error){
+    $return = true;
+    if(strlen($this->title_no)==0){
+      $error[] = 'Du må gi hendelsen et norsk navn';
+      $return = false;
+    }
+    return $return;
   }
   /**
    * @PrePersist

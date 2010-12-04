@@ -7,11 +7,11 @@ if(false){
 }
 ?>
 <h2><?php echo $speaker->getName()?></h2>
-<small><?php echo __('Har holdt %num% taler', array('%num%'=>$speaker->getNumEvents()))?></small>
-<?php echo $speaker->getAbout()?>
+<small><?php echo __('Er registrert på %num% taler', array('%num%'=>$speaker->getNumEvents()))?></small>
+<div><?php echo $speaker->getRawValue()->getAbout()?></div>
 
 <?php if($user->isMember()):?>
-<table>
+<table style="padding-top: 20px">
   <tr>
     <th><?php echo __('Epost')?>:</th>
     <td><?php echo $speaker->getEmail()?></td>

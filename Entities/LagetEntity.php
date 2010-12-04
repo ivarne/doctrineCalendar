@@ -36,8 +36,10 @@ class LagetEntity{
     if(!property_exists($this, $re)){
       throw new \Exception(sprintf('Det finnes ikke noe internasjonalisert felt med navnet "%s" på klassen "%s", eller språket "%s" er ugyldig.',$feld,get_class($this),$lang));
     }
-    if(strlen($string) !== 0){
+    if(strlen(trim(strip_tags($string))) != 0){
       $this->$re = $string;
+    }else{
+      $this->$re = NULL;
     }
     return $this;
   }
