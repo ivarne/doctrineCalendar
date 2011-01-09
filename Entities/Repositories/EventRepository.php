@@ -50,9 +50,12 @@ class EventRepository extends EntityRepository
     }
     // pre fetch all responsibilities from database
     $this->getEntityManager()->getRepository('\Entities\Responsibility')->findAll();
-    $q = $this->createQueryBuilder('e')
-            ->leftJoin('e.responsibilities', 'r')
-            ->where('r.user = :user')
+    $q = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('er, e')
+            ->from('\Entities\EventResponsibility', 'er')
+            ->leftJoin('er.event', 'e')
+            ->where('er.user = :user')
             ->andWhere('e.end > :from')
             ->orderBy('e.start', 'ASC')
             ->setParameter('user', $user)

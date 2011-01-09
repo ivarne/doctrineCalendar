@@ -78,7 +78,7 @@ if(!empty($error)) {
     </tr>
     <tr>
       <th><?php echo __('Info')?></th>
-      <td><textarea cols="30" rows="8" class="wymeditor" name="info_no"><?php echo $event->getInfo('edit','no') ?></textarea></td>
+      <td><textarea cols="38" rows="8" class="wymeditor" name="info_no"><?php echo $event->getInfo('edit','no') ?></textarea></td>
       <td><textarea cols="30" rows="8" class="wymeditor" name="info_en"><?php echo $event->getInfo('edit','en') ?></textarea></td>
     </tr>
     <tr>
@@ -197,7 +197,6 @@ if(!empty($error)) {
       numberOfMonths: 1
     });
     $(".wymeditor").wymeditor({
-
       //stylesheet: 'styles.css',
 
       //classes panel
@@ -217,7 +216,7 @@ if(!empty($error)) {
       boxHtml:   "<div class='wym_box'>"
               + "<div class='wym_area_top'>"
               + "<div class='wym_dropdown' style='float:right'>"
-              + WYMeditor.CONTAINERS
+//              + WYMeditor.CONTAINERS
  //             + WYMeditor.CLASSES
               + "</div>"
               + WYMeditor.TOOLS
@@ -228,7 +227,7 @@ if(!empty($error)) {
               + "<div class='wym_area_main'>"
               + WYMeditor.HTML
               + WYMeditor.IFRAME
-              + WYMeditor.STATUS
+//              + WYMeditor.STATUS
               + "</div>"
               + "<div class='wym_area_bottom'>"
               + "</div>"
@@ -257,10 +256,11 @@ if(!empty($error)) {
         jQuery(this._box).find(".wym_tools, .wym_classes ")
             .find(WYMeditor.H2)
             .append("<span>&nbsp;&gt;</span>");
-        }
+        
+      }
+      
+      
     });
-
-
   });
   function deleteResponsibility(id){
     var row = document.getElementById('responsibility'+id);

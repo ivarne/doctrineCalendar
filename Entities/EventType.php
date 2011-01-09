@@ -2,7 +2,7 @@
 namespace Entities;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="Entities\Repositories\EventTypeRepository")
  * @Table(name="event_types")
  * @method \Entities\EventType getRawValue()
  */
@@ -42,6 +42,14 @@ class EventType extends LagetEntity{
    * )
    */
   protected $description_en;
+
+  /**
+   * @Column(
+   *  type="boolean"
+   * )
+   * @var boolean
+   */
+  private $isActive = true;
 
   /**
    * @OneToMany(targetEntity="Event",mappedBy="type")

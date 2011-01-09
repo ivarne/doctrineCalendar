@@ -10,7 +10,7 @@ class CalenderAdminController extends BaseController {
     if(isset($_GET['date'])){
       $this->event->setStart(new \DateTime($_GET['date']));
     }
-    $this->prepareForForm();
+    $this->prepareForForm($this->event);
     $this->numNewResponsibility = 6;
     return $this->render('admin');
   }
@@ -19,7 +19,7 @@ class CalenderAdminController extends BaseController {
     if($this->event == NULL){
       return __('Det finnes ingen hendelse med id (%id%',array('%id%'=>htmlspecialchars($_GET['event'])));
     }
-    $this->prepareForForm();
+    $this->prepareForForm($this->event);
     $this->eventTypeId = $this->event->getType()->getId();
     if($this->event->hasSpeaker())
       $this->speakerId = $this->event->getSpeaker()->getId();
@@ -68,24 +68,25 @@ class CalenderAdminController extends BaseController {
 
     $this->error = array();
     $event = $this->populateEventFromPost($event);
-
-    if(empty($this->error) && $event->isValid($this->error)) {
+    $this->error = array_merge($this->error,$event->isValid());
+    if(empty($this->error)) {
       if(!isset($_POST['id'])){
         $this->getEntityManager()->persist($event);
       }
+      try{
       $this->getEntityManager()->flush();
       header('Location: '.$this->routing->showEvent($event));
       die();
-      return "hendelsen ble lagret";
+      }catch(\Exception $e){
+        $this->emailException($e);
+      }
     }
-    else {
-      $this->prepareForForm();
-      $this->getEntityManager()->detach($event);
-      $this->event = $event;
-      $this->eventTypeId = (int)$_POST['event_type'];
-      $this->speakerId = (int)$_POST['speakerId'];
-      return $this->render('admin');
-    }
+    $this->prepareForForm($event);
+    $this->getEntityManager()->detach($event);
+    $this->event = $event;
+    $this->eventTypeId = (int)$_POST['event_type'];
+    $this->speakerId = (int)$_POST['speakerId'];
+    return $this->render('admin');
   }
   private function populateEventFromPost(Event $event) {
     $event
@@ -180,13 +181,13 @@ class CalenderAdminController extends BaseController {
 
     return $event;
   }
-  private function prepareForForm() {
+  private function prepareForForm(\Entities\Event $event) {
     $this->concurentEvents = array();
     $this->eventTypeId = null;
     $this->speakerId = null;
     $this->members = $this->getEntityManager()->getRepository('\Entities\User')->getMembers();
     $this->responsibilities = $this->getEntityManager()->getRepository('\Entities\Responsibility')->findAll();
-    $this->eventTypes = $this->getEntityManager()->getRepository('\Entities\EventType')->findAll();
+    $this->eventTypes = $this->getEntityManager()->getRepository('\Entities\EventType')->findAllActive($event);
     $this->numNewResponsibility = 4;
     $this->speakers = $this->getEntityManager()->getRepository('\Entities\Speaker')->findAll();
   }

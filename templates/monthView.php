@@ -5,12 +5,12 @@ if(false){
 }
 global $modx;
 if (isset($modx) && $modx instanceof \DocumentParser){
-$modx->regClientCSS('assets/liksomSymfony/jsCSS/fullcalendar.css');
+$modx->regClientCSS('assets/liksomSymfony/jsCSS/fullcalendar/fullcalendar.css');
 }
 ?>
 <script type="text/javascript" src="assets/liksomSymfony/jsCSS/jquery-1.4.2.min.js"></script>
 
-<script type="text/javascript" src="assets/liksomSymfony/jsCSS/fullcalendar.min.js"></script>
+<script type="text/javascript" src="assets/liksomSymfony/jsCSS/fullcalendar/fullcalendar.min.js"></script>
 
 <script type='text/javascript'>
   $(document).ready(function() {
@@ -25,6 +25,9 @@ $modx->regClientCSS('assets/liksomSymfony/jsCSS/fullcalendar.css');
       firstHour: 9,
       firstDay: 1,
       timeFormat: 'H(:mm)',
+      weekMode: 'variable',
+
+
       //editable: true,
       monthNames:
         <?php echo __("['Januar','Februar','Mars','April','Mai','Juni','Juli','August','September','Oktober','November','Desember']") ?>,
@@ -91,8 +94,13 @@ $modx->regClientCSS('assets/liksomSymfony/jsCSS/fullcalendar.css');
       ,
       viewDisplay: function(view) {
         current_hash = false;
-        window.location.hash = $.fullCalendar.formatDate( $('#calendar').fullCalendar('getDate'),'yyyy-M-d') + '?' + view.name;
-        current_hash = window.location.href.split('#')[1];
+        var new_hash = $.fullCalendar.formatDate( $('#calendar').fullCalendar('getDate'),'yyyy-M-d') + '?' + view.name;
+//        var phash = parseHash(new_hash);
+//        var dhash = defaultHash();
+//        if(phash.view == dhash.view && phash.y == dhash.y && phash.m == dhash.m ){
+//          return;
+//        }
+        current_hash = window.location.hash = new_hash;
       },
       year: parseHash().y,
       month: parseHash().m-1,
@@ -118,27 +126,33 @@ $modx->regClientCSS('assets/liksomSymfony/jsCSS/fullcalendar.css');
   //fiks tilbake knappen slik at man kommer til den hendelsen man ønsket
   var current_hash = false;
   function check_hash() {
-    if ( (current_hash != false) && (window.location.href.split('#')[1] != current_hash )) {
-      current_hash = window.location.href.split('#')[1];
-      var hash = parseHash();
-      if(!$('#calendar').fullCalendar('getView') == hash.view){
-        $('#calendar').fullCalendar( 'changeView',hash.view);
+    if(!current_hash){
+      return;
+    }
+    var hash = window.location.href.split('#')[1];
+    if ( hash && (hash != current_hash )) {
+      current_hash = hash;
+      var phash = parseHash(hash);
+      if($('#calendar').fullCalendar('getView').name != phash.view){
+        $('#calendar').fullCalendar( 'changeView',phash.view);
       }
-      $('#calendar').fullCalendar( 'gotoDate', hash.y , hash.m - 1 , hash.d);
+      $('#calendar').fullCalendar( 'gotoDate', phash.y , phash.m - 1 , phash.d);
     }
   }
-
-  function parseHash(){
-    if(!window.location.href.split('#')[1]){
-      var today = new Date();
+  function defaultHash(){
+    var today = new Date();
       return {
         y:    today.getFullYear(),
         m:    today.getMonth() + 1,
         d:    today.getDate(),
         view: 'month'
       }
+  }
+  function parseHash(hash){
+    if(!hash ){
+      return defaultHash();
     };
-    var arr = window.location.href.split('#')[1].split('?');
+    var arr = hash.split('?');
     return {
       y:    arr[0].toString().split('-')[0],
       m:    arr[0].toString().split('-')[1],
@@ -146,7 +160,7 @@ $modx->regClientCSS('assets/liksomSymfony/jsCSS/fullcalendar.css');
       view: arr[1]
     };
   }
-   hashCheck = setInterval( "check_hash()", 100 );
+   hashCheck = setInterval( "check_hash()", 200 );
    
    //legg med et array med hendelser for gjeldende måned så det går raskere å laste
 //   initialEvents = <?php echo '' ?>;

@@ -16,7 +16,7 @@ if(false){
 //       6. Avslutter iCal fila
 
 // Importerer biblioteket som brukes til generering av ICal filene
-require_once dirname(__FILE__).'/../vendor/iCalcreator.class.php';
+require_once dirname(__FILE__).'/../vendor/iCalcreator/iCalcreator.class.php';
 
 
 

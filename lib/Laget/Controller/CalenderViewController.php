@@ -41,6 +41,9 @@ class CalenderViewController extends BaseController {
   }
   public function executeListFrontpage(){
     $this->events = $this->getEventRepository()->getNextEvents(6);
+    if($this->getUser()->isLoggedIn()){
+      $this->userResponsibilities = $this->getEventRepository()->getUserResponsibleEvents($this->getUser()->getDoctrineUser());
+    }
     return $this->render('listFrontpage');
   }
   public function executeListFacebook(){

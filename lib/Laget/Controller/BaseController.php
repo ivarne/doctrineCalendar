@@ -93,21 +93,25 @@ abstract class BaseController{
     }catch (simpleException $e){
       echo '<div class="error">'.$e->getMessage().'</div>';
     }catch (\Exception $e){
-      echo 'Det skjedde en feil, vær vennlig å sende en kort beskrivelse av hva du gjorde sammen med denne feilmeldingen til web@laget.net';
-      echo '<div><br><pre>';
-      echo 'Type:    '.get_class($e)."\n\n";
-      echo 'Melding: '.$e->getMessage()."\n\n";
-      echo 'Fil:     '. $e->getFile().' at line: '.$e->getLine()."\n\n";
-      echo $e->getTraceAsString();
-      echo '</pre></div>';
+      header('HTTP/1.0 500 Internal Server Error');
+      echo 'Det skjedde en feil, vær vennlig å sende en kort beskrivelse av hva du gjorde så blir det mye lettere å finne ut hva som skjedde til web@laget.net';
+      $this->emailException($e);
+      if($this->getUser()->hasPermission('asdfasdf')){//only debug user
+        echo $this->formatException($e);
+      }
+    }
+  }
+  public function emailException(\Exception $e){
       $mailer = $this->createMailer();
       $message = new \Swift_Message();
       $message->setTo('ivarne@gmail.com', 'Ivar Nesje')
               ->setFrom('exeption@laget.net', 'Feilmelding')
               ->setSubject(get_class($e). ': ' .$e->getMessage())
-              ->setBody($e->getTraceAsString()."\n".print_r($_GET, true)."\n".print_r($_POST,true)."\n\nVennlig hilsen: ".$this->getUser()->getName());
+              ->setBody($this->formatException($e)."\n".print_r($_GET, true)."\n".print_r($_POST,true)."\n\nVennlig hilsen: ".$this->getUser()->getName());
       $mailer->send($message);
-    }
+  }
+  public function formatException(\Exception $e){
+      return '<pre>'.$e->getMessage()."\n\n".$e->getTraceAsString().'</pre>';
   }
   /**
    * Enkel funksjon som gjør alle variablene som er satt i klassen

@@ -540,13 +540,24 @@ class Event extends LagetEntity {
     $url .= '$amp;sprop=name:laget.net';
     return $url;
   }
-  public function isValid(array $error){
-    $return = true;
-    if(strlen($this->title_no)==0){
-      $error[] = 'Du må gi hendelsen et norsk navn';
-      $return = false;
+  public function isValid(){
+    $error = array();
+    if(strlen($this->title_no)<4){
+      $error[] = 'Du må gi hendelsen et norsk navn på mer enn tre bokstaver';
     }
-    return $return;
+    if(strlen($this->title_no)>70){
+      $error[]= 'Den norske tittelen er for lang';
+    }
+    if(strlen($this->title_en)>70){
+      $error[]= 'Den engelske tittelen er for lang';
+    }
+    if(strlen($this->short_no)>150){
+      $error[]= 'Kort info skal være kortere enn 150 tegn. Den norske har '.strlen($this->short_no);
+    }
+    if(strlen($this->short_en)>150){
+      $error[]= 'Kort info skal være kortere enn 150 tegn. Den engelske har '.strlen($this->short_no);
+    }
+    return $error;
   }
   /**
    * @PrePersist
