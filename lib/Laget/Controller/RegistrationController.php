@@ -109,7 +109,7 @@ class RegistrationController extends BaseController {
     $trans = array(
       '%navn%'=>$registration->getName(),
     );
-    if(count($event->getRegistrationTasks())){
+    if(count($registration->getEvent()->getRegistrationTasks())){
       $trans['%gruppe%'] = $registration->getTask()->getName();
       $trans['%gruppe_desc%'] = $registration->getTask()->getDescription();
 
@@ -121,6 +121,7 @@ class RegistrationController extends BaseController {
       $trans['%medlem%'] = 'ikke medlem';
       $trans['%pris%'] = $registration->getEvent()->getPriceNonMember();
     }
+    return $trans;
   }
 
   /**
