@@ -21,7 +21,7 @@ $classLoader = new ClassLoader('Doctrine\DBAL', realpath(__DIR__ . '/vendor/doct
 $classLoader->register();
 $classLoader = new ClassLoader('Doctrine\Common', realpath(__DIR__ . '/vendor/doctrine2/lib/vendor/doctrine-common/lib'));
 $classLoader->register();
-$classLoader = new ClassLoader('Symfony', realpath(__DIR__ . '/vendor/doctrine2/lib/vendor'));
+$classLoader = new ClassLoader('Symfony', realpath(__DIR__ . '/vendor'));
 $classLoader->register();
 $classLoader = new ClassLoader('Entities', __DIR__);
 $classLoader->register();
