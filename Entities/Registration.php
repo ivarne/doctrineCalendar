@@ -187,5 +187,12 @@ class Registration extends LagetEntity {
   public function getLang(){
     return $this->lang;
   }
+  /**
+   *
+   * @todo FIKS real validation.
+   */
+  public function isValid(){
+    return true;
+  }
 }
 ?>

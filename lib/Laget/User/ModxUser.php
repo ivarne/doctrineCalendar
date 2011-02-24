@@ -52,7 +52,7 @@ class ModxUser implements UserInterface{
     return $this->modx->getLoginUserID();
   }
   public function isLoggedIn(){
-    return $this->modx->userLoggedIn();
+    return $this->modx->userLoggedIn() && $this->getDoctrineUser();
   }
   public function getName(){
     if(!$this->cache){
