@@ -99,7 +99,7 @@ class EventRepository extends EntityRepository
    * @param <type> $onlyPublic
    * @return \Entities\Event
    */
-  public function find($id,$onlyPublic){
+  public function findPublic($id,$onlyPublic){
     $q = $this->createQueryBuilder('e')
             ->where('e.id = :id');
     if($onlyPublic){

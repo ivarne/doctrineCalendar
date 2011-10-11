@@ -66,7 +66,7 @@ class User {
     return $this->atteributes->getLastName();
   }
   public function getEmail() {
-    return $this->atteributes->getLastName();
+    return $this->atteributes->getEmail();
   }
   public function getTlf() {
     return $this->atteributes->getTlf();

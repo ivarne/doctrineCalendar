@@ -7,6 +7,7 @@ if(!true){
   $event = new \Entities\Event();
   $routing = new Laget\Routing\ModxRouting($lang);
   $user = new User\DummyUser();
+  $respUser = new User\DummyUser();
 }
 ?>
 
@@ -50,15 +51,28 @@ if(!true){
   <?php foreach ($event->getResponsibilities() as $responsibility) :?>
   <tr>
     <th title="<?php echo $responsibility->getResponsibility()->getDescription() ?>">
-      <?php echo $responsibility->getResponsibility()->getName()?>
+      <?php echo $responsibility->getResponsibility()->getName()?>:
     </th>
-    <td><?php echo $responsibility ?></td>
+    <td>
+      <?php if($respUser = $responsibility->getUser()):?>
+        <?php echo $respUser->getName() ?><br>
+        <a href="mailto:<?php echo $respUser->getEmail()?>?subject=<?php echo $event ?>">
+          <?php echo $respUser->getEmail()?>
+        </a><br>
+        (Tlf: <?php echo $respUser->getTlf() ?>)
+        <?php if($responsibility->hasComment()):?>
+          <br><?php echo $responsibility->getComment() ?>
+        <?php endif?>
+      <?php else:?>
+        <?php echo $responsibility ?>
+      <?php endif?>
+    </td>
   </tr>
   <?php endforeach;?>
 
   <tr>
     <th><?php echo __('Intern info')?>:</th>
-    <td><?php echo $event->getInternalInfo()?></td>
+    <td><?php echo $event->getInternalInfo( true,'esc_raw')//html == true?></td>
   </tr>
   <tr>
     <th><?php echo __('Publisert') ?>:</th>

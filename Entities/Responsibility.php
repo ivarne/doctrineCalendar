@@ -8,10 +8,10 @@ namespace Entities;
  */
 class Responsibility extends LagetEntity{
 
-  const Ansvarlig = 1;
-  const Lovsang = 2;
-  const Leder = 3;
-  const Kjokken = 4;
+  const Ansvarlig  = 1;
+  const Lovsang    = 2;
+  const Leder      = 3;
+  const Kjokken    = 4;
   const Teknikkker = 5;
   const Overseting = 6;
   /**
@@ -38,6 +38,12 @@ class Responsibility extends LagetEntity{
    * @Column(type="text")
    */
   protected $description_en;
+
+  /**
+   *
+   * @Column(type="boolean",nullable=false)
+   */
+  protected $active;
 
   public function getId(){
     return $this->id;

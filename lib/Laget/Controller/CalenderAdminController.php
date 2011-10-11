@@ -15,7 +15,7 @@ class CalenderAdminController extends BaseController {
     return $this->render('admin');
   }
   public function executeEdit() {
-    $this->event = $this->getEventRepository()->find((int)$_GET['event'],false);
+    $this->event = $this->getEventRepository()->find((int)$_GET['event']);
     if($this->event == NULL){
       return __('Det finnes ingen hendelse med id (%id%',array('%id%'=>htmlspecialchars($_GET['event'])));
     }
@@ -27,7 +27,7 @@ class CalenderAdminController extends BaseController {
     return $this->render('admin');
   }
   public function executePublish(){
-    $event = $this->getEventRepository()->find((int)$_GET['event'],false);
+    $event = $this->getEventRepository()->find((int)$_GET['event']);
     if($event == NULL){
       return __('Det finnes ingen hendelse med id (%id%',array('%id%'=>htmlspecialchars($_GET['event'])));
     }
@@ -38,7 +38,7 @@ class CalenderAdminController extends BaseController {
     return 'Hendelsen '.$event->getTitle().' ble '.$event->isPublic()?'publiser':'Upublisert';
   }
   public function executeDelete(){
-    $event = $this->getEventRepository()->find((int)$_GET['event'],false);
+    $event = $this->getEventRepository()->find((int)$_GET['event']);
     if($event == NULL){
       return __('Det finnes ingen hendelse med id (%id%)',array('%id%'=>htmlspecialchars($_GET['event'])));
     }
@@ -54,7 +54,7 @@ class CalenderAdminController extends BaseController {
     if(!isset($_POST['id'])) {
       $event = new Event();
     }elseif(!empty($_POST)) {
-      $event = $this->getEventRepository()->find((int)$_POST['id'],false);
+      $event = $this->getEventRepository()->find((int)$_POST['id']);
       if($event->getVersion() != $_POST['version']) {
         echo '<span class="error">';
         echo __('Beklager, noen har redigert denne hendelsen i mellomtiden så du må gjøre dine endringer på nytt');
@@ -185,7 +185,7 @@ class CalenderAdminController extends BaseController {
     $this->concurentEvents = array();
     $this->eventTypeId = null;
     $this->speakerId = null;
-    $this->members = $this->getEntityManager()->getRepository('\Entities\User')->getMembers();
+    $this->members = $this->getEntityManager()->getRepository('\Entities\User')->getCurrentAndRecentMembers();
     $this->responsibilities = $this->getEntityManager()->getRepository('\Entities\Responsibility')->findAll();
     $this->eventTypes = $this->getEntityManager()->getRepository('\Entities\EventType')->findAllActive($event);
     $this->numNewResponsibility = 4;

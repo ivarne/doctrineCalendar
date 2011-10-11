@@ -103,5 +103,6 @@ $translations = array(
   'Telefonnummer' => 'Telephone',
   'Rediger talerinfo' => 'Edit speaker info',
   'De neste hendelsene du har ansvar for:' => 'The next events where you have responsibilities',
+  'I dag '=>'Today ',
 )
 ?>

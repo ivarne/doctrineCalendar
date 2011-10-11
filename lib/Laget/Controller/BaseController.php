@@ -85,6 +85,7 @@ abstract class BaseController{
     return $this->user;
   }
   public function execute($action){
+
     try{
       if(!is_callable(array($this,'execute'.$action))){
         throw new \Exception('Ingen gyldig action på '.get_class($this).' med navn execute'.$action);

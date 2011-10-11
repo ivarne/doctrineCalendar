@@ -12,11 +12,18 @@ use Entities;
  */
 class ResponsibilityRepository extends EntityRepository{
   public function getResponsibilityArray($lang = 'no'){
-    $responsibilities = $this->findAll();
+    $responsibilities = $this->findAllActive();
     $ret = array();
     foreach($responsibilities as $responsibility){
       $ret[$responsibility->getName($lang)] = $responsibility;
     }
     return $ret;
+  }
+  /**
+   *
+   * @return \Entities\Responsibility
+   */
+  public function findAllActive(){
+    return $this->findBy(array('active'=>1));
   }
 }

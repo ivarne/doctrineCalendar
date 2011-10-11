@@ -11,14 +11,14 @@ class RegistrationController extends BaseController {
 
   }
   public function executeNotifyForm(){
-    $event = $this->getEventRepository()->find((int)$_GET['event_id']);
+    $event = $this->getEventRepository()->findPublic((int)$_GET['event_id']);
     
   }
   public function executeSendMail(){
     if(false){
       $reg = new \Entities\Registration();
     }
-    $event = $this->getEventRepository()->find((int)$_GET['event_id']);
+    $event = $this->getEventRepository()->findPublic((int)$_GET['event_id']);
     $adresses = array();
     foreach($event->getRegistrations() as $reg){
       $adresses[] = array($reg->getEmail() => $reg->getName());
@@ -39,7 +39,7 @@ class RegistrationController extends BaseController {
     if(!$this->getUser()->hasPermission('update_registration_paymens')){
       return __('Du har ikke rettighet til å endre betalingsstatus for de påmeldte');
     }
-    $event = $this->getEventRepository()->find((int)$_GET['event_id'], false);
+    $event = $this->getEventRepository()->find((int)$_GET['event_id']);
     if($event == NULL || !$event->hasPayment()){
       throw new \Exception('Det finnes ingen hendelse med id='.(int)$_GET['event_id']);
     }
@@ -54,7 +54,7 @@ class RegistrationController extends BaseController {
   }
   public function executeRegistrer(){
     $registration = new \Entities\Registration();
-    $event = $this->getEventRepository()->find((int)$_GET['event_id'], false);
+    $event = $this->getEventRepository()->find((int)$_GET['event_id']);
     if($event == NULL){
       return __('Det skjedde en feil! Meld deg på manuellt til web[ætt]laget.net');
     }

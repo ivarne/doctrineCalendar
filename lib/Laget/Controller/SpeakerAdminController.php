@@ -15,7 +15,7 @@ class SpeakerAdminController extends BaseController {
     return $this->render('speakerAdmin');
   }
   public function executeEdit() {
-    $this->speaker = $this->getSpeakerRepository()->find((int)$_GET['speakerId'],false);
+    $this->speaker = $this->getSpeakerRepository()->find((int)$_GET['speakerId']);
     return $this->render('speakerAdmin');
   }
   public function executeSave() {

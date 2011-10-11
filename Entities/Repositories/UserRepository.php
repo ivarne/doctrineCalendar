@@ -3,6 +3,7 @@
 namespace Entities\Repositories;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\DBAL\LockMode;
 
 /**
  * UserRepository
@@ -61,7 +62,22 @@ class UserRepository extends EntityRepository
     }
     return $q->getQuery()->getResult();
   }
-  public function find($id){
+  public function getCurrentAndRecentMembers($showHidden = false){
+    $time = new \DateTime('now - 6 month');
+    $q = $this->getEntityManager()->createQueryBuilder()
+            ->select('u,a')
+            ->from('\Entities\User', 'u')
+            ->leftJoin('u.atteributes', 'a')
+            ->where('u.id IN (SELECT m.medlem FROM \Entities\Medlemskap m WHERE  m.slutt > :time)')
+            ->orWhere("u.username = 'vaktmester@laget.net'")
+            ->setParameter('time', $time->format('Y-m-d'))
+            ->orderBy('a.fullname');
+    if(!$showHidden){
+      $q->andWhere('a.hemmelig = 0');
+    }
+    return $q->getQuery()->getResult();
+  }
+  public function find($id, $lockMode = LockMode::NONE, $lockVersion = null){
     $q = $this->getEntityManager()->createQueryBuilder()
             ->select('u,a')
             ->from('\Entities\User', 'u')

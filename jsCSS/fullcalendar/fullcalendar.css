@@ -31,6 +31,7 @@
 .kalender_klasse_upub a span{
     background-color: yellow !important;
     border-color: yellow !important;
+    color: black !important;
 }
 /*
  * FullCalendar v1.4.9 Stylesheet

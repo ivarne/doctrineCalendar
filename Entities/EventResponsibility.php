@@ -96,4 +96,7 @@ class EventResponsibility {
     }
     return $this;
   }
+  public function hasComment(){
+    return strlen($this->comment);
+  }
 }

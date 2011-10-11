@@ -40,7 +40,7 @@ class CalenderViewController extends BaseController {
     return $this->render('icalEvent');
   }
   public function executeListFrontpage(){
-    $this->events = $this->getEventRepository()->getNextEvents(6);
+    $this->events = $this->getEventRepository()->getNextEvents(5);
     if($this->getUser()->isLoggedIn()){
       $this->userResponsibilities = $this->getEventRepository()->getUserResponsibleEvents($this->getUser()->getDoctrineUser());
     }
@@ -55,11 +55,11 @@ class CalenderViewController extends BaseController {
     $datetimeend = new \Datetime();
     $onlyPublic = true;
     if(isset($_GET['upub'])&& $_GET['upub'] == 'true'){
-      if($this->getUser()->isLoggedIn()){
+//      if($this->getUser()->isLoggedIn()){
         $onlyPublic = false;
-      }else{
-        return json_encode(array('error'=>'User Not Logged Inn'));
-      }
+//      }else{
+//        return json_encode(array('error'=>'User Not Logged Inn'));
+//      }
     }
     $events = $this->getEventRepository()->getEventsBetween($datetimestart->setTimestamp($_GET['start']),$datetimeend->setTimestamp($_GET['end']),$onlyPublic);
     $JSON = array();
@@ -79,9 +79,9 @@ class CalenderViewController extends BaseController {
   }
   public function executeShowEvent(){
     $onlyPublic = !$this->getUser()->isLoggedIn();
-    $event = $this->getEventRepository()->find((int)$_GET['event'],$onlyPublic);
+    $event = $this->getEventRepository()->findPublic((int)$_GET['event'],$onlyPublic);
     if($event == NULL){
-      return __('Det finnes ingen hendelse med id: %id% eller du har ikke tilgang til å vise den.<br>Prøv å loge inn',array('%id%'=>(int)$_GET['event']));
+      return __('Det finnes ingen hendelse med id: %id% eller du har ikke tilgang til å vise den.<br>Prøv å <a href="/no/medlemssider/logginn">loge inn</a>',array('%id%'=>(int)$_GET['event']));
     }
     $this->concurentEvents = $this->getEventRepository()->getConcurrentEvents($event);
     $this->event = $event;

@@ -308,7 +308,10 @@ class Event extends LagetEntity {
     $this->internal_info = $internalInfo;
     return $this;
   }
-  public function getInternalInfo(){
+  public function getInternalInfo($html = false){
+    if($html){
+      return nl2br($this->internal_info);
+    }
     return $this->internal_info;
   }
   public function hasLink() {
@@ -350,13 +353,13 @@ class Event extends LagetEntity {
     return $this->hasRegistration;
   }
   public function hasOpenRegistration(){
-    if($this->start->getTimestamp() < time()){
+    if(!$this->hasRegistration){
       return false;
     }
-    if(is_null($this->registrationUntill)){
-      return $this->hasRegistration;
+    if(!is_null($this->registrationUntill)){
+      return $this->registrationUntill->getTimestamp() > time();
     }
-    return $this->registrationUntill->getTimestamp() > time();
+    return $this->start->getTimestamp() > time();
   }
   public function setResponsibility(\Entities\EventResponsibility $responsible) {
     $responsible->setEvent($this);
@@ -388,7 +391,7 @@ class Event extends LagetEntity {
   }
 
   public function __tostring() {
-    return $this->getTitle().' ('.trim($this->getStart('%e. %h. %Y').')');
+    return $this->getTitle().' ('.trim($this->getStart('%e. %h %Y').')');
   }
   /**
    * Hent versjonsnummeret denne hendelsen har.
