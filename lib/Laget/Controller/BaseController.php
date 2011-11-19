@@ -103,6 +103,7 @@ abstract class BaseController{
     }
   }
   public function emailException(\Exception $e){
+      error_log($e->__toString());
       $mailer = $this->createMailer();
       $message = new \Swift_Message();
       $message->setTo('ivarne@gmail.com', 'Ivar Nesje')
