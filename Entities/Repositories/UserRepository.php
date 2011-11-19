@@ -54,7 +54,8 @@ class UserRepository extends EntityRepository
             ->select('u,a')
             ->from('\Entities\User', 'u')
             ->leftJoin('u.atteributes', 'a')
-            ->where('u.id IN (SELECT m.medlem FROM \Entities\Medlemskap m WHERE m.start < :time AND m.slutt > :time)')
+            ->leftJoin('u.membership','m')
+            ->where('m.start < :time AND m.slutt > :time')
             ->setParameter('time', $time->format('Y-m-d'))
             ->orderBy('a.fullname');
     if(!$showHidden){
@@ -68,7 +69,8 @@ class UserRepository extends EntityRepository
             ->select('u,a')
             ->from('\Entities\User', 'u')
             ->leftJoin('u.atteributes', 'a')
-            ->where('u.id IN (SELECT m.medlem FROM \Entities\Medlemskap m WHERE  m.slutt > :time)')
+            ->leftJoin('u.membership','m')
+            ->where(' m.slutt > :time')
             ->orWhere("u.username = 'vaktmester@laget.net'")
             ->setParameter('time', $time->format('Y-m-d'))
             ->orderBy('a.fullname');

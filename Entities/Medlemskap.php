@@ -21,9 +21,11 @@ class Medlemskap
     private $id;
 
     /**
-     * @var integer $medlem
-     *
-     * @Column(name="medlem", type="integer", nullable=false)
+     * @ManyToOne(
+     *  targetEntity="User",
+     *  inversedBy="membership"
+     * )
+     * @JoinColumn(name="medlem", nullable=false, referencedColumnName="id")
      */
     private $medlem;
 
@@ -47,5 +49,7 @@ class Medlemskap
      * @Column(name="betalt", type="boolean", nullable=false)
      */
     private $betalt;
-
+    public function isValid(\DateTime $time){
+      return $time>$this->start && $time<$this->slutt && $this->betalt;
+    }
 }

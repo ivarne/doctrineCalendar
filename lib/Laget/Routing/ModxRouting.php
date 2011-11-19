@@ -23,6 +23,7 @@ class ModxRouting implements RoutingInterface{
     'login'=>array('no'=> 42, 'en'=> 125),
     'logout'=>array('no'=> 255, 'en'=> 226),
     'registration' => array('no'=>458,'en'=>459),
+    'simpleMonth'=> array('no'=>470,'en'=>471),
   );
   private $modx;
   private $lang;
@@ -82,7 +83,9 @@ class ModxRouting implements RoutingInterface{
   public function updateRegistrationPaymentInfo(\Entities\Event $event){
     return $this->makeUrl('registration','?action=updatePayments&amp;event_id='.$event->getId());
   }
-
+  public function simpleMonthView($year,$month,$upub){
+    return $this->makeUrl('simpleMonth', array('year'=>$year,'month'=>$month,'upub'=>$upub));
+  }
   private function makeUrl($page,$param = '',$full =false){
     return $this->modx->makeUrl($this->docid[$page][$this->lang],'',$param,$full?'full':'');
   }

@@ -52,6 +52,14 @@ class User {
    * @var \Entities\User_atteributes
    */
   private $atteributes;
+  /**
+   * @OneToMany(
+   *   targetEntity="Medlemskap",
+   *   mappedBy="medlem"
+   * )
+   * @var \Entities\medlemskap
+   */
+  private $membership;
 
   public function getId() {
     return $this->id;
@@ -74,8 +82,16 @@ class User {
   public function isSecret() {
     return $this->atteributes->isSecret();
   }
-  public function isMember() {
-    return $this->atteributes->isMember();
+  public function isMember(\DateTime $time = NULL) {
+    if($time == NULL){
+      $time = new \DateTime();
+    }
+    foreach($this->membership as $membership ){
+      if($membership->isValid($time)){
+        return TRUE;
+      }
+    }
+    return FALSE;
   }
   public function __toString() {
     return htmlspecialchars( $this->getName(),\ENT_QUOTES , 'UTF-8');

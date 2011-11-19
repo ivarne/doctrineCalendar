@@ -56,4 +56,6 @@ class DummyRouting implements RoutingInterface {
   }
   public function updateRegistrationPaymentInfo(\Entities\Event $event){
   }
+  public function simpleMonthView($year,$month,$upub){
+  }
 }

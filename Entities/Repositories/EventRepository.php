@@ -91,6 +91,7 @@ class EventRepository extends EntityRepository
     }
     $q      ->setParameter('to', $to,'datetime')
             ->setParameter('from', $from, 'datetime');
+    $q->orderBy('e.start');
     return $q->getQuery()->getResult();
   }
   /**

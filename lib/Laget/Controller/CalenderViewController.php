@@ -13,6 +13,9 @@ use Entities\Repositories\EventRepository;
 */
 
 class CalenderViewController extends BaseController {
+  /**
+   * returnerer ingen ting, se på det som eksempelkode
+   */
   public function executeJsonDataDump(){
     $events = $this->getEventRepository()->findAll();
     $json = array();
@@ -29,6 +32,24 @@ class CalenderViewController extends BaseController {
   }
   public function executeMonthView(){
     return $this->render('monthView');
+  }
+  public function executeSimpleMonthView(){
+    $year = (int)$_GET['year'];
+    $month = (int)$_GET['month'];
+    if($year<2000 ||$year > 2200 || $month<1 || $month>12){
+      //Set default year mont today
+      $year = date('Y');
+      $month = date('m');
+    }
+    if(isset($_GET['showNotPublic'])){
+      $onlyPublic = true;
+    }else{
+      $onlyPublic = false;
+    }
+    $this->events = $this->getEventRepository()->getEventsBetween(new \DateTime($year.'-'.$month.'-01'), new \DateTime($year.'-'.($month+1).'-01'),$upub);
+    $this->date = new \DateTime($year.'-'.$month.'-01');
+    $this->onlyPulic = $onlyPublic;
+    $this->render('kalenderListe');
   }
   public function executeList() {
     $this->events = $this->getEventRepository()->getNextEvents(10, $this->getUser()->hasPermission('se upubliserte'), new \DateTime());

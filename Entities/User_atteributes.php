@@ -266,9 +266,6 @@ class User_atteributes {
   public function isSecret() {
     return $this->hemmelig;
   }
-  public function isMember() {
-    return $this->godkjent;
-  }
   public function __toString(){
     return htmlspecialchars( $this->getName(),\ENT_QUOTES , 'UTF-8');
   }
