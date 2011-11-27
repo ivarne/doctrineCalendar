@@ -23,8 +23,10 @@ class ModxUser implements UserInterface{
     $this->em = $em;
   }
   public function hasPermission($permission){
-     if($permission == 'alle')
-        return true;
+    if($permission == 'alle')
+       return true;
+    if($permission == 'logged inn')
+        return $this->isLoggedIn();
     $groups = $this->modx->getUserDocGroups(true);
     if($groups == null){
       return false;
@@ -38,8 +40,6 @@ class ModxUser implements UserInterface{
         return in_array('programbehandling',$groups);
       case 'se alle påmeldte':
         return in_array('programbehandling',$groups);
-      case 'logged inn':
-        return $this->isLoggedIn();
       case 'member':
         return $this->isMember();
       case 'update_registration_paymens':
