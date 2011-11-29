@@ -501,9 +501,23 @@ class Event extends LagetEntity {
     }
     $total = 0;
     foreach($this->getRegistrations() as $reg){
-      $total += $reg->isMember()?$this->price_member : $this->price_non_member;
+      if($reg->getPayedAmount()){
+        $total += $reg->getPayedAmount();
+      }else{
+        $total += $reg->isMember()?$this->price_member : $this->price_non_member;
+      }
     }
     return $total;
+  }
+  public function getNetPaymentError(){
+    if(false){
+      $reg = new Registration();
+    }
+    $error = 0;
+    foreach($this->getRegistrations() as $reg){
+      $error += $reg->getPayedAmount() - ($reg->isMember()?$this->price_member : $this->price_non_member);
+    }
+    return $error;
   }
   public function getTotalPayment(){
     if(false){
@@ -514,6 +528,30 @@ class Event extends LagetEntity {
       $total += $reg->getPayedAmount();
     }
     return $total;
+  }
+  public function getNonPayedRegistration(){
+    if(false){
+      $reg = new Registration();
+    }
+    $nonpayed = array();
+    foreach($this->getRegistrations() as $reg){
+      if((integer)$reg->getPayedAmount() == 0){
+        $nonpayed[] = $reg;
+      }
+    }
+    return $nonpayed;
+  }
+  public function getErrorPayedRegistrations(){
+    if(false){
+      $reg = new Registration();
+    }
+    $nonpayed = array();
+    foreach($this->getRegistrations() as $reg){
+      if((integer)$reg->getPayedAmount() - ($reg->isMember()?$this->price_member : $this->price_non_member) == 0){
+        $nonpayed[] = $reg;
+      }
+    }
+    return $nonpayed;
   }
   public function hasPayment(){
     return isset($this->price_member) && isset($this->price_non_member);

@@ -54,8 +54,9 @@ abstract class BaseController{
    */
   public function createMailer(){
     require_once __DIR__.'/../../../vendor/Swift-4.0.6/lib/swift_required.php';
-    $transport = \Swift_MailTransport::newInstance();
+    //$transport = \Swift_MailTransport::newInstance();
     //Create the Mailer using your created Transport
+    
     return \Swift_Mailer::newInstance($transport);
   }
   public function registrerFacebookOpenGrapTags($tags){

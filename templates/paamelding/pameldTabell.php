@@ -87,6 +87,18 @@ $(document).ready(function()
             '%mangler%'=>$event->getTotalIncome() - $event->getTotalPayment()
           ))?>
 </p>
+<?php if($nonPayed = $event->getNonPayedRegistration()):?>
+  <h3><?php echo __('Disse påmeldte har ikke betalt:');?></h3>
+  <?php foreach($nonPayed as $registration):?>
+    &quot;<?php echo $registration->getName() ?>&quot; &lt;<?php echo $registration->getEmail() ?>&gt;,<br>
+  <?php endforeach?>
+<?php endif?>
+<?php if($errorPayed = $event->getErrorPayedRegistrations()):?>
+  <h3><?php echo __('Disse påmeldte har tilsynelatende betalt feil beløp:');?></h3>
+  <?php foreach($errorPayed as $registration):?>
+    &quot;<?php echo $registration->getName() ?>&quot; &lt;<?php echo $registration->getEmail() ?>&gt;,<br>
+  <?php endforeach?>
+<?php endif?>
 <?php endif?>
 <?php if($user->hasPermission('se alle påmeldte')):?>
 <h3><?php echo __('Påmeldte sortert på gruppe')?>:</h3>
