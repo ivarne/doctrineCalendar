@@ -547,7 +547,7 @@ class Event extends LagetEntity {
     }
     $nonpayed = array();
     foreach($this->getRegistrations() as $reg){
-      if((integer)$reg->getPayedAmount() - ($reg->isMember()?$this->price_member : $this->price_non_member) != 0){
+      if($reg->getPayedAmount() && ((integer)$reg->getPayedAmount() - ($reg->isMember()?$this->price_member : $this->price_non_member) != 0)){
         $nonpayed[] = $reg;
       }
     }
