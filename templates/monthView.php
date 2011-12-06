@@ -169,7 +169,7 @@ $modx->regClientCSS('assets/liksomSymfony/jsCSS/fullcalendar/fullcalendar.css');
 <div id="calendar"></div>
 <?php //if($user->isLoggedIn()):?>
 <div id="options">
-  <label for="upubCheckbox">Vis Upubliserte</label><input type="checkbox" id="upubCheckbox" name="upubCheckbox" checked="checked" value="asdf" <?php echo $user->isLoggedIn() ? 'checked="checked" ':''?>/>
+  <label for="upubCheckbox">Vis Upubliserte</label><input type="checkbox" id="upubCheckbox" name="upubCheckbox" value="asdf" <?php echo $user->isLoggedIn() ? 'checked="checked" ':''?>/>
 </div>
 <div><a href="<?php echo $routing->newEvent() ?>">Ny hendelse</a></div>
 <?php //endif;?>
