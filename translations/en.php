@@ -105,6 +105,7 @@ $translations = array(
   'De neste hendelsene du har ansvar for:' => 'The next events where you have responsibilities',
   'I dag '=>'Today ',
   'Hendelser i ' => 'Events in ',
+  'Andre hendelser i samme tidsrom' => '',
 
 )
 ?>

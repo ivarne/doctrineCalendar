@@ -46,7 +46,7 @@ class CalenderViewController extends BaseController {
     }else{
       $onlyPublic = false;
     }
-    $this->events = $this->getEventRepository()->getEventsBetween(new \DateTime($year.'-'.$month.'-01'), new \DateTime($year.'-'.($month+1).'-01'),$upub);
+    $this->events = $this->getEventRepository()->getEventsBetween(new \DateTime($year.'-'.$month.'-01'), new \DateTime($year.'-'.($month+1%12).'-01'),$upub);
     $this->date = new \DateTime($year.'-'.$month.'-01');
     $this->onlyPulic = $onlyPublic;
     $this->render('kalenderListe');
