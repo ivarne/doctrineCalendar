@@ -80,7 +80,7 @@ class EventRepository extends EntityRepository
   public function getEventsBetween(\DateTime $from, \DateTime $to,$onlyPublic = true){
     $days = ($to->getTimestamp() - $from->getTimestamp())/(60*60*24);// difference in days
     if($days > 100 || $days < 0){
-      throw new \Exception("Invalid range getEventsBetween(\$from = '$from->format('Y-m-d')', \$to = '$to->format('Y-m-d')')");
+      throw new \Exception("Invalid range getEventsBetween(\$from = '".$from->format('Y-m-d')."', \$to = '".$to->format('Y-m-d')."')");
     }
     $q = $this->createQueryBuilder('e')
             ->where('e.start < :to')
