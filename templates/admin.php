@@ -68,8 +68,8 @@ if(!empty($error)) {
     </tr>
     <tr>
       <th><?php echo __('Tittel')?></th>
-      <td><input id="hendelse" type="text" name="title_no" value="<?php echo $event->getTitle('no')?>"></td>
-      <td><input id="hendelse_en" type="text" name="title_en" value="<?php echo $event->getTitle('en')?>"></td>
+      <td><input id="hendelse" type="text" name="title_no" maxlength="70" value="<?php echo $event->getTitle('no')?>"></td>
+      <td><input id="hendelse_en" type="text" name="title_en" maxlength="70" value="<?php echo $event->getTitle('en')?>"></td>
     </tr>
     <tr>
       <th><?php echo __('Kort info')?></th>
