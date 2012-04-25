@@ -162,6 +162,14 @@ class Event extends LagetEntity {
   private $registrationUntill;
   /**
    * @Column(
+   *  type="datetime",
+   *  nullable=true
+   * )
+   * @var \DateTime
+   */
+  private $registrationFrom;
+  /**
+   * @Column(
    *  type="text",
    *  nullable=true
    * )
@@ -350,6 +358,9 @@ class Event extends LagetEntity {
     return $this->registrations;
   }
   public function hasRegistration(){
+    if(!is_null($this->registrationFrom) && $this->registrationFrom->getTimestamp() < time()){
+        return false; // registration has not started yet
+    }
     return $this->hasRegistration;
   }
   public function hasOpenRegistration(){
