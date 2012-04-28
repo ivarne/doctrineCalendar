@@ -358,6 +358,10 @@ class Event extends LagetEntity {
     return $this->registrations;
   }
   public function hasRegistration(){
+    // ugly hack
+    if(isset($_GET['registration'])){
+        return true;
+    }
     if(!is_null($this->registrationFrom) && $this->registrationFrom->getTimestamp() < time()){
         return false; // registration has not started yet
     }
