@@ -66,6 +66,7 @@ $(document).ready(function()
       <td>
         <?php if($user->hasPermission('update_registration_paymens') && !$registration->isPaymentOk()):?>
           <input type="text" name="payment[<?php echo $registration->getId() ?>]" value="<?php echo $registration->getPayedAmount() ?>" size="4">
+          <input type="checkbox" name="faik[<?php echo $registration->getId() ?>]" <?php echo $registration->isFaikMember()?'checked="checked"':'' ?> >
         <?php else:?>
           <span style="color: <?php echo $registration->isPaymentOk()?'green':'red' ?>"><?php echo (int)$registration->getPayedAmount() ?></span>
         <?php endif?>

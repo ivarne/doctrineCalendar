@@ -71,6 +71,11 @@ class Registration extends LagetEntity {
    */
   protected $payed_amount;
   /**
+   * @Column(type="boolean")
+   * cheeting field to make someone appare as member (eg. 17. mai party)
+   */
+  private $faik_member;
+  /**
    * @ManyToOne(targetEntity="User",inversedBy="registrations")
    * @var Entities\User
    */
@@ -122,13 +127,23 @@ class Registration extends LagetEntity {
     return $this;
   }
   public function isPaymentOk(){
-    if($this->hasUser() && $this->getUser()->isMember()){
+    if($this->isMember()){
       return $this->getEvent()->getPriceMember() == $this->payed_amount;
     }
     //ikke medlem
     return $this->getEvent()->getPriceNonMember() == $this->payed_amount;
   }
+  public function isFaikMember(){
+      return $this->faik_member;
+  }
+  public function setFaikMember($faik_member){
+      $this->faik_member = $faik_member;
+      return $this;
+  }
   public function isMember(){
+    if($this->faik_member){
+        return true;
+    }
     if(!$this->hasUser()){
       return false;
     }
