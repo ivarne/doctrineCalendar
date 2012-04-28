@@ -48,7 +48,7 @@ class RegistrationController extends BaseController {
               && isset($_POST['payment'][$registration->getId()])){
         $registration->setPayedAmount($_POST['payment'][$registration->getId()]);
       }
-      $registration->setFaikMember($_POST['faik'][$registration->getId()]);
+      $registration->setFaikMember(isset($_POST['faik'][$registration->getId()]));
     }
     $this->getEntityManager()->flush();
     return '<a href="'.$this->routing->showEvent($event).'">Tilbake til hendelsen</a>';
