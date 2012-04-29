@@ -54,10 +54,17 @@ $(document).ready(function()
       <?php if($user->hasPermission('se alle påmeldte')):?>
       <td>
         <?php if($registration->hasUser()):?>
-        <?php echo $registration->getUser()->isMember()?__('Ja'):__('Nei') ?>
+        <?php echo $registration->isMember()?__('Ja'):__('Nei') ?>
         <?php else:?>
         <?php echo __('Ukjent')?>
         <?php endif?>
+        <?php if($user->hasPermission('update_registration_paymens'):?>
+          <input 
+              type="checkbox" 
+              name="faik[<?php echo $registration->getId() ?>]" 
+              <?php echo $registration->isFaikMember()?'checked="checked"':'' ?>
+              title="Juksemedlem EG. medlem i KRIK på 17. mai fest, eller andre grunner til at medlemspris er gjeldende">
+        <?php endif;?>
       </td>
       <td><?php echo $registration->getEmail() ?></td>
       <td><?php echo $registration->getTlf() ?></td>
@@ -66,7 +73,6 @@ $(document).ready(function()
       <td>
         <?php if($user->hasPermission('update_registration_paymens') && !$registration->isPaymentOk()):?>
           <input type="text" name="payment[<?php echo $registration->getId() ?>]" value="<?php echo $registration->getPayedAmount() ?>" size="4">
-          <input type="checkbox" name="faik[<?php echo $registration->getId() ?>]" <?php echo $registration->isFaikMember()?'checked="checked"':'' ?> >
         <?php else:?>
           <span style="color: <?php echo $registration->isPaymentOk()?'green':'red' ?>"><?php echo (int)$registration->getPayedAmount() ?></span>
         <?php endif?>

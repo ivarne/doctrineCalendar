@@ -74,7 +74,7 @@ class Registration extends LagetEntity {
    * @Column(type="boolean")
    * cheeting field to make someone appare as member (eg. 17. mai party)
    */
-  private $faik_member;
+  private $faik_member = false;
   /**
    * @ManyToOne(targetEntity="User",inversedBy="registrations")
    * @var Entities\User
