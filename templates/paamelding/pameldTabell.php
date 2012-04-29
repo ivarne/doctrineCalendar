@@ -58,7 +58,7 @@ $(document).ready(function()
         <?php else:?>
         <?php echo __('Ukjent')?>
         <?php endif?>
-        <?php if($user->hasPermission('update_registration_paymens'):?>
+        <?php if($user->hasPermission('update_registration_paymens')):?>
           <input 
               type="checkbox" 
               name="faik[<?php echo $registration->getId() ?>]" 
