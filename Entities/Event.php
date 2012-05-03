@@ -199,7 +199,13 @@ class Event extends LagetEntity {
    */
   private $price_non_member;
 
-
+  /**
+   * @Column(
+   *  type="array",
+   *  nullable=true
+   * )
+   */
+  private $extra;
 
   /**
    *

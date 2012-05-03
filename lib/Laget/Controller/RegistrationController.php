@@ -64,11 +64,11 @@ class RegistrationController extends BaseController {
     }
     $registration
             ->setEvent($event)
-            ->setName($_POST['name'])
-            ->setEmail($_POST['epost'])
-            ->setTlf($_POST['tlf'])
+            ->setName(trim($_POST['name']))
+            ->setEmail(trim($_POST['epost']))
+            ->setTlf(trim($_POST['tlf']))
             ->setPublic($_POST['pub'])
-            ->setComment($_POST['comment'])
+            ->setComment(trim($_POST['comment']))
             ->setLang($this->getUser()->getLanguage())
             ->setCreatedAt(new \DateTime())
             ->setUpdatedAt(new \DateTime());
