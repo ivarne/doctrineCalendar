@@ -83,9 +83,7 @@ $(document).ready(function()
     <?php endforeach?>
   </tbody>
 </table>
-<?php if($event->hasPayment() && $user->hasPermission('update_registration_paymens')):?>
-<input type="submit" value="<?php echo __('Oppdter betalingsstatus')?>">
-</form>
+<?php if($event->hasPayment()):?>
 <p>
   <?php echo __('Totalt skal det betales %total% kr. Foreløpig er det betalt %forelopig% kroner og det mangler %mangler%',
           array(
@@ -94,6 +92,10 @@ $(document).ready(function()
             '%mangler%'=>$event->getTotalIncome() - $event->getTotalPayment()
           ))?>
 </p>
+<?php if($user->hasPermission('update_registration_paymens')):?>
+<input type="submit" value="<?php echo __('Oppdter betalingsstatus')?>">
+</form>
+<?php endif;?>
 <?php if($nonPayed = $event->getNonPayedRegistration()):?>
   <h3><?php echo __('Disse påmeldte har ikke betalt:');?></h3>
   <?php foreach($nonPayed as $registration):?>
