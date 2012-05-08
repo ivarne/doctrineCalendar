@@ -83,7 +83,7 @@ $(document).ready(function()
     <?php endforeach?>
   </tbody>
 </table>
-<?php if($event->hasPayment()):?>
+<?php if($event->hasPayment() && $user->hasPermission('se alle påmeldte')):?>
 <p>
   <?php echo __('Totalt skal det betales %total% kr. Foreløpig er det betalt %forelopig% kroner og det mangler %mangler%',
           array(
