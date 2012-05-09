@@ -54,17 +54,18 @@ $(document).ready(function()
       <?php if($user->hasPermission('se alle påmeldte')):?>
       <td>
         <?php if($registration->hasUser()):?>
-        <?php echo $registration->isMember()?__('Ja'):__('Nei') ?>
+        <?php echo $registration->getUser()->isMember()?__('Ja'):__('Nei') ?>
         <?php else:?>
         <?php echo __('Ukjent')?>
         <?php endif?>
-        <?php if($user->hasPermission('update_registration_paymens')):?>
-          <input 
-              type="checkbox" 
-              name="faik[<?php echo $registration->getId() ?>]" 
-              <?php echo $registration->isFaikMember()?'checked="checked"':'' ?>
-              title="Juksemedlem EG. medlem i KRIK på 17. mai fest, eller andre grunner til at medlemspris er gjeldende">
-        <?php endif;?>
+        <input 
+            type="checkbox" 
+            name="faik[<?php echo $registration->getId() ?>]" 
+            <?php echo $registration->isFaikMember()?'checked="checked"':'' ?>
+            title="Juksemedlem EG. medlem i KRIK på 17. mai fest, eller andre grunner til at medlemspris er gjeldende"
+            <?php if(!$user->hasPermission('update_registration_paymens')):?>
+            disabled="disabled"
+            <?php endif;?>>
       </td>
       <td><?php echo $registration->getEmail() ?></td>
       <td><?php echo $registration->getTlf() ?></td>
