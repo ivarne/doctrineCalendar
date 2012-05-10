@@ -126,12 +126,14 @@ class Registration extends LagetEntity {
     $this->comment = $comment;
     return $this;
   }
+  public function getPrice(){
+      if($this->isMember()){
+          return $this->getEvent()->getPriceMember();
+      }
+      return $this->getEvent()->getPriceNonMember();
+  }
   public function isPaymentOk(){
-    if($this->isMember()){
-      return $this->getEvent()->getPriceMember() == $this->payed_amount;
-    }
-    //ikke medlem
-    return $this->getEvent()->getPriceNonMember() == $this->payed_amount;
+    return $this->getPrice() == $this->payed_amount;
   }
   public function isFaikMember(){
       return $this->faik_member;

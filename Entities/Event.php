@@ -570,6 +570,22 @@ class Event extends LagetEntity {
     }
     return $nonpayed;
   }
+  public function getPaymentAmmountDistribution(){
+    if(false) $reg = new Registration();// autocomplete
+    $payedAmmount = array(
+        $this->getPriceMember()    => array(0,0),
+        $this->getPriceNonMember() => array(0,0)
+    );
+    foreach($this->getRegistrations() as $reg){
+      if(!isset($ammount[$reg->getPayedAmount()])){
+        $payedAmmount[$reg->getPayedAmount()] = array(0,0);
+      }
+      $payedAmmount[$reg->getPayedAmount()][0] +=1;
+      $payedAmmount[$reg->getPayedAmount()][1] +=1;
+    }
+    ksort($payedAmmount);
+    return $payedAmmount;
+  }
   public function hasPayment(){
     return isset($this->price_member) && isset($this->price_non_member);
   }

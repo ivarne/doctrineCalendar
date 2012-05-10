@@ -93,6 +93,24 @@ $(document).ready(function()
             '%mangler%'=>$event->getTotalIncome() - $event->getTotalPayment()
           ))?>
 </p>
+<table>
+  <tr>
+    <th>Pris</th>
+    <th>Antall<br>(betalt/forventet)</th>
+    <th>Sum</th>
+  </tr>
+  <?php foreach($event->getPaymentDistribution() as $price => $num):?>
+    <td><?php echo $price ?></td>
+    <td>(<?php echo $num[0].'/'.$num[1] ?>)</td>
+    <td><?php echo ($num[0]*$price).'/'.($num[1]*$price) ?></td>
+  <?php endforeach;?>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <th><?php echo $event->getTotalPayment().'/'.$event->getTotalIncome() ?></th>
+  </tr>
+</table>
 <?php if($user->hasPermission('update_registration_paymens')):?>
 <input type="submit" value="<?php echo __('Oppdter betalingsstatus')?>">
 </form>
