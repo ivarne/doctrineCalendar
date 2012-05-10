@@ -577,11 +577,11 @@ class Event extends LagetEntity {
         $this->getPriceNonMember() => array(0,0)
     );
     foreach($this->getRegistrations() as $reg){
-      if(!isset($ammount[$reg->getPayedAmount()])){
+      if(!isset($payedAmmount[$reg->getPayedAmount()])){
         $payedAmmount[$reg->getPayedAmount()] = array(0,0);
       }
-      $payedAmmount[$reg->getPayedAmount()][0] +=1;
-      $payedAmmount[$reg->getPayedAmount()][1] +=1;
+      $payedAmmount[$reg->getPayedAmount()][0]++;
+      $payedAmmount[$reg->getPrice()][1]++;
     }
     ksort($payedAmmount);
     return $payedAmmount;
