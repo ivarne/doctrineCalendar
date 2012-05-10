@@ -579,7 +579,7 @@ class Event extends LagetEntity {
     foreach($this->getRegistrations() as $reg){
       if(is_null($reg->getPayedAmount())){
         $payedAmmount[$reg->getPrice()][1]++;
-        break;
+        continue;
       }
       if(!isset($payedAmmount[$reg->getPayedAmount()])){
         $payedAmmount[$reg->getPayedAmount()] = array(0,0);
