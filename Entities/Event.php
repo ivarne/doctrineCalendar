@@ -590,6 +590,16 @@ class Event extends LagetEntity {
     ksort($payedAmmount);
     return $payedAmmount;
   }
+  public function getNumPayments(){
+      if(false) $reg = new Registration();//autocomplete
+      $num = 0;
+      foreach ($this->getRegistrations() as $reg) {
+          if($reg->getPayedAmount()){
+              $num++;
+          }
+      }
+      return $num;
+  }
   public function hasPayment(){
     return isset($this->price_member) && isset($this->price_non_member);
   }

@@ -86,24 +86,31 @@ $(document).ready(function()
 </table>
 <?php if($event->hasPayment() && $user->hasPermission('se alle påmeldte')):?>
 <p>
-  <?php echo __('Totalt skal det betales %total% kr. Foreløpig er det betalt %forelopig% kroner og det mangler %mangler%',
+  <?php echo __('Totalt skal de %totReg% påmeldte betale %total% kr. Foreløpig har %betalt% folk betalt %forelopig% kroner og de resterende %ikke_betalt% skal betale %mangler% kroner',
           array(
-            '%total%'=> $event->getTotalIncome(),
+            '%total%'=>    $event->getTotalIncome(),
             '%forelopig%'=>$event->getTotalPayment(),
-            '%mangler%'=>$event->getTotalIncome() - $event->getTotalPayment()
+            '%mangler%'=>  $event->getTotalIncome() - $event->getTotalPayment(),
+            '%totReg%' =>  count($event->getRegistrations()),
+            '%betalt%' =>  $event->getNumPayments(),
+            '%ikke_betalt%'=> count($event->getRegistrations()) - $event->getNumPayments()
           ))?>
 </p>
 <table>
   <tr>
     <th>Pris</th>
-    <th>Antall<br>(betalt/forventet)</th>
-    <th>Sum</th>
+    <th>Antall betalt</th>
+    <th>Sum betalt</th>
+    <th>Antall forventet</th>
+    <td>Sum forventet</td>
   </tr>
   <?php foreach($event->getPaymentDistribution() as $price => $num):?>
   <tr>
     <td><?php echo $price ?></td>
-    <td>(<?php echo $num[0].'/'.$num[1] ?>)</td>
-    <td><?php echo ($num[0]*$price).'/'.($num[1]*$price) ?></td>
+    <td><?php echo $num[0] ?></td>
+    <td><?php echo $num[0]*$price ?></td>
+    <td><?php echo $num[1] ?></td>
+    <td><?php echo $num[1]*$price ?></td>
   </tr>
   <?php endforeach;?>
   <tr>
