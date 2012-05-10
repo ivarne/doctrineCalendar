@@ -570,7 +570,7 @@ class Event extends LagetEntity {
     }
     return $nonpayed;
   }
-  public function getPaymentAmmountDistribution(){
+  public function getPaymentDistribution(){
     if(false) $reg = new Registration();// autocomplete
     $payedAmmount = array(
         $this->getPriceMember()    => array(0,0),
