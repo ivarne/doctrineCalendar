@@ -100,11 +100,12 @@ $(document).ready(function()
     <th>Sum</th>
   </tr>
   <?php foreach($event->getPaymentDistribution() as $price => $num):?>
+  <tr>
     <td><?php echo $price ?></td>
     <td>(<?php echo $num[0].'/'.$num[1] ?>)</td>
     <td><?php echo ($num[0]*$price).'/'.($num[1]*$price) ?></td>
-  <?php endforeach;?>
   </tr>
+  <?php endforeach;?>
   <tr>
     <td></td>
     <td></td>
