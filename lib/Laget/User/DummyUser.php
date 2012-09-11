@@ -25,7 +25,7 @@ class DummyUser implements UserInterface{
   public function getTelephone(){
     return '45457886';
   }
-  public function isMember(){
+  public function isMember(\DateTime $time = NULL){
     return true;
   }
   public function getLanguage(){

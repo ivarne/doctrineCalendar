@@ -8,7 +8,7 @@ interface UserInterface{
   public function getName();
   public function getEmail();
   public function getTelephone();
-  public function isMember();
+  public function isMember(\DateTime $time = NULL);
   public function getLanguage();
   public function getDoctrineUser();
 }

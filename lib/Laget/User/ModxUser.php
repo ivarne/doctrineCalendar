@@ -72,12 +72,12 @@ class ModxUser implements UserInterface{
     }
     return $this->cache['mobilephone'];
   }
-  public function isMember(){
+  public function isMember(\DateTime $time = NULL){
     $this->loadDoctrineUser();
     if($this->doctrineUser == null){
       return false;
     }
-    return $this->doctrineUser->isMember();
+    return $this->doctrineUser->isMember($time);
   }
   public function getLanguage(){
     if(!isset($this->lang)){
