@@ -205,7 +205,7 @@ class Event extends LagetEntity {
    *  nullable=true
    * )
    */
-  private $extra;
+  public $extra;
 
   /**
    *
