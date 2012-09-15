@@ -129,7 +129,7 @@ endif;//samtidighe hendelser*/
   require 'paamelding/paamelding.php';
 }?>
 
-<?php if(isset($event->extra['facebook']))?>
+<?php if(isset($event->extra['facebook'])):?>
 <?php echo __("Denne hendelsen er også publisert på <a href=\"%url%\">facebook</a> og %antall% har sagt at de kommer",
               array('%url%'=>"https://facebook.com/".$event->extra['facebook']['id'],'%antall%'=>count($event->extra['facebook']['attending']['data']))); ?>
 <?php endif;?>
