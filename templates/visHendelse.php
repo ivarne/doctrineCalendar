@@ -130,7 +130,9 @@ endif;//samtidighe hendelser*/
 }?>
 
 <?php if(isset($event->extra['facebook'])):?>
+<div>
 <?php echo __("Denne hendelsen er også publisert på <a href=\"%url%\">facebook</a> og %antall% har sagt at de kommer",
               array('%url%'=>"https://facebook.com/".$event->extra['facebook']['id'],'%antall%'=>count($event->extra['facebook']['attending']['data']))); ?>
+</div>
 <?php endif;?>
 <a href="<?php echo $routing->monthView($event->getRawValue()->getStart())?>"><?php echo __('Tilbake til kalenderen') ?></a>

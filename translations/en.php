@@ -105,7 +105,9 @@ $translations = array(
   'De neste hendelsene du har ansvar for:' => 'The next events where you have responsibilities',
   'I dag '=>'Today ',
   'Hendelser i ' => 'Events in ',
-  'Andre hendelser i samme tidsrom' => '',
+  'Andre hendelser i samme tidsrom' => 'Other events in the same timeframe',
+  'Denne hendelsen er også publisert på <a href="%url%">facebook</a> og %antall% har sagt at de kommer' =>
+  'This event is also published on <a href="%url%">facebook</a> and %antall% is comming',
 
 )
 ?>
