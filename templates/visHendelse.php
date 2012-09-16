@@ -135,11 +135,12 @@ endif;//samtidighe hendelser*/
               array('%url%'=>"https://facebook.com/".$event->extra['facebook']['id'],'%antall%'=>count($event->extra['facebook']['attending']['data']))); ?>
 </div>
 <?php if(isset($only_facebook)):?>
+  <p><?php echo __('Disse personene har tilsynelatende bare meldt seg på på facebook siden. (Siden noen skriver navnet sitt ulikt fra gang til gang står navn til folk som har meldt seg på med lignende navn på web i parantes ved siden av)')?></p>
   <ul>
     <?php foreach($only_facebook as $fb):?>
       <li>
         <a href="https://facebook.com/<?php echo $fb['id'] ?>"><?php echo $fb['name']?></a>
-        <?php if(isset($fb['web_registration'])){echo " ".implode(", ", $fb['web_registration']);};?>
+        <?php if(isset($fb['web_registration'])){echo " (".implode(", ", $fb['web_registration']).")";};?>
       </li>
     <?php endforeach;?>
   </ul>

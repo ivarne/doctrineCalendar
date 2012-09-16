@@ -126,11 +126,11 @@ class CalenderViewController extends BaseController {
         $fb[ucwords($reg['name'])] = $reg;
       }
       $only_fb = array_diff_key($fb, $web);
-      if($this->user->hasPermission('redigere hendelser')){
-        $only_web = array_diff_key($web, $fb);
-        foreach($only_fb as $fb_name =>$fb){
-          $exp_fb_name = explode(" ", $fb_name);
-          foreach($only_web as $web_name => $web){
+      $only_web = array_diff_key($web, $fb);
+      foreach($only_fb as $fb_name =>$fb){
+        $exp_fb_name = explode(" ", $fb_name);
+        foreach($only_web as $web_name => $web){
+          if($this->user->hasPermission($web->getPublic())){
             $exp_web_name = explode(" ", $web_name);
             if(array_intersect($exp_fb_name, $exp_web_name) > 1 || levenshtein($web,$fb)<3){
               if(!isset($fb['web_registration'])){
@@ -142,8 +142,9 @@ class CalenderViewController extends BaseController {
           }
         }
       }
-      
-      $this->only_facebook = $only_fb;
+      if(!empty($only_fb)){
+        $this->only_facebook = $only_fb;
+      }
     }
     
     return $this->render('visHendelse');
