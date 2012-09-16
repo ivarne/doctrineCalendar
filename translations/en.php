@@ -107,7 +107,10 @@ $translations = array(
   'Hendelser i ' => 'Events in ',
   'Andre hendelser i samme tidsrom' => 'Other events in the same timeframe',
   'Denne hendelsen er også publisert på <a href="%url%">facebook</a> og %antall% har sagt at de kommer' =>
-  'This event is also published on <a href="%url%">facebook</a> and %antall% is comming',
-
+  'This event is also published on <a href="%url%">facebook</a> and %antall% is coming',
+  "Hei %navn%,\n\nDu er nå påmeldt %title%.\n\n%email%\n%info%\n\nIfølge databasen er du %medlem% i laget."=>
+  "Hi %navn%,\n\nYou are now registered for %title%.\n\n%email%\n%info%\n\nAccording to our database you are %medlem% in laget",
+  'medlem' => 'member',
+  'ikke medlem' => 'not a member',
 )
 ?>

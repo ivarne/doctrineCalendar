@@ -103,7 +103,7 @@ class RegistrationController extends BaseController {
       $message->setFrom('ikke-svar@laget.net', 'Laget');
       $message->setReplyTo('ivarne@gmail.com', 'Ivar Nesje');
     
-      $message->setBody(strtr($event->getMail(),$this->getTransformations($registration)));
+      $message->setBody($this->getEmailBody($registration));
       try{
         $mailer->send($message);
       }catch(Swift_RfcComplianceException $e){
@@ -114,9 +114,12 @@ class RegistrationController extends BaseController {
     }
     return nl2br($message->getBody());
   }
-  private function getTransformations(\Entities\Registration $registration){
+  private function getEmailBody(\Entities\Registration $registration){
     $trans = array(
-      '%navn%'=>$registration->getName(),
+      '%navn%'  =>$registration->getName(),
+      '%title%' => $registration->getEvent()->getTitle(),
+      '%info%'  => $registration->getEvent()->getFullInfo(false),
+      '%email%' => $registration->getEvent()->getMail(),
     );
     if(count($registration->getEvent()->getRegistrationTasks())){
       $trans['%gruppe%'] = $registration->getTask()->getName();
@@ -124,13 +127,13 @@ class RegistrationController extends BaseController {
 
     }
     if($registration->getUser() && $registration->getUser()->isMember()){
-      $trans['%medlem%'] = 'medlem';
+      $trans['%medlem%'] = __('medlem');
       $trans['%pris%'] = $registration->getEvent()->getPriceMember();
     }else{
-      $trans['%medlem%'] = 'ikke medlem';
+      $trans['%medlem%'] = __('ikke medlem');
       $trans['%pris%'] = $registration->getEvent()->getPriceNonMember();
     }
-    return $trans;
+    return __("Hei %navn%,\n\nDu er nå påmeldt %title%.\n\n%email%\n%info%\n\nIfølge databasen er du %medlem% i laget.");
   }
 
   /**
