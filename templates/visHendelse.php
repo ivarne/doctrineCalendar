@@ -134,5 +134,15 @@ endif;//samtidighe hendelser*/
 <?php echo __("Denne hendelsen er også publisert på <a href=\"%url%\">facebook</a> og %antall% har sagt at de kommer",
               array('%url%'=>"https://facebook.com/".$event->extra['facebook']['id'],'%antall%'=>count($event->extra['facebook']['attending']['data']))); ?>
 </div>
+<?php if(isset($only_facebook)):?>
+  <ul>
+    <?php foreach($only_facebook as $fb):?>
+      <li>
+        <a href="https://facebook.com/<?php echo $fb['id'] ?>"><?php echo $fb['name']?></a>
+        <?php if(isset($fb['web_registration'])){echo " ".implode(", ", $fb['web_registration']);};?>
+      </li>
+    <?php endforeach;?>
+  </ul>
+<?php endif;?>
 <?php endif;?>
 <a href="<?php echo $routing->monthView($event->getRawValue()->getStart())?>"><?php echo __('Tilbake til kalenderen') ?></a>

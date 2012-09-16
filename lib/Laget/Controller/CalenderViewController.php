@@ -113,6 +113,40 @@ class CalenderViewController extends BaseController {
       'og:url'=>'http://www.laget.net'.$this->routing->showEvent($event),
       'og:description'=>$event->getShort().($event->hasSpeaker()?' '.__('Taler').': '.$event->getSpeaker()->getName():'').__(' Klokka ').$event->getStart('%R %A %e. %b'),
     ));
+    if($event->hasRegistration() && isset($event->extra['facebook'])){
+      $fb = array();
+      $web = array();
+      foreach($event->getRegistrations() as $reg){
+        $web[ucwords($reg->getName())] = $reg;
+        if($reg->getUser() && $reg->getName() != $reg->getUser()->getName()){
+          $web[ucwords($reg->getUser()->getName())] = $reg;
+        }
+      }
+      foreach($event->extra['facebook']['attending']['data'] as $reg){
+        $fb[ucwords($reg['name'])] = $reg;
+      }
+      $only_fb = array_intersect_key($fb, $web);
+      
+      if($this->user->hasPermission('redigere hendelser')){
+        $only_web = array_intersect_key($web, $fb);
+        foreach($only_fb as $fb_name =>$fb){
+          $exp_fb_name = explode($fb_name);
+          foreach($only_web as $web_name => $web){
+            $exp_web_name = explode($web_name);
+            if(array_intersect($exp_fb_name, $exp_web_name) > 1 || levenshtein($web,$fb)<3){
+              if(!isset($fb['web_registration'])){
+                $fb['web_registration'] = array($web_name);
+              }else{
+                $fb['web_registration'][] = $web_name;
+              }
+            }
+          }
+        }
+      }
+      
+      $this->only_facebook = $only_fb;
+    }
+    
     return $this->render('visHendelse');
   }
   public function executeListResponsibilitiesUser(){
