@@ -98,7 +98,7 @@ abstract class BaseController{
       header('HTTP/1.0 500 Internal Server Error');
       echo 'Det skjedde en feil, vær vennlig å sende en kort beskrivelse av hva du gjorde så blir det mye lettere å finne ut hva som skjedde til web@laget.net';
       $this->emailException($e);
-      if($this->getUser()->getId() == 151)){//only Ivar Nesje
+      if($this->getUser()->getId() == 151){//only Ivar Nesje
         echo $this->formatException($e);
       }
     }
