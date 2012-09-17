@@ -91,7 +91,7 @@ class CalenderViewController extends BaseController {
         'start' => $event->getStart()->getTimestamp(),
         'end'   => $event->getEnd()->getTimestamp(),
         'url'   => $this->routing->showEvent($event),
-        'info'  => $event->getShort(),
+        'info'  => $event->isPublic() ? $event->getShort() : $event->getResponsibilities(Responsibility::Ansvarlig, true),
         'allDay'=> false,
         'className'=> 'kalender_klasse_'.($event->isPublic()?'pub':'upub'),
       );
