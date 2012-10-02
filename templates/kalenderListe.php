@@ -41,7 +41,21 @@ foreach ($events as $event):?>
   <?php endif;?>
 </div>
 <?php endforeach;?>
-<?php if(isset($months)):?>
-<?php echo var_dump($months)?>
-
-<? endif; ?>
+<?php 
+$year = $months[0]['y'];
+?>
+<ul>
+ <li><?php echo $year ?>
+  <ul>
+<?php 
+  foreach($months as $month){
+    if($month['y'] != $year){
+      $year = $month['y'];
+      echo "  </ul>\n </li>\n <li>".$month['m']."\n  <ul>\n";
+    }
+    echo " <li><a href=\"".$routing->simpleMonthView($year, $month['m'], $onlyPublic)."\"></a></li>\n  ";
+  }
+?>
+  </ul>
+ </li>
+</ul>
