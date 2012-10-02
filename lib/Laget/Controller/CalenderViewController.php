@@ -36,7 +36,7 @@ class CalenderViewController extends BaseController {
   public function executeSimpleMonthView(){
     $year = (int)$_GET['year'];
     $month = (int)$_GET['month'];
-    if($year<2000 ||$year > 2200 || $month<1 || $month>12){
+    if($year<1900 ||$year > 2200 || $month<1 || $month>12){
       //Set default year mont today
       $year = date('Y');
       $month = date('m');
