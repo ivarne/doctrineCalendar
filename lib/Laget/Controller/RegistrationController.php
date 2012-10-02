@@ -133,7 +133,7 @@ class RegistrationController extends BaseController {
       $trans['%medlem%'] = __('ikke medlem');
       $trans['%pris%'] = $registration->getEvent()->getPriceNonMember();
     }
-    return __("Hei %navn%,\n\nDu er nå påmeldt %title%.\n\n%email%\n%info%\n\nIfølge databasen er du %medlem% i laget.");
+    return __("Hei %navn%,\n\nDu er nå påmeldt %title%.\n\n%email%\n%info%\n\nIfølge databasen er du %medlem% i laget.",$trans);
   }
 
   /**
