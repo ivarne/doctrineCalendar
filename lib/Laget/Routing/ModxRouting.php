@@ -84,7 +84,11 @@ class ModxRouting implements RoutingInterface{
     return $this->makeUrl('registration','?action=updatePayments&amp;event_id='.$event->getId());
   }
   public function simpleMonthView($year,$month,$upub){
-    return $this->makeUrl('simpleMonth', array('year'=>$year,'month'=>$month,'upub'=>$upub));
+    $opts = "year=".(int)$year."&month=".(int)$month;
+    if($upub){
+        $opts .= '&showNotPublic=1';
+    }
+    return $this->makeUrl('simpleMonth', $opts);
   }
   private function makeUrl($page,$param = '',$full =false){
     return $this->modx->makeUrl($this->docid[$page][$this->lang],'',$param,$full?'full':'');
