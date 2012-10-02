@@ -140,7 +140,7 @@ endif;//samtidighe hendelser*/
     <?php foreach($only_facebook as $fb):?>
       <li>
         <a href="https://facebook.com/<?php echo $fb['id'] ?>"><?php echo $fb['name']?></a>
-        <?php if(isset($fb['web_registration'])){echo " (".implode(", ", $fb['web_registration']).")";};?>
+        <?php if(isset($fb['web_registration'])){echo " (".$fb['web_registration'].")";};?>
       </li>
     <?php endforeach;?>
   </ul>

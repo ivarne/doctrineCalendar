@@ -113,7 +113,7 @@ class CalenderViewController extends BaseController {
       'og:url'=>'http://www.laget.net'.$this->routing->showEvent($event),
       'og:description'=>$event->getShort().($event->hasSpeaker()?' '.__('Taler').': '.$event->getSpeaker()->getName():'').__(' Klokka ').$event->getStart('%R %A %e. %b'),
     ));
-    if($event->hasRegistration() && isset($event->extra['facebook'])){
+    if($event->hasRegistration() && isset($event->extra['facebook']) && isset($event->extra['facebook']['attending'])){
       $fb = array();
       $web = array();
       foreach($event->getRegistrations() as $reg){
@@ -129,17 +129,17 @@ class CalenderViewController extends BaseController {
       $only_web = array_diff_key($web, $fb);
       foreach($only_fb as $fb_name =>$fb){
         $exp_fb_name = explode(" ", $fb_name);
+        $web_reg = array();
         foreach($only_web as $web_name => $web){
           if($this->user->hasPermission($web->getPublic())){
             $exp_web_name = explode(" ", $web_name);
-            if(array_intersect($exp_fb_name, $exp_web_name) > 1 || levenshtein($web,$fb)<3){
-              if(!isset($fb['web_registration'])){
-                $fb['web_registration'] = array($web_name);
-              }else{
-                $fb['web_registration'][] = $web_name;
-              }
+            if(count(array_intersect($exp_fb_name, $exp_web_name)) > 1 || levenshtein($web_name,$fb_name)<3){
+              $web_reg[] = $web_name;
             }
           }
+        }
+        if(!empty($web_reg)){
+          $only_fb[$fb_name]['web_registration'] = implode(", ",$web_reg);
         }
       }
       if(!empty($only_fb)){
