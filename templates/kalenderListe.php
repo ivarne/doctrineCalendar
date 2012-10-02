@@ -44,18 +44,16 @@ foreach ($events as $event):?>
 <?php 
 $year = $months[0]['y'];
 ?>
-<ul>
- <li><?php echo $year ?>
-  <ul>
+<table>
+ <tr><td><?php echo $year ?></td>
 <?php 
   foreach($months as $month){
     if($month['y'] != $year){
       $year = $month['y'];
-      echo "  </ul>\n </li>\n <li>".$month['m']."\n  <ul>\n";
+      echo "</tr>\n <tr><td>$year</td>\n";
     }
-    echo " <li><a href=\"".$routing->simpleMonthView($year, $month['m'], $onlyPublic)."\"></a></li>\n  ";
+    echo ' <td><a href="'.$routing->simpleMonthView($year, $month['m'], $onlyPublic).'">'.$month['m']."</a></td>\n  ";
   }
 ?>
-  </ul>
- </li>
-</ul>
+  </tr>
+</table>
