@@ -41,3 +41,7 @@ foreach ($events as $event):?>
   <?php endif;?>
 </div>
 <?php endforeach;?>
+<?php if(isset($months)):?>
+<?php echo var_dump($months)?>
+
+<? endif; ?>

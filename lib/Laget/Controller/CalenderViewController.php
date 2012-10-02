@@ -49,6 +49,7 @@ class CalenderViewController extends BaseController {
     $this->events = $this->getEventRepository()->getEventsBetween(new \DateTime($year.'-'.$month.'-01'), new \DateTime(($year+($month%12?0:1)).'-'.(($month%12)+1).'-01'),$upub);
     $this->date = new \DateTime($year.'-'.$month.'-01');
     $this->onlyPulic = $onlyPublic;
+    $this->months = $this->em->getConnection()->fetchAll('SELECT DATE_FORMAT(`startTS`,"%Y-%m") AS m FROM `eventkalender` GROUP BY m ORDER BY m');
     $this->render('kalenderListe');
   }
   public function executeList() {
