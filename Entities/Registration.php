@@ -209,7 +209,30 @@ class Registration extends LagetEntity {
    * @todo FIKS real validation.
    */
   public function isValid(){
-    return true;
+    $err = array();
+    if(strlen($self->name) < 3){
+      $err[] = __("For kort navn");
+    }
+    if($event->hasFullRegistration()){
+      if(strlen($self->email) < 7 || strpos($self->email, "@") === false){
+        $err[] = __("Ugyldig epost");
+      }
+      if(preg_match ( "^\\+?\d\d\d\d\d\d\d\d*" , $self->tlf){
+        $err[] = __("Ugyldig telefonnummer");;
+      }
+    }
+    if($event->hasRegistrationTasks()){
+      if(is_null($self->task)){
+        $err[] = __("Ingen oppgave registrert");
+      }
+      if(count($self->task->getRegistrations()) >= $self->task->getNumAvailable()){
+        $err[] = __("Gruppen \"%gruppe%\" er desverre full", array('%gruppe%',$self->task->getName()));
+      }
+    }
+    if(empty($err)){
+      return true;
+    }
+    return $err;
   }
 }
 ?>

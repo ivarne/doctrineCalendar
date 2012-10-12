@@ -25,6 +25,7 @@ if(false){
       <th><?php echo __('Navn')?>:</th>
       <td><input name="name" type="text" maxlength="255" size="30" value="<?php echo $user->getName() ?>"></td>
     </tr>
+    <?php if($event->hasFullRegistration()):?>
     <tr>
       <th><?php echo __('Epost')?>:</th>
       <td><input name="epost" type="email" maxlength="255" size="30" value="<?php echo $user->getEmail() ?>"></td>
@@ -33,6 +34,7 @@ if(false){
       <th><?php echo __('Mobiltelefonnummer')?>:</th>
       <td><input name="tlf" type="text" maxlength="20" size="20" value="<?php echo $user->getTelephone() ?>"></td>
     </tr>
+    <?php endif;?>
     <tr>
       <th><?php echo __('Publisering')?>:</th>
       <td>
@@ -49,7 +51,7 @@ if(false){
         <textarea cols="30" rows="5" name="comment"></textarea>
       </td>
     </tr>
-    <?php if(count($event->getRegistrationTasks())):?>
+    <?php if($event->hasRegistrationTasks())):?>
     <tr>
       <td colspan="2">
         <strong><?php echo __('Velg en oppgave')?></strong>
