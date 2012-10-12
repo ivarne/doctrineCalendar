@@ -51,7 +51,7 @@ if(false){
         <textarea cols="30" rows="5" name="comment"></textarea>
       </td>
     </tr>
-    <?php if($event->hasRegistrationTasks())):?>
+    <?php if($event->hasRegistrationTasks()):?>
     <tr>
       <td colspan="2">
         <strong><?php echo __('Velg en oppgave')?></strong>

@@ -72,7 +72,7 @@ class RegistrationController extends BaseController {
             ->setUpdatedAt(new \DateTime());
     if($event->hasFullRegistration){
       $registration->setEmail(trim($_POST['epost']))
-                   ->setTlf(trim($_POST['tlf']))
+                   ->setTlf(trim($_POST['tlf']));
     }
     if($this->getUser()->isLoggedIn()){
       $registration->setUser($this->getUser()->getDoctrineUser());

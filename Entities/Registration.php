@@ -20,11 +20,11 @@ class Registration extends LagetEntity {
    */
   private $name;
   /**
-   * @Column(type="string")
+   * @Column(type="string",nullable=true)
    */
   private $tlf;
   /**
-   * @Column(type="string")
+   * @Column(type="string", nullable=true)
    */
   private $email;
   /**
@@ -213,15 +213,15 @@ class Registration extends LagetEntity {
     if(strlen($self->name) < 3){
       $err[] = __("For kort navn");
     }
-    if($event->hasFullRegistration()){
+    if(false && $self->event->hasFullRegistration()){
       if(strlen($self->email) < 7 || strpos($self->email, "@") === false){
         $err[] = __("Ugyldig epost");
       }
-      if(preg_match ( "^\\+?\d\d\d\d\d\d\d\d*" , $self->tlf){
-        $err[] = __("Ugyldig telefonnummer");;
+      if(preg_match ( "^\\+?\d\d\d\d\d\d\d\d*" , $self->tlf)){
+        $err[] = __("Ugyldig telefonnummer");
       }
     }
-    if($event->hasRegistrationTasks()){
+    if(false && $self->event->hasRegistrationTasks()){
       if(is_null($self->task)){
         $err[] = __("Ingen oppgave registrert");
       }
