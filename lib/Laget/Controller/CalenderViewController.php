@@ -3,6 +3,7 @@ namespace Laget\Controller;
 
 use Entities;
 use Entities\Repositories\EventRepository;
+use Entities\Responsibility;
 /* 
  * Denne fila inneholder alle actions som kan utføres av kalenderen
  * og extender kalender_base som inneholder diverse utilities og en

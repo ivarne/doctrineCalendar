@@ -141,7 +141,7 @@ abstract class BaseController{
       if(!empty(self::$notTranslatable)){
         echo '<div class="error">Disse setningene kunne ikke oversettes<br>Legg dem til i oversettelsesfila<pre>';
         foreach (self::$notTranslatable as $string) {
-          echo "'$string' => '',\n";
+          echo "'".htmlspecialchars(strtr($string,array("'"=>"\\'")))."' => '',\n";
         }
         echo '</pre></div>';
       }

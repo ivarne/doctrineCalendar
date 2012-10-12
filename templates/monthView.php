@@ -8,6 +8,9 @@ if (isset($modx) && $modx instanceof \DocumentParser){
 $modx->regClientCSS('assets/liksomSymfony/jsCSS/fullcalendar/fullcalendar.css');
 }
 ?>
+
+<p><?php echo __("Hvis du har problemer med denne kalenderen kan du prøve <a href=\"%url%\">denne</a>",array('%url%'=>$routing->simpleMonthView())) ?></p>
+
 <script type="text/javascript" src="assets/liksomSymfony/jsCSS/jquery-1.4.2.min.js"></script>
 
 <script type="text/javascript" src="assets/liksomSymfony/jsCSS/fullcalendar/fullcalendar.min.js"></script>
