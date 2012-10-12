@@ -65,13 +65,15 @@ class RegistrationController extends BaseController {
     $registration
             ->setEvent($event)
             ->setName(trim($_POST['name']))
-            ->setEmail(trim($_POST['epost']))
-            ->setTlf(trim($_POST['tlf']))
             ->setPublic($_POST['pub'])
             ->setComment(trim($_POST['comment']))
             ->setLang($this->getUser()->getLanguage())
             ->setCreatedAt(new \DateTime())
             ->setUpdatedAt(new \DateTime());
+    if($event->hasFullRegistration){
+      $registration->setEmail(trim($_POST['epost']))
+                   ->setTlf(trim($_POST['tlf']))
+    }
     if($this->getUser()->isLoggedIn()){
       $registration->setUser($this->getUser()->getDoctrineUser());
     }else{
@@ -106,7 +108,7 @@ class RegistrationController extends BaseController {
       $message->setBody($this->getEmailBody($registration));
       try{
         $mailer->send($message);
-      }catch(Swift_RfcComplianceException $e){
+      }catch(\Swift_RfcComplianceException $e){
         echo '<div class="error">'.__('Du har registrert deg men med en ugyldig epost adresse %epost%, Du er påmeldt men vi vil ikke kunne sende deg epost om arrangementet',array('%epost%'=>htmlspecialchars($_POST['epost'], \ENT_QUOTES, 'UTF-8'))).'</div>';
       }
     }else{

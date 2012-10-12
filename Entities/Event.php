@@ -148,10 +148,10 @@ class Event extends LagetEntity {
    */
   private $registrationTasks;
   /**
-   * @Column(type="boolean")
-   * @var boolean
+   * @Column(type="smallint")
+   * @var int
    */
-  private $hasRegistration = false;
+  private $hasRegistration = 0;
   /**
    * @Column(
    *  type="datetime",
@@ -363,11 +363,20 @@ class Event extends LagetEntity {
   public function getRegistrations(){
     return $this->registrations;
   }
+  public function setHasRegistration($integer){
+    self->hasRegistration = $integer;
+  }
   public function hasRegistration(){
     if(!is_null($this->registrationFrom) && $this->registrationFrom->getTimestamp() > time()){
         return isset($_GET['show_registration']); // registration has not started yet
     }
     return $this->hasRegistration;
+  }
+  public function hasFullRegistration(){
+    return $this->hasRegistration != 2 && $this->registration != 0;
+  }
+  public function hasRegistrationTasks(){
+    return $this->hasRegistration == 3;
   }
   public function hasOpenRegistration(){
     if(!$this->hasRegistration){

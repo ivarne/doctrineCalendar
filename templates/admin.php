@@ -111,6 +111,17 @@ if(!empty($error)) {
       <th><label for="publisert" style="width: 40px"><?php echo __('Publisert på nettsida')?>?</label></th>
       <td><input id="publisert" name="isPublic" type="checkbox"<?php echo ($event->isPublic()?'checked="checed"':'') ?> ></td>
     </tr>
+    <tr>
+      <th><?php echo __('Påmelding')?></th>
+      <td>
+        <select id="paamelding" name="paamelding">
+          <option value="0"><?php echo __('Ingen Påmelding')?></option>
+          <option value="1"><?php echo __('Full Påmelding')?></option>
+          <option value="2"><?php echo __('Enkel Påmelding')?></option>
+          <option value="3"><?php echo __('Gruppe påmelding')?></option>
+        </select>
+      </td>
+    </tr>
   </table>
   <?php if($event->getResponsibilities()->count()==0):?>
   <h4><?php echo __('Ansvarlig')?></h4>
@@ -175,9 +186,6 @@ if(!empty($error)) {
 
   </table>
   <input type="submit" class="wymupdate" value="<?php echo __('Lagre hendelse')?>" />
-  <a href="<?php echo $routing->newEvent() ?>">
-    <input type="reset" value="<?php echo __('Ny hendelse')?>">
-  </a>
 </form>
 
 

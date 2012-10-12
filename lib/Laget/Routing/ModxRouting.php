@@ -83,8 +83,11 @@ class ModxRouting implements RoutingInterface{
   public function updateRegistrationPaymentInfo(\Entities\Event $event){
     return $this->makeUrl('registration','?action=updatePayments&amp;event_id='.$event->getId());
   }
-  public function simpleMonthView($year,$month,$upub){
-    $opts = "year=".(int)$year."&month=".(int)$month;
+  public function simpleMonthView($year = NULL,$month = NULL,$upub = false){
+    $opts = "";
+    if($year && $month){
+      $opts .= "year=".(int)$year."&month=".(int)$month;
+    }
     if($upub){
         $opts .= '&showNotPublic=1';
     }
