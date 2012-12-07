@@ -116,8 +116,8 @@ if(!empty($error)) {
       <td>
         <select id="paamelding" name="paamelding">
           <option value="0"><?php echo __('Ingen Påmelding')?></option>
-          <option value="1"><?php echo __('Full Påmelding')?></option>
-          <option value="2"><?php echo __('Enkel Påmelding')?></option>
+          <option value="1"><?php echo __('Enkel Påmelding')?></option>
+          <option value="2"><?php echo __('Full Påmelding')?></option>
           <option value="3"><?php echo __('Gruppe påmelding')?></option>
         </select>
       </td>

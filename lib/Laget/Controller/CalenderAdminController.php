@@ -97,7 +97,8 @@ class CalenderAdminController extends BaseController {
             ->setInfo($_POST['info_no'], 'no')
             ->setInfo($_POST['info_en'], 'en')
             ->setInternalInfo($_POST['internal_info'])
-            ->setIsPublic($_POST['isPublic']=='on');
+            ->setIsPublic($_POST['isPublic']=='on')
+            ->setHasRegistration($_POST['has_registration']);
 
     //Referanser
     $type = $this->getEntityManager()->getRepository('\Entities\EventType')->find((int)$_POST['event_type']);

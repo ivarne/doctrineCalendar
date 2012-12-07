@@ -112,5 +112,7 @@ $translations = array(
   "Hi %navn%,\n\nYou are now registered for %title%.\n\n%email%\n%info%\n\nAccording to our database you are %medlem% in laget",
   'medlem' => 'member',
   'ikke medlem' => 'not a member',
+  'Disse personene har tilsynelatende bare meldt seg på på facebook siden. (Siden noen skriver navnet sitt ulikt fra gang til gang står navn til folk som har meldt seg på med lignende navn på web i parantes ved siden av)' =>
+  'These persons have apparently only registered on facebook (Almost name matches is in parentecies)',
 )
 ?>

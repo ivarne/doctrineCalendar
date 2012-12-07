@@ -373,7 +373,7 @@ class Event extends LagetEntity {
     return $this->hasRegistration;
   }
   public function hasFullRegistration(){
-    return $this->hasRegistration != 2 && $this->registration != 0;
+    return $this->hasRegistration == 2 && $this->hasRegistration == 3;
   }
   public function hasRegistrationTasks(){
     return $this->hasRegistration == 3;

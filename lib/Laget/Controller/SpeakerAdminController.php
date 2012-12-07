@@ -21,7 +21,7 @@ class SpeakerAdminController extends BaseController {
   public function executeSave() {
     if(!isset($_POST['speakerId'])) {
       $speaker = new Speaker();
-      $this->getEntityManager()->persist($event);
+      $this->getEntityManager()->persist($speaker);
     }elseif(!empty($_POST['speakerId'])) {
       $speaker = $this->getSpeakerRepository()->find((int)$_POST['speakerId']);
       if($speaker->getVersion() != $_POST['version']) {
