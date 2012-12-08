@@ -365,6 +365,7 @@ class Event extends LagetEntity {
   }
   public function setHasRegistration($integer){
     $self->hasRegistration = $integer;
+    return $self;
   }
   public function getHasRegistration(){
     return $self->hasRegistration;
