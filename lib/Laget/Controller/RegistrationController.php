@@ -70,7 +70,7 @@ class RegistrationController extends BaseController {
             ->setLang($this->getUser()->getLanguage())
             ->setCreatedAt(new \DateTime())
             ->setUpdatedAt(new \DateTime());
-    if($event->hasFullRegistration){
+    if($event->hasFullRegistration()){
       $registration->setEmail(trim($_POST['epost']))
                    ->setTlf(trim($_POST['tlf']));
     }
@@ -97,19 +97,20 @@ class RegistrationController extends BaseController {
     if($registration->isValid()){
       $this->getEntityManager()->persist($registration);
       $this->getEntityManager()->flush();
-
-      //Send mail
-      $mailer = $this->createMailer();
-      $message = \Swift_Message::newInstance(__('Påmelding').' '.$event->getTitle());
-      $message->setTo($registration->getEmail(), $registration->getName());
-      $message->setFrom('ikke-svar@laget.net', 'Laget');
-      $message->setReplyTo('ivarne@gmail.com', 'Ivar Nesje');
-    
-      $message->setBody($this->getEmailBody($registration));
-      try{
-        $mailer->send($message);
-      }catch(\Swift_RfcComplianceException $e){
-        echo '<div class="error">'.__('Du har registrert deg men med en ugyldig epost adresse %epost%, Du er påmeldt men vi vil ikke kunne sende deg epost om arrangementet',array('%epost%'=>htmlspecialchars($_POST['epost'], \ENT_QUOTES, 'UTF-8'))).'</div>';
+      if($event->hasFullRegistration()){
+        //Send mail
+        $mailer = $this->createMailer();
+        $message = \Swift_Message::newInstance(__('Påmelding').' '.$event->getTitle());
+        $message->setTo($registration->getEmail(), $registration->getName());
+        $message->setFrom('ikke-svar@laget.net', 'Laget');
+        $message->setReplyTo('ivarne@gmail.com', 'Ivar Nesje');
+        
+        $message->setBody($this->getEmailBody($registration));
+        try{
+          $mailer->send($message);
+        }catch(\Swift_RfcComplianceException $e){
+          echo '<div class="error">'.__('Du har registrert deg men med en ugyldig epost adresse %epost%, Du er påmeldt men vi vil ikke kunne sende deg epost om arrangementet',array('%epost%'=>htmlspecialchars($_POST['epost'], \ENT_QUOTES, 'UTF-8'))).'</div>';
+        }
       }
     }else{
       return '<div class="error">'.__('Du har tastet inn ugyldig påmeldingsinformasjon, gå tilbake og prøv igjen').'</div>';
