@@ -210,23 +210,23 @@ class Registration extends LagetEntity {
    */
   public function isValid(){
     $err = array();
-    if(strlen($self->name) < 3){
+    if(strlen($this->name) < 3){
       $err[] = __("For kort navn");
     }
-    if(false && $self->event->hasFullRegistration()){
-      if(strlen($self->email) < 7 || strpos($self->email, "@") === false){
+    if(false && $this->event->hasFullRegistration()){
+      if(strlen($this->email) < 7 || strpos($this->email, "@") === false){
         $err[] = __("Ugyldig epost");
       }
-      if(preg_match ( "^\\+?\d\d\d\d\d\d\d\d*" , $self->tlf)){
+      if(preg_match ( "^\\+?\d\d\d\d\d\d\d\d*" , $this->tlf)){
         $err[] = __("Ugyldig telefonnummer");
       }
     }
-    if(false && $self->event->hasRegistrationTasks()){
-      if(is_null($self->task)){
+    if(false && $this->event->hasRegistrationTasks()){
+      if(is_null($this->task)){
         $err[] = __("Ingen oppgave registrert");
       }
-      if(count($self->task->getRegistrations()) >= $self->task->getNumAvailable()){
-        $err[] = __("Gruppen \"%gruppe%\" er desverre full", array('%gruppe%',$self->task->getName()));
+      if(count($this->task->getRegistrations()) >= $this->task->getNumAvailable()){
+        $err[] = __("Gruppen \"%gruppe%\" er desverre full", array('%gruppe%',$this->task->getName()));
       }
     }
     if(empty($err)){

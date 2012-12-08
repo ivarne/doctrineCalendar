@@ -364,11 +364,11 @@ class Event extends LagetEntity {
     return $this->registrations;
   }
   public function setHasRegistration($integer){
-    $self->hasRegistration = $integer;
-    return $self;
+    $this->hasRegistration = $integer;
+    return $this;
   }
   public function getHasRegistration(){
-    return $self->hasRegistration;
+    return $this->hasRegistration;
   }
   public function hasRegistration(){
     if(!is_null($this->registrationFrom) && $this->registrationFrom->getTimestamp() > time()){
