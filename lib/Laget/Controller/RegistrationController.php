@@ -111,11 +111,11 @@ class RegistrationController extends BaseController {
         }catch(\Swift_RfcComplianceException $e){
           echo '<div class="error">'.__('Du har registrert deg men med en ugyldig epost adresse %epost%, Du er påmeldt men vi vil ikke kunne sende deg epost om arrangementet',array('%epost%'=>htmlspecialchars($_POST['epost'], \ENT_QUOTES, 'UTF-8'))).'</div>';
         }
+        return nl2br($message->getBody());
       }
     }else{
       return '<div class="error">'.__('Du har tastet inn ugyldig påmeldingsinformasjon, gå tilbake og prøv igjen').'</div>';
     }
-    return nl2br($message->getBody());
   }
   private function getEmailBody(\Entities\Registration $registration){
     $trans = array(
