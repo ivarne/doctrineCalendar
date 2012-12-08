@@ -112,6 +112,8 @@ class RegistrationController extends BaseController {
           echo '<div class="error">'.__('Du har registrert deg men med en ugyldig epost adresse %epost%, Du er påmeldt men vi vil ikke kunne sende deg epost om arrangementet',array('%epost%'=>htmlspecialchars($_POST['epost'], \ENT_QUOTES, 'UTF-8'))).'</div>';
         }
         return nl2br($message->getBody());
+      }else{
+        return __("Du er nå registrert på %event%, den %dato%", array('%event%'=>$event->getTitle(), '%dato%'=>$event->getFullDate()))
       }
     }else{
       return '<div class="error">'.__('Du har tastet inn ugyldig påmeldingsinformasjon, gå tilbake og prøv igjen').'</div>';
