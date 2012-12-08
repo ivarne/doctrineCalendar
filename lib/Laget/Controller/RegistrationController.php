@@ -113,7 +113,7 @@ class RegistrationController extends BaseController {
         }
         return nl2br($message->getBody());
       }else{
-        return __("Du er nå registrert på %event%, den %dato%", array('%event%'=>$event->getTitle(), '%dato%'=>$event->getFullDate()))
+        return __("Du er nå registrert på %event%, den %dato%", array('%event%'=>$event->getTitle(), '%dato%'=>$event->getFullDate()));
       }
     }else{
       return '<div class="error">'.__('Du har tastet inn ugyldig påmeldingsinformasjon, gå tilbake og prøv igjen').'</div>';
