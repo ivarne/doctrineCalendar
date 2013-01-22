@@ -62,7 +62,7 @@ class CalenderViewController extends BaseController {
 
     return $this->render('icalEvent');
   }
-  public function excecuteQREvent(){
+  public function executeQREvent(){
     
     $this->event = $this->getEventRepository()->find($_GET['event_id']);
     return $this->render('qr_event');
