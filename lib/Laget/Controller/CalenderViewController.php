@@ -62,6 +62,11 @@ class CalenderViewController extends BaseController {
 
     return $this->render('icalEvent');
   }
+  public function excecuteQREvent(){
+    
+    $this->event = $this->getEventRepository()->find($_GET['event_id']);
+    return $this->render('qr_event');
+  }
   public function executeListFrontpage(){
     $this->events = $this->getEventRepository()->getNextEvents(5);
     if($this->getUser()->isLoggedIn()){
