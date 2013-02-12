@@ -295,7 +295,7 @@ class Event extends LagetEntity {
     $info = $this->getI18n('info', $lang);
     $info = str_ireplace(array('<br>\n', '<br />\n', '</li>\n', '</tr>\n'), "\n", $info);
     $info = str_ireplace(array('<br>', '<br />', '</li>', '</tr>'), "\n", $info);
-    $info = str_ireplace('<p>', "\n", $info);
+    $info = str_ireplace('<p>', "\n\n", $info);
     $info = str_ireplace("\n\n\n", "\n\n", $info);
     return strip_tags($info);
   }
