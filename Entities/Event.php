@@ -293,7 +293,7 @@ class Event extends LagetEntity {
       return nl2br($this->getI18n('info', $lang),true);
     }
     $info = $this->getI18n('info', $lang);
-    $info = str_ireplace(array('<br>', '<br />', '<p>', '</li>', '</tr>'), '\n', $info);
+    $info = str_ireplace(array('<br>', '<br />', '<p>', '</li>', '</tr>'), "\n", $info);
     return strip_tags($info);
   }
   /**
