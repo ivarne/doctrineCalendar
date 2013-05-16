@@ -388,6 +388,9 @@ class Event extends LagetEntity {
     return $this->hasRegistration == 3;
   }
   public function hasOpenRegistration(){
+    if(isset($_GET['show_registration'])){
+      return true;
+    }
     if(!$this->hasRegistration){
       return false;
     }
