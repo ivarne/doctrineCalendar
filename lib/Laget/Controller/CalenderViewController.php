@@ -35,7 +35,9 @@ class CalenderViewController extends BaseController {
     return $this->render('monthView');
   }
   public function executeNextWeek(){
-    $this->events = $this->getEventRepository()->getEventsBetween(new \DateTime(), new \Datetime("+ one week"));
+    $to = new \DateTime();
+    $to->modify("+ 1 week");
+    $this->events = $this->getEventRepository()->getEventsBetween(new \DateTime(), $to);
     return $this->render('nextWeek');
   }
   public function executeSimpleMonthView(){
