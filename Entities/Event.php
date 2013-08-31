@@ -504,7 +504,12 @@ class Event extends LagetEntity {
     if($this->start === NULL || $this->end === NULL){
       return NULL;
     }
-    return $this->start->diff($this->end,false)->days;
+    // copy and adjust timings to find the number of midnights
+    $start = clone $this->start;
+    $end = clone $this->end;
+    $start->setTime(8,0,0);
+    $end->setTime(16,0,0);
+    return $start->diff($end)->days;
   }
   public function getCreated($format = null){
     if($this->created_at === NULL){
