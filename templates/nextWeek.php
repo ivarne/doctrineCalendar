@@ -9,7 +9,7 @@
 
 <h2>And for those who prefere English</h2>
 <?php foreach($events as $event):?>
-  <h3><?php echo $event->getTittel('no')?></h3>
+  <h3><?php echo $event->getTittel('en')?></h3>
   <em><?php echo $event->getFullDate()?></em>
-  <p><?php echo $event->getFullInfo('no')?></p>
+  <p><?php echo $event->getFullInfo('en')?></p>
 <?php endforeach;?>
