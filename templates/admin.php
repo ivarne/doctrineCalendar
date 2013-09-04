@@ -78,8 +78,8 @@ if(!empty($error)) {
     </tr>
     <tr>
       <th><?php echo __('Info')?></th>
-      <td><textarea cols="38" rows="8" class="wymeditor" name="info_no"><?php echo $event->getInfo('edit','no') ?></textarea></td>
-      <td><textarea cols="30" rows="8" class="wymeditor" name="info_en"><?php echo $event->getInfo('edit','en') ?></textarea></td>
+      <td><textarea cols="38" rows="8" class="ckeditor" name="info_no"><?php echo $event->getInfo('edit','no') ?></textarea></td>
+      <td><textarea cols="30" rows="8" class="ckeditor" name="info_en"><?php echo $event->getInfo('edit','en') ?></textarea></td>
     </tr>
     <tr>
       <th><label for="taler"><?php echo __('Taler')?></label></th>
@@ -199,7 +199,7 @@ if(!empty($error)) {
 
 <script type="text/javascript" src="assets/liksomSymfony/jsCSS/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" src="assets/liksomSymfony/jsCSS/jquery-ui-1.8.5.custom.min.js"></script>
-<script type="text/javascript" src="assets/liksomSymfony/jsCSS/wymeditor/jquery.wymeditor.js"></script>
+<script type="text/javascript" src="assets/liksomSymfony/jsCSS/ckeditor/ckeditor.js"></script>
 <?php if(isset($GLOBALS['modx'])) { 
   $GLOBALS['modx']->regClientCSS('assets/liksomSymfony/jsCSS/jquery-ui-1.8.5.custom.css');
 }
@@ -212,28 +212,10 @@ if(!empty($error)) {
       firstDay:1,
       numberOfMonths: 1
     });
-    $(".wymeditor").wymeditor({
-      //stylesheet: 'styles.css',
-
-      //classes panel
-//      classesItems: [
-//        {'name': 'date', 'title': 'PARA: Date', 'expr': 'p'},
-//        {'name': 'hidden-note', 'title': 'PARA: Hidden note',
-//         'expr': 'p[@class!="important"]'},
-//        {'name': 'important', 'title': 'PARA: Important',
-//         'expr': 'p[@class!="hidden-note"]'},
-//        {'name': 'border', 'title': 'IMG: Border', 'expr': 'img'},
-//        {'name': 'special', 'title': 'LIST: Special', 'expr': 'ul, ol'}
-//      ],
-
-      //we customize the XHTML structure of WYMeditor by overwriting
-      //the value of boxHtml. In this example, "CONTAINERS" and
-      //"CLASSES" have been moved from "wym_area_right" to "wym_area_top":
+/*    $(".wymeditor").wymeditor({
       boxHtml:   "<div class='wym_box'>"
               + "<div class='wym_area_top'>"
               + "<div class='wym_dropdown' style='float:right'>"
-//              + WYMeditor.CONTAINERS
- //             + WYMeditor.CLASSES
               + "</div>"
               + WYMeditor.TOOLS
               + "</div>"
@@ -243,27 +225,17 @@ if(!empty($error)) {
               + "<div class='wym_area_main'>"
               + WYMeditor.HTML
               + WYMeditor.IFRAME
-//              + WYMeditor.STATUS
               + "</div>"
               + "<div class='wym_area_bottom'>"
               + "</div>"
               + "</div>",
 
-      //postInit is a function called when WYMeditor instance is ready
-      //wym is the WYMeditor instance
       postInit: function(wym) {
 
         //we make all sections in area_top render as dropdown menus:
         jQuery(wym._box)
             //first we have to select them:
             .find(".wym_area_top .wym_section")
-            //then we remove the existing class which make some of them render as a panels:
-//            .removeClass("wym_panel")
-            //then we add the class which will make them render as a dropdown menu:
-//            .addClass("wym_dropdown")
-            //finally we add some css to make the dropdown menus look better:
-//            .css("width", "160px")
-//            .css("float", "left")
             .css("margin-right", "5px")
             .find("ul")
 //            .css("width", "140px");
@@ -276,7 +248,7 @@ if(!empty($error)) {
       }
       
       
-    });
+    });*/
   });
   function deleteResponsibility(id){
     var row = document.getElementById('responsibility'+id);
