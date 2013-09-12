@@ -35,4 +35,8 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Make dialogs simpler.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
+	config.entities  = false;
+  config.basicEntities = false;
+  config.entities_greek = false;
+  config.entities_latin = false;
 };
